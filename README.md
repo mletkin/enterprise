@@ -1,2 +1,2 @@
 # enterprise
-Energy Flow Emulation
+Simple Energy Flow Emulation with JavaFX visualization. 
