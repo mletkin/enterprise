@@ -1,14 +1,38 @@
 package org.ully.enterprise;
 
-public class WarpEngine {
+import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.units.Power;
 
-    /**
-     * current maximum loading current.
-     *
-     * @return
-     */
-    double getLoadingCurrent() {
-        return 0;
+public class WarpEngine implements Loadable {
+
+    Power max = Power.of(10);
+    Power current = Power.ZERO;
+
+    @Override
+    public void load(Energy energy, long msec) {
+        current = energy.toPower(msec);
+    }
+
+    @Override
+    public Power getPowerInput() {
+        return max;
+    }
+
+    @Override
+    public Energy getLoad() {
+        return Energy.ZERO;
+    }
+
+    public Power getPower() {
+        return current;
+    }
+
+    public Power getMax() {
+        return max;
+    }
+
+    public void setMax(Power max) {
+        this.max = max;
     }
 
 }

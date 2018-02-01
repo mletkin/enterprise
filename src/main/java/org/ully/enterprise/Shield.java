@@ -1,6 +1,7 @@
 package org.ully.enterprise;
 
 import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.units.Power;
 
 /**
  * Single defensive power shield.
@@ -9,8 +10,8 @@ import org.ully.enterprise.units.Energy;
  */
 public class Shield implements Loadable, Consuming {
 
-    private static final Energy MAX_LOAD = Energy.of(1000);
-    private static final Energy LOADING_ENERGY = Energy.of(100);
+    private static final Energy MAX_LOAD = Energy.of(100);
+    private static final Power LOADING_POWER = Power.of(10);
 
     private Energy load = Energy.ZERO;
 
@@ -24,21 +25,19 @@ public class Shield implements Loadable, Consuming {
     }
 
     @Override
-    public Energy getLoadingPower(long msec) {
-        return !load.ge(MAX_LOAD) ? LOADING_ENERGY.scale(msec) : Energy.ZERO;
+    public Power getPowerInput() {
+        return !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
     }
 
     @Override
-    public void load(Energy energy) {
-        load = load.add(energy);
-    }
-
-    public void unload(Energy energy) {
-        load = load.sub(energy);
+    public void load(Energy energy, long msec) {
+        load = load.add(energy).sub(getPowerEntropy(msec));
+        load = load.le(Energy.ZERO) ? Energy.ZERO : load;
     }
 
     @Override
     public Energy getPowerEntropy(long msec) {
-        return Energy.of(1);
+        return Energy.of(1).scale(msec);
     }
+
 }

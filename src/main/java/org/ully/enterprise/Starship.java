@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.energy.Current;
-import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.units.Power;
 
 /**
  * configuration for a galaxy class starship
@@ -14,14 +14,18 @@ public class Starship {
     public Shield shieldBow = new Shield();
     public Shield shieldStern = new Shield();
     public Phaser phaserBank = new Phaser();
+    public WarpEngine warpLeft = new WarpEngine();
+    public WarpEngine warpRight = new WarpEngine();
+    public Reactor pwrMain = new Reactor(Power.of(20));
+    public Reactor pwrAux = new Reactor(Power.of(20));
 
-    public Reactor reactor = new Reactor(Energy.of(10));
     Circuit mainPowerCircuit = new Circuit();
     Current powerThread;
 
     public Starship() {
-        mainPowerCircuit.supplier = reactor;
-        mainPowerCircuit.consumer = Arrays.asList(shieldBow, shieldStern, phaserBank);
+        mainPowerCircuit.supplier = pwrMain;
+        mainPowerCircuit.consumer = Arrays.asList(shieldBow, shieldStern, phaserBank,//
+                warpLeft, warpRight);
     }
 
     public void powerUp() {

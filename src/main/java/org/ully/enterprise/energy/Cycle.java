@@ -1,7 +1,9 @@
 package org.ully.enterprise.energy;
 
 import org.ully.enterprise.Loadable;
+import org.ully.enterprise.Reactor;
 import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.units.Power;
 
 /**
  * What happens within a single loading/discharge cycle.
@@ -10,7 +12,7 @@ import org.ully.enterprise.units.Energy;
  */
 public class Cycle {
 
-    private static final double EPSILON = 0.0000001;
+    private static final double EPSILON = 0.00000000001;
     private Circuit circuit;
 
     public Cycle(Circuit circuit) {
@@ -21,17 +23,28 @@ public class Cycle {
      * Supply energy to consumer.
      */
     public void calculate(long msec) {
-        double available = circuit.supplier.getFlow(msec).value();
+        double available = circuit.supplier.getFlow().toEnergy(msec).value();
         double required = energyRequired(msec);
         double quotient = getQuotient(required, available);
 
         if (quotient > EPSILON) {
             circuit.consumer.forEach(s -> this.supplyEnergy(s, quotient, msec));
+        } else {
+            circuit.consumer.forEach(s -> this.supplyEnergy(s, 0, msec));
         }
+
+        adjustReactor(circuit.supplier, msec);
+    }
+
+    private void adjustReactor(Reactor supplier, long msec) {
+        double current = supplier.getFlow().value();
+        double wanted = supplier.getWantedFlow().value();
+
+        supplier.setFlow(Power.of(current + (wanted - current) / 1000 * msec));
     }
 
     private void supplyEnergy(Loadable s, double fraction, long msec) {
-        s.load(Energy.of(s.getLoadingPower(msec).value() * fraction));
+        s.load(Energy.of(s.getLoadingPower(msec).value() * fraction), msec);
     }
 
     private double energyRequired(long msec) {

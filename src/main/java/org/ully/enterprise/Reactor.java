@@ -1,33 +1,43 @@
 package org.ully.enterprise;
 
-import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.units.Power;
 
 /**
- * The (one) power reactor
+ * The (one) power pwrMain
  */
 public class Reactor {
 
-    private static final Energy MAX = Energy.of(10);
-    private Energy flow = Energy.of(1);
+    private Power maxFlow = Power.of(20);
+    private Power currentFlow = Power.ZERO;
+    private Power wantedFlow = Power.ZERO;
 
-    public Reactor(Energy maxEnergy) {
-        flow = maxEnergy;
+    public Reactor(Power maxPower) {
+        maxFlow = maxPower;
     }
 
     /**
-     * Maximum energy that may flow per second.
+     * Maximum energy that may currentFlow per second.
      *
      * @return
      */
-    public Energy maxFlow(long msec) {
-        return flow.scale(msec);
+    public Power maxFlow() {
+        return maxFlow;
     }
 
-    public Energy getFlow(long msec) {
-        return flow.scale(msec);
+    public Power getFlow() {
+        return currentFlow;
     }
 
-    public void setFlow(Energy flow) {
-        this.flow = flow;
+    public void setFlow(Power flow) {
+        this.currentFlow = flow;
     }
+
+    public Power getWantedFlow() {
+        return wantedFlow;
+    }
+
+    public void setWantedFlow(Power wantedFlow) {
+        this.wantedFlow = wantedFlow;
+    }
+
 }

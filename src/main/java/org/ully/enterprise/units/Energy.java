@@ -20,6 +20,10 @@ public class Energy {
         return value;
     }
 
+    public Power toPower(long msec) {
+        return Power.of(value * 1000 / msec);
+    }
+
     public Energy scale(long msec) {
         return new Energy(this.value * msec / 1000);
     }
