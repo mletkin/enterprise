@@ -19,9 +19,7 @@
                 <configuration>
                     <source>${version.java}</source>
                     <target>${version.java}</target>
-                    <!-- 
-                    <release>${version.java}</release>
-                     -->
+                    <!-- <release>${version.java}</release> -->
                     <jdkToolchain>
                         <version>${version.java}</version>
                     </jdkToolchain>
@@ -73,6 +71,15 @@
             <groupId>eu.hansolo</groupId>
             <artifactId>Medusa</artifactId>
             <version>7.8</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.junit/junit5-engine -->
+        <!-- <dependency> <groupId>org.junit</groupId> <artifactId>junit5-engine</artifactId> 
+            <version>5.0.0-ALPHA</version> </dependency> -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

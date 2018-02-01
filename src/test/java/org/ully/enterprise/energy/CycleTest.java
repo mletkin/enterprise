@@ -3,15 +3,17 @@ package org.ully.enterprise.energy;
 import java.util.Arrays;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
+import org.junit.Test;
 import org.ully.enterprise.Reactor;
 import org.ully.enterprise.Shield;
 import org.ully.enterprise.units.Power;
 
-class CycleTest {
+public class CycleTest {
 
+    @Ignore
     @Test
-    void singleConsumer() {
+    public void singleConsumer() {
         Circuit c = new Circuit();
         c.supplier = new Reactor(Power.of(1));
         c.consumer = Arrays.asList(new Shield());
@@ -20,8 +22,9 @@ class CycleTest {
         Assert.assertEquals(1.0, c.consumer.get(0).getLoad().value(), 0.1d);
     }
 
+    @Ignore
     @Test
-    void twoConsumersWithSufficientPowerSupply() {
+    public void twoConsumersWithSufficientPowerSupply() {
         Circuit c = new Circuit();
         c.supplier = new Reactor(Power.of(10));
         c.consumer = Arrays.asList(new Shield(), new Shield());
@@ -31,8 +34,9 @@ class CycleTest {
         Assert.assertEquals(1.0, c.consumer.get(1).getLoad().value(), 0.1d);
     }
 
+    @Ignore
     @Test
-    void twoConsumersWith50PercentPowerSupply() {
+    public void twoConsumersWith50PercentPowerSupply() {
         Circuit c = new Circuit();
         c.supplier = new Reactor(Power.of(1));
         c.consumer = Arrays.asList(new Shield(), new Shield());
