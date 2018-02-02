@@ -13,17 +13,17 @@ public class EnginePane extends GridPane {
     private Gauge gauge;
     private WarpEngine engine;
 
-    public EnginePane(String title, WarpEngine engine) {
+    public EnginePane(WarpEngine engine) {
         super();
         this.engine = engine;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(title, engine), 0, 0);
+        add(mkGauge(), 0, 0);
     }
 
-    private Gauge mkGauge(String title, WarpEngine engine) {
+    private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(title).subTitle("warp").unit("E").maxValue(engine.getMax().value()).build();
+                .title(engine.getName()).subTitle("warp").unit("E").maxValue(engine.getMax().value()).build();
         return gauge;
     }
 

@@ -5,13 +5,14 @@ import org.ully.enterprise.units.Power;
 /**
  * The (one) power pwrMain
  */
-public class Reactor {
+public class Reactor extends Component {
 
     private Power maxFlow = Power.of(20);
     private Power currentFlow = Power.ZERO;
     private Power wantedFlow = Power.ZERO;
 
-    public Reactor(Power maxPower) {
+    public Reactor(String name, Power maxPower) {
+        super(name);
         maxFlow = maxPower;
     }
 

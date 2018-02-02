@@ -9,7 +9,6 @@ import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -24,12 +23,16 @@ public class EnerygPanel extends Application {
 
     private Starship ship = new Starship();
 
-    private ReactorPane reactorPain = new ReactorPane("main", ship.pwrMain);
-    private PhaserPane phaserPain = new PhaserPane("main", ship.phaserBank);
-    private ShieldPane frontShieldPain = new ShieldPane("bow", ship.shieldBow);
-    private ShieldPane rearShieldPain = new ShieldPane("stern", ship.shieldStern);
-    private EnginePane warpLeftPain = new EnginePane("left", ship.warpLeft);
-    private EnginePane warpRightPain = new EnginePane("right", ship.warpRight);
+    private ReactorPane reactorMainPain = new ReactorPane(ship.pwrMain);
+    private ReactorPane reactorAuxPain = new ReactorPane(ship.pwrAux);
+
+    private PhaserPane phaserPain = new PhaserPane(ship.phaserBank);
+
+    private ShieldPane frontShieldPain = new ShieldPane(ship.shieldBow);
+    private ShieldPane rearShieldPain = new ShieldPane(ship.shieldStern);
+
+    private EnginePane warpLeftPain = new EnginePane(ship.warpLeft);
+    private EnginePane warpRightPain = new EnginePane(ship.warpRight);
 
     // private Gauge sparkler = sparkGauge("pwrMain", ship.pwrMain);
 
@@ -52,18 +55,18 @@ public class EnerygPanel extends Application {
         grid.add(frontShieldPain, 0, 0);
         grid.add(rearShieldPain, 1, 0);
         grid.add(phaserPain, 0, 1);
-        grid.add(reactorPain, 5, 0);
+        grid.add(reactorMainPain, 5, 0);
+        grid.add(reactorAuxPain, 6, 0);
         grid.add(warpLeftPain, 0, 3);
         grid.add(warpRightPain, 1, 3);
 
-        grid.add(mkButton("exit", e -> {
-            this.shutdown(null);
-            Platform.exit();
-        }), 3, 3);
+//        grid.add(mkButton("exit", e -> {
+//            this.shutdown(null);
+//            Platform.exit();
+//        }), 3, 3);
         Scene scene = new Scene(grid, 500, 500);
 
         stage.setOnCloseRequest(this::shutdown);
-
         stage.setScene(scene);
         stage.show();
         ship.powerUp();
@@ -84,7 +87,8 @@ public class EnerygPanel extends Application {
         ofNullable(warpRightPain).ifPresent(EnginePane::refresh);
         // sparkler.setValue(ship.pwrMain.getFlow().value());
         ofNullable(phaserPain).ifPresent(PhaserPane::refresh);
-        ofNullable(reactorPain).ifPresent(ReactorPane::refresh);
+        ofNullable(reactorMainPain).ifPresent(ReactorPane::refresh);
+        ofNullable(reactorAuxPain).ifPresent(ReactorPane::refresh);
         ofNullable(frontShieldPain).ifPresent(ShieldPane::refresh);
         ofNullable(rearShieldPain).ifPresent(ShieldPane::refresh);
     }

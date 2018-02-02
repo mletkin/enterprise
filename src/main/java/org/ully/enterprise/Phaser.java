@@ -6,11 +6,15 @@ import org.ully.enterprise.units.Power;
 /**
  * Represents a single phaser bank.
  */
-public class Phaser implements Loadable {
+public class Phaser extends Component implements Loadable {
 
     private static final Energy MAX_LOAD = Energy.of(100);
 
     private Energy load = Energy.ZERO;
+
+    public Phaser(String name) {
+        super(name);
+    }
 
     public Energy getMaxLoad() {
         return MAX_LOAD;

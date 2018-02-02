@@ -13,17 +13,17 @@ public class ShieldPane extends GridPane {
     private Gauge gauge;
     private Shield shield;
 
-    public ShieldPane(String title, Shield shield) {
+    public ShieldPane(Shield shield) {
         super();
         this.shield = shield;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(title, shield), 0, 0);
+        add(mkGauge(), 0, 0);
     }
 
-    private Gauge mkGauge(String title, Shield shield) {
+    private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(title).subTitle("shield").unit("E").maxValue(shield.getMaxLoad().value()).build();
+                .title(shield.getName()).subTitle("shield").unit("E").maxValue(shield.getMaxLoad().value()).build();
         return gauge;
     }
 

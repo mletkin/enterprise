@@ -8,12 +8,16 @@ import org.ully.enterprise.units.Power;
  * <p>
  * loading characteristic is linear
  */
-public class Shield implements Loadable, Consuming {
+public class Shield extends Component implements Loadable, Consuming {
 
     private static final Energy MAX_LOAD = Energy.of(100);
     private static final Power LOADING_POWER = Power.of(10);
 
     private Energy load = Energy.ZERO;
+
+    public Shield(String name) {
+        super(name);
+    }
 
     public Energy getMaxLoad() {
         return MAX_LOAD;

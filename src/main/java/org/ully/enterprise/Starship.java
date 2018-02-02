@@ -11,19 +11,20 @@ import org.ully.enterprise.units.Power;
  */
 public class Starship {
 
-    public Shield shieldBow = new Shield();
-    public Shield shieldStern = new Shield();
-    public Phaser phaserBank = new Phaser();
-    public WarpEngine warpLeft = new WarpEngine();
-    public WarpEngine warpRight = new WarpEngine();
-    public Reactor pwrMain = new Reactor(Power.of(20));
-    public Reactor pwrAux = new Reactor(Power.of(20));
+    public Shield shieldBow = new Shield("bow");
+    public Shield shieldStern = new Shield("stern");
+    public Phaser phaserBank = new Phaser("main");
+    public WarpEngine warpLeft = new WarpEngine("left");
+    public WarpEngine warpRight = new WarpEngine("right");
+
+    public Reactor pwrMain = new Reactor("main", Power.of(20));
+    public Reactor pwrAux = new Reactor("aux", Power.of(20));
 
     Circuit mainPowerCircuit = new Circuit();
     Current powerThread;
 
     public Starship() {
-        mainPowerCircuit.supplier = pwrMain;
+        mainPowerCircuit.supplier = Arrays.asList(pwrAux, pwrMain);
         mainPowerCircuit.consumer = Arrays.asList(shieldBow, shieldStern, phaserBank,//
                 warpLeft, warpRight);
     }

@@ -15,18 +15,18 @@ public class PhaserPane extends GridPane {
     private Gauge gauge;
     private Phaser phaser;
 
-    public PhaserPane(String title, Phaser phaser) {
+    public PhaserPane(Phaser phaser) {
         super();
         this.phaser = phaser;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(title, phaser), 0, 0);
+        add(mkGauge(), 0, 0);
         add(mkFireBtn(), 0, 1);
     }
 
-    private Gauge mkGauge(String title, Phaser phaser) {
+    private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(title).subTitle("phaser").unit("E").maxValue(phaser.getMaxLoad().value()).build();
+                .title(phaser.getName()).subTitle("phaser").unit("E").maxValue(phaser.getMaxLoad().value()).build();
         return gauge;
     }
 

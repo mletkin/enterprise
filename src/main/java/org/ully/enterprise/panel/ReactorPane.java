@@ -17,22 +17,22 @@ public class ReactorPane extends GridPane {
     private Gauge gauge;
     private Reactor reactor;
 
-    public ReactorPane(String title, Reactor reactor) {
+    public ReactorPane(Reactor reactor) {
         super();
         this.reactor = reactor;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(title, reactor), 0, 0);
-        add(mkSlider(reactor), 1, 0);
+        add(mkGauge(), 0, 0);
+        add(mkSlider(), 1, 0);
     }
 
-    private Gauge mkGauge(String title, Reactor reactor) {
-        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(title).subTitle("pwr").unit("P").maxValue(reactor.maxFlow().value()).build();
+    private Gauge mkGauge() {
+        gauge = GaugeBuilder.create().skinType(SkinType.AMP)//
+                .title(reactor.getName()).subTitle("pwr").unit("P").maxValue(reactor.maxFlow().value()).build();
         return gauge;
     }
 
-    private Slider mkSlider(Reactor reactor) {
+    private Slider mkSlider() {
         Slider slider = new Slider();
         slider.setMin(0);
         slider.setMax(reactor.maxFlow().value());

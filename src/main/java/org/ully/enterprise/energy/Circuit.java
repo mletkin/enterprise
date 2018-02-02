@@ -10,7 +10,7 @@ import org.ully.enterprise.Reactor;
  */
 public class Circuit {
 
-    public Reactor supplier;
+    public List<Reactor> supplier;
 
     public List<Loadable> consumer;
 }

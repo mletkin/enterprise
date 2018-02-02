@@ -3,10 +3,14 @@ package org.ully.enterprise;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
-public class WarpEngine implements Loadable {
+public class WarpEngine extends Component implements Loadable {
 
     Power max = Power.of(10);
     Power current = Power.ZERO;
+
+    WarpEngine(String name) {
+        super(name);
+    }
 
     @Override
     public void load(Energy energy, long msec) {

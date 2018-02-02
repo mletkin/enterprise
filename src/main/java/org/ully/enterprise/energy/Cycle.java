@@ -23,9 +23,12 @@ public class Cycle {
      * Supply energy to consumer.
      */
     public void calculate(long msec) {
-        double available = circuit.supplier.getFlow().toEnergy(msec).value();
+
+        double available = energySupplied(msec);
         double required = energyRequired(msec);
         double quotient = getQuotient(required, available);
+
+        System.out.println(available + " - " + required);
 
         if (quotient > EPSILON) {
             circuit.consumer.forEach(s -> this.supplyEnergy(s, quotient, msec));
@@ -33,7 +36,15 @@ public class Cycle {
             circuit.consumer.forEach(s -> this.supplyEnergy(s, 0, msec));
         }
 
-        adjustReactor(circuit.supplier, msec);
+        circuit.supplier.stream().forEach(r ->  adjustReactor(r, msec));
+    }
+
+    private double energySupplied(long msec) {
+        return circuit.supplier.stream()//
+                .map(Reactor::getFlow)//
+                .map(p -> p.toEnergy(msec))//
+                .mapToDouble(Energy::value)//
+                .sum();
     }
 
     private void adjustReactor(Reactor supplier, long msec) {
