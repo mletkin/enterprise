@@ -27,7 +27,7 @@ public class Phaser extends Component implements Loadable {
 
     @Override
     public Power getPowerInput() {
-        return !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
+        return isOnline() && !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
     }
 
     @Override

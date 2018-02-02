@@ -19,7 +19,7 @@ public class WarpEngine extends Component implements Loadable {
 
     @Override
     public Power getPowerInput() {
-        return max;
+        return isOnline() ? max : Power.ZERO;
     }
 
     @Override

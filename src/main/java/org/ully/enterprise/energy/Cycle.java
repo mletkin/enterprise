@@ -28,8 +28,6 @@ public class Cycle {
         double required = energyRequired(msec);
         double quotient = getQuotient(required, available);
 
-        System.out.println(available + " - " + required);
-
         if (quotient > EPSILON) {
             circuit.consumer.forEach(s -> this.supplyEnergy(s, quotient, msec));
         } else {

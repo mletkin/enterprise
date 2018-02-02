@@ -30,7 +30,7 @@ public class Shield extends Component implements Loadable, Consuming {
 
     @Override
     public Power getPowerInput() {
-        return !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
+        return isOnline() && !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
     }
 
     @Override
