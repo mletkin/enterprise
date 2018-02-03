@@ -27,7 +27,7 @@ public class Reactor extends Component {
     }
 
     @Override
-    public Power getFlow() {
+    public Power getCurrentPowerFlow() {
         return currentFlow;
     }
 

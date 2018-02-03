@@ -26,10 +26,6 @@ public class Phaser extends Component implements Loadable {
         return load;
     }
 
-    @Override
-    public Power getPowerInput() {
-        return isOnline() && !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
-    }
 
     @Override
     public void load(Energy energy, long msec) {
@@ -52,8 +48,8 @@ public class Phaser extends Component implements Loadable {
     }
 
     @Override
-    public Power getFlow() {
-        return getPowerInput();
+    public Power getCurrentPowerFlow() {
+        return isOnline() && !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
     }
 
     @Override

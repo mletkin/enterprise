@@ -19,11 +19,6 @@ public class WarpEngine extends Component implements Loadable {
     }
 
     @Override
-    public Power getPowerInput() {
-        return isOnline() ? max : Power.ZERO;
-    }
-
-    @Override
     public Energy getLoad() {
         return Energy.ZERO;
     }
@@ -41,8 +36,8 @@ public class WarpEngine extends Component implements Loadable {
     }
 
     @Override
-    public Power getFlow() {
-        return getPowerInput();
+    public Power getCurrentPowerFlow() {
+        return isOnline() ? max : Power.ZERO;
     }
 
     @Override

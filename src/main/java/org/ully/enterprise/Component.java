@@ -32,7 +32,12 @@ public abstract class Component {
         return flowDirection;
     }
 
-    public abstract Power getFlow();
+    /**
+     * Power that currently flows between component and power system.
+     *
+     * @return
+     */
+    public abstract Power getCurrentPowerFlow();
 
     public abstract void load(Power power, long msec);
 

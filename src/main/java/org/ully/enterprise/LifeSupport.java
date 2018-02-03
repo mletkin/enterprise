@@ -12,7 +12,7 @@ public class LifeSupport extends Component {
     }
 
     @Override
-    public Power getFlow() {
+    public Power getCurrentPowerFlow() {
         return Power.of(5);
     }
 

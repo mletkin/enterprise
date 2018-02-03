@@ -30,11 +30,6 @@ public class Shield extends Component implements Loadable, Consuming {
     }
 
     @Override
-    public Power getPowerInput() {
-        return isOnline() && !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
-    }
-
-    @Override
     public void load(Energy energy, long msec) {
         if (flowDirection == Direction.IN) {
             load = load.add(energy);
@@ -55,8 +50,8 @@ public class Shield extends Component implements Loadable, Consuming {
     }
 
     @Override
-    public Power getFlow() {
-        return getPowerInput();
+    public Power getCurrentPowerFlow() {
+        return isOnline() && !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
     }
 
     @Override

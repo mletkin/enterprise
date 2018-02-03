@@ -36,7 +36,7 @@ public class ReactorPane extends GridPane implements Refreshable {
         Slider slider = new Slider();
         slider.setMin(0);
         slider.setMax(reactor.maxFlow().value());
-        slider.setValue(reactor.getFlow().value());
+        slider.setValue(reactor.getCurrentPowerFlow().value());
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
         slider.setMajorTickUnit(1);
@@ -51,6 +51,6 @@ public class ReactorPane extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        gauge.setValue(reactor.getFlow().value());
+        gauge.setValue(reactor.getCurrentPowerFlow().value());
     }
 }

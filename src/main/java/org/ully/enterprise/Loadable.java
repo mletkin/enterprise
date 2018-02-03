@@ -1,7 +1,6 @@
 package org.ully.enterprise;
 
 import org.ully.enterprise.units.Energy;
-import org.ully.enterprise.units.Power;
 
 public interface Loadable {
 
@@ -12,21 +11,6 @@ public interface Loadable {
      */
     void load(Energy energy, long msec);
 
-    /**
-     * Energy to load in the given time unit.
-     *
-     * @return
-     */
-    default Energy getLoadingPower(long msec) {
-        return getPowerInput().toEnergy(msec);
-    }
-
-    /**
-     * Energy to load in the given time unit.
-     *
-     * @return
-     */
-    Power getPowerInput();
 
     /**
      * Current energy load of object.

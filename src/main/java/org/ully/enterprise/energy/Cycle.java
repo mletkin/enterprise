@@ -37,7 +37,7 @@ public class Cycle {
 
     private double energySupplied(long msec) {
         return circuit.getSupplier()//
-                .map(Component::getFlow)//
+                .map(Component::getCurrentPowerFlow)//
                 .map(p -> p.toEnergy(msec))//
                 .mapToDouble(Energy::value)//
                 .sum();
@@ -45,25 +45,25 @@ public class Cycle {
 
     private double energyRequired(long msec) {
         return circuit.getConsumer()//
-                .map(Component::getFlow) //
+                .map(Component::getCurrentPowerFlow) //
                 .map(p -> p.toEnergy(msec))//
                 .mapToDouble(Energy::value)//
                 .sum();
     }
 
     private void adjustReactor(Reactor supplier, long msec) {
-        double current = supplier.getFlow().value();
+        double current = supplier.getCurrentPowerFlow().value();
         double wanted = supplier.getWantedFlow().value();
 
         supplier.setFlow(Power.of(current + (wanted - current) / 1000 * msec));
     }
 
     private void supplyEnergy(Component s, double fraction, long msec) {
-        s.load(Power.of(s.getFlow().value() * fraction), msec);
+        s.load(Power.of(s.getCurrentPowerFlow().value() * fraction), msec);
     }
 
     private void consumeEnergy(Component s, double fraction, long msec) {
-        s.load(Power.of(s.getFlow().value() * fraction), msec);
+        s.load(Power.of(s.getCurrentPowerFlow().value() * fraction), msec);
     }
 
     private double getQuotient(double required, double available) {
