@@ -8,7 +8,8 @@ import org.ully.enterprise.units.Power;
 /**
  * What happens within a single loading/discharge cycle for a circuit.
  * <p>
- * Emulates the energy flow within a single time unit.<p>
+ * Emulates the energy flow within a single time unit.
+ * <p>
  * FIXME: components may switch flow direction while calculating
  */
 public class Cycle {
@@ -27,26 +28,25 @@ public class Cycle {
 
         double available = energySupplied(msec);
         double required = energyRequired(msec);
-        double quotient = getQuotient(required, available);
+        double supplyQuotient = getQuotientSupplied(required, available);
+        double consumeQuotient = getQuotientConsumed(required, available);
 
-        circuit.getConsumer().forEach(s -> this.supplyEnergy(s, quotient, msec));
-        circuit.getSupplier().forEach(s -> this.consumeEnergy(s, quotient, msec));
+        circuit.getConsumer().forEach(s -> this.supplyEnergy(s, supplyQuotient, msec));
+        circuit.getSupplier().forEach(s -> this.consumeEnergy(s, consumeQuotient, msec));
 
         circuit.getReactors().forEach(r -> adjustReactor(r, msec));
     }
 
     private double energySupplied(long msec) {
         return circuit.getSupplier()//
-                .map(Component::getCurrentPowerFlow)//
-                .map(p -> p.toEnergy(msec))//
+                .map(c -> c.getPotentialEnergyFlow(msec)) //
                 .mapToDouble(Energy::value)//
                 .sum();
     }
 
     private double energyRequired(long msec) {
         return circuit.getConsumer()//
-                .map(Component::getCurrentPowerFlow) //
-                .map(p -> p.toEnergy(msec))//
+                .map(c -> c.getPotentialEnergyFlow(msec)) //
                 .mapToDouble(Energy::value)//
                 .sum();
     }
@@ -59,15 +59,22 @@ public class Cycle {
     }
 
     private void supplyEnergy(Component s, double fraction, long msec) {
-        s.load(Power.of(s.getCurrentPowerFlow().value() * fraction), msec);
+        s.load(Energy.of(s.getPotentialEnergyFlow(msec).value() * fraction).toPower(msec), msec);
     }
 
     private void consumeEnergy(Component s, double fraction, long msec) {
-        s.load(Power.of(s.getCurrentPowerFlow().value() * fraction), msec);
+        supplyEnergy(s, fraction, msec);
     }
 
-    private double getQuotient(double required, double available) {
-        if (available <= EPSILON) {
+    /**
+     * calculate the fraction of energy that will actually be supplied.
+     *
+     * @param required
+     * @param available
+     * @return
+     */
+    private double getQuotientSupplied(double required, double available) {
+        if (Math.abs(available) <= EPSILON || Math.abs(required) <= EPSILON) {
             return 0;
         }
 
@@ -77,4 +84,24 @@ public class Cycle {
 
         return available / required;
     }
+
+    /**
+     * calculate the fraction of energy that will actually be consumed.
+     *
+     * @param required
+     * @param available
+     * @return
+     */
+    private double getQuotientConsumed(double required, double available) {
+        if (Math.abs(available) <= EPSILON || Math.abs(required) <= EPSILON) {
+            return 0;
+        }
+
+        if (available >= required) {
+            return required / available;
+        }
+
+        return 1.0;
+    }
+
 }

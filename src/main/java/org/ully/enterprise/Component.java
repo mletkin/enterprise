@@ -1,5 +1,6 @@
 package org.ully.enterprise;
 
+import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
 public abstract class Component {
@@ -38,6 +39,10 @@ public abstract class Component {
      * @return
      */
     public abstract Power getCurrentPowerFlow();
+
+    public Energy getPotentialEnergyFlow(long msec) {
+        return getCurrentPowerFlow().toEnergy(msec);
+    };
 
     public abstract void load(Power power, long msec);
 

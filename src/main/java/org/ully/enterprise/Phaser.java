@@ -8,6 +8,8 @@ import org.ully.enterprise.units.Power;
  */
 public class Phaser extends Component implements Loadable {
 
+    private static final Power MAX_UNLOAD = Power.of(1);
+
     private static final Energy MAX_LOAD = Energy.of(100);
 
     private Energy load = Energy.ZERO;
@@ -25,7 +27,6 @@ public class Phaser extends Component implements Loadable {
     public Energy getLoad() {
         return load;
     }
-
 
     @Override
     public void load(Energy energy, long msec) {
@@ -49,7 +50,14 @@ public class Phaser extends Component implements Loadable {
 
     @Override
     public Power getCurrentPowerFlow() {
-        return isOnline() && !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
+        if (!isOnline()) {
+            return Power.ZERO;
+        }
+
+        if (flowDirection == Direction.IN) {
+            return !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
+        }
+        return  load.ge(Energy.ZERO) ? MAX_UNLOAD : Power.ZERO;
     }
 
     @Override

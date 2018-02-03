@@ -12,6 +12,7 @@ public class Shield extends Component implements Loadable, Consuming {
 
     private static final Energy MAX_LOAD = Energy.of(100);
     private static final Power LOADING_POWER = Power.of(10);
+    private static final Power UNLOADING_POWER = Power.of(5);
 
     private Energy load = Energy.ZERO;
 
@@ -51,7 +52,14 @@ public class Shield extends Component implements Loadable, Consuming {
 
     @Override
     public Power getCurrentPowerFlow() {
-        return isOnline() && !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
+        if (!isOnline()) {
+            return Power.ZERO;
+        }
+
+        if (flowDirection == Direction.IN) {
+            return !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
+        }
+        return load.le(Energy.ZERO) ? Power.ZERO : UNLOADING_POWER;
     }
 
     @Override

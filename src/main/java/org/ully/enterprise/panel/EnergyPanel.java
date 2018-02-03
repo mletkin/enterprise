@@ -27,7 +27,10 @@ public class EnergyPanel extends GridPane {
         // main power circuit
         add(new ShieldPane(ship.shieldBow), 0, 0);
         add(new ShieldPane(ship.shieldStern), 1, 0);
+
         add(new PhaserPane(ship.phaserPrime), 0, 1);
+        add(new PhaserPane(ship.phaserSec), 1, 1);
+
         add(new ReactorPane(ship.pwrMain), 5, 0);
         add(new ReactorPane(ship.pwrAux), 6, 0);
         add(new EnginePane(ship.warpLeft), 0, 3);
