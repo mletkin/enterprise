@@ -3,14 +3,16 @@ package org.ully.enterprise;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
-public class WarpEngine extends Component implements Loadable {
+/**
+ * Represents a single warp engine drive.
+ */
+public class WarpEngine extends Component {
 
     Power max = Power.of(10);
     Power current = Power.ZERO;
 
     WarpEngine(String name) {
         super(name);
-        flowDirection = Direction.IN;
     }
 
     @Override
@@ -18,31 +20,18 @@ public class WarpEngine extends Component implements Loadable {
         current = energy.toPower(msec);
     }
 
-    @Override
-    public Energy getLoad() {
-        return Energy.ZERO;
-    }
-
     public Power getPower() {
         return current;
     }
 
-    public Power getMax() {
+    @Override
+    public Power getMaxPower() {
         return max;
-    }
-
-    public void setMax(Power max) {
-        this.max = max;
     }
 
     @Override
     public Power getCurrentPowerFlow() {
         return isOnline() ? max : Power.ZERO;
-    }
-
-    @Override
-    public void load(Power power, long msec) {
-        load(power.toEnergy(msec), msec);
     }
 
 }

@@ -9,19 +9,19 @@ import org.ully.enterprise.units.Power;
 public class Phaser extends Component implements Loadable {
 
     private static final Power MAX_UNLOAD = Power.of(1);
-
     private static final Energy MAX_LOAD = Energy.of(100);
 
     private Energy load = Energy.ZERO;
 
     public Phaser(String name) {
         super(name);
-        flowDirection = Direction.IN;
     }
 
+    @Override
     public Energy getMaxLoad() {
         return MAX_LOAD;
     }
+
 
     @Override
     public Energy getLoad() {
@@ -61,8 +61,8 @@ public class Phaser extends Component implements Loadable {
     }
 
     @Override
-    public void load(Power power, long msec) {
-        load(power.toEnergy(msec), msec);
+    public Power getMaxPower() {
+        return Power.of(10);
     }
 
 }

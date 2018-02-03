@@ -4,11 +4,11 @@ import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
 /**
- * Single defensive power shield.
+ * Represents a single defensive power shield.
  * <p>
  * loading characteristic is linear
  */
-public class Shield extends Component implements Loadable, Consuming {
+public class Shield extends Component implements Loadable {
 
     private static final Energy MAX_LOAD = Energy.of(100);
     private static final Power LOADING_POWER = Power.of(10);
@@ -18,9 +18,9 @@ public class Shield extends Component implements Loadable, Consuming {
 
     public Shield(String name) {
         super(name);
-        flowDirection = Direction.IN;
     }
 
+    @Override
     public Energy getMaxLoad() {
         return MAX_LOAD;
     }
@@ -29,6 +29,7 @@ public class Shield extends Component implements Loadable, Consuming {
     public Energy getLoad() {
         return load;
     }
+
 
     @Override
     public void load(Energy energy, long msec) {
@@ -41,7 +42,6 @@ public class Shield extends Component implements Loadable, Consuming {
         load = load.le(Energy.ZERO) ? Energy.ZERO : load;
     }
 
-    @Override
     public Energy getPowerEntropy(long msec) {
         return Energy.of(1).scale(msec);
     }
@@ -63,8 +63,8 @@ public class Shield extends Component implements Loadable, Consuming {
     }
 
     @Override
-    public void load(Power power, long msec) {
-        load(power.toEnergy(msec), msec);
+    public Power getMaxPower() {
+        return LOADING_POWER;
     }
 
 }

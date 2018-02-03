@@ -59,7 +59,7 @@ public class Cycle {
     }
 
     private void supplyEnergy(Component s, double fraction, long msec) {
-        s.load(Energy.of(s.getPotentialEnergyFlow(msec).value() * fraction).toPower(msec), msec);
+        s.load(Energy.of(s.getPotentialEnergyFlow(msec).value() * fraction), msec);
     }
 
     private void consumeEnergy(Component s, double fraction, long msec) {

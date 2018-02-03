@@ -1,7 +1,11 @@
 package org.ully.enterprise;
 
+import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
+/**
+ * Represents the compound life support system.
+ */
 public class LifeSupport extends Component {
 
     Power max = Power.of(10);
@@ -17,15 +21,16 @@ public class LifeSupport extends Component {
     }
 
     @Override
-    public void load(Power power, long msec) {
-        current = power;
-    }
-
     public Power getMaxPower() {
         return max;
     }
 
     public Power getPower() {
         return current;
+    }
+
+    @Override
+    public void load(Energy energy, long msec) {
+        current = energy.toPower(msec);
     }
 }

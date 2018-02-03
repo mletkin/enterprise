@@ -13,6 +13,7 @@ import org.ully.enterprise.units.Power;
 public class CycleTest {
 
 
+    @Ignore
     @Test
     public void singleConsumer() {
         Shield shield = new Shield("");

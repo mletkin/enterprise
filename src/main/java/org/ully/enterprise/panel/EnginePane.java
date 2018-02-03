@@ -30,7 +30,7 @@ public class EnginePane extends GridPane implements Refreshable {
                 .knobColor(btnColor())
                 .interactive(true)
                 .onButtonReleased(buttonEvent -> toggle())
-                .title(engine.getName()).subTitle("warp").unit(Power.SYMBOL).maxValue(engine.getMax().value()).build();
+                .title(engine.getName()).subTitle("warp").unit(Power.SYMBOL).maxValue(engine.getMaxPower().value()).build();
         return gauge;
     }
 

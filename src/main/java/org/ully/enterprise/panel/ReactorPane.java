@@ -28,14 +28,14 @@ public class ReactorPane extends GridPane implements Refreshable {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.AMP)//
-                .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.maxFlow().value()).build();
+                .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.getMaxPower().value()).build();
         return gauge;
     }
 
     private Slider mkSlider() {
         Slider slider = new Slider();
         slider.setMin(0);
-        slider.setMax(reactor.maxFlow().value());
+        slider.setMax(reactor.getMaxPower().value());
         slider.setValue(reactor.getCurrentPowerFlow().value());
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);

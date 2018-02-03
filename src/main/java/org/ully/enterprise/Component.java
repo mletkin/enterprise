@@ -3,6 +3,11 @@ package org.ully.enterprise;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
+/**
+ * Base class for all energy powered ship components.
+ * <p>
+ * By default a component is consuming only.<br>
+ */
 public abstract class Component {
 
     private String name;
@@ -29,6 +34,11 @@ public abstract class Component {
         return online;
     }
 
+    /**
+     * Returns the current flow direction.
+     *
+     * @return the current flow direction
+     */
     public Direction getDirection() {
         return flowDirection;
     }
@@ -40,10 +50,32 @@ public abstract class Component {
      */
     public abstract Power getCurrentPowerFlow();
 
+    /**
+     * Maximum power that may flow between component and power system.
+     *
+     * @return
+     */
+    public abstract Power getMaxPower();
+
+    /**
+     * The Energy that might flow in the time interval ahead.
+     *
+     * @param msec
+     *            the next milliseconds to consider.
+     * @return the anticipated energy amount
+     */
     public Energy getPotentialEnergyFlow(long msec) {
         return getCurrentPowerFlow().toEnergy(msec);
     };
 
-    public abstract void load(Power power, long msec);
+    /**
+     * Supply or consume the Energy in the time interval ahead.
+     *
+     * @param energy
+     *            the energy amunt to supply/consume
+     * @param msec
+     *            the length of the time interval in milliseconss
+     */
+    public abstract void load(Energy energy, long msec);
 
 }

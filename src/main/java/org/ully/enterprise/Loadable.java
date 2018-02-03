@@ -2,21 +2,24 @@ package org.ully.enterprise;
 
 import org.ully.enterprise.units.Energy;
 
+/**
+ * Interface for Components, that support energy retention.
+ */
 public interface Loadable {
 
-    /**
-     * Add/sub energy to object's load.
-     *
-     * @param energy
-     */
-    void load(Energy energy, long msec);
-
 
     /**
-     * Current energy load of object.
+     * Current energy load of the component.
      *
-     * @return
+     * @return the energy currently stored.
      */
     Energy getLoad();
+
+    /**
+     * maximum energy load of the component.
+     *
+     * @return the maximum energy.
+     */
+    Energy getMaxLoad();
 
 }

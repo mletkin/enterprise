@@ -1,9 +1,10 @@
 package org.ully.enterprise;
 
+import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
 /**
- * The (one) power pwrMain
+ * Representation of a single power supplying reactor unit.
  */
 public class Reactor extends Component {
 
@@ -17,12 +18,8 @@ public class Reactor extends Component {
         maxFlow = maxPower;
     }
 
-    /**
-     * Maximum energy that may currentFlow per second.
-     *
-     * @return
-     */
-    public Power maxFlow() {
+    @Override
+    public Power getMaxPower() {
         return maxFlow;
     }
 
@@ -33,7 +30,6 @@ public class Reactor extends Component {
 
     public void setFlow(Power flow) {
         this.currentFlow = flow;
-//        System.out.println(getName() + ": " + currentFlow.toString() + " -> " + wantedFlow.toString());
     }
 
     public Power getWantedFlow() {
@@ -45,8 +41,8 @@ public class Reactor extends Component {
     }
 
     @Override
-    public void load(Power power, long msec) {
-        // no load
+    public void load(Energy energy, long msec) {
+        // loading ha sno effect
     }
 
 }
