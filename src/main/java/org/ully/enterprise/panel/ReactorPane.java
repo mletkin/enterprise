@@ -39,7 +39,7 @@ public class ReactorPane extends GridPane implements Refreshable {
         slider.setValue(reactor.getCurrentPowerFlow().value());
         slider.setShowTickLabels(true);
         slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(1);
+        slider.setMajorTickUnit(2);
         slider.setBlockIncrement(1);
         slider.setOrientation(Orientation.VERTICAL);
         ChangeListener<Number> listener = (observable, oldValue, newValue) -> {
@@ -52,5 +52,10 @@ public class ReactorPane extends GridPane implements Refreshable {
     @Override
     public void refresh() {
         gauge.setValue(reactor.getCurrentPowerFlow().value());
+
+//        if (!reactor.getCurrentPowerFlow().eqls(reactor.getWantedFlow()) && !Power.of(gauge.getThreshold()).eqls(reactor.getWantedFlow())) {
+//            gauge.setThreshold(reactor.getWantedFlow().value());
+//       }
+
     }
 }

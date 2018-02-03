@@ -5,6 +5,7 @@ package org.ully.enterprise.units;
  */
 public abstract class PhysicalUnit {
 
+    private static final double EPSILON = 0.000001;
     protected double value;
 
     public double value() {
@@ -18,4 +19,7 @@ public abstract class PhysicalUnit {
         return String.format("%.2f %s", value, symbol());
     }
 
+    public boolean eqls(PhysicalUnit comp) {
+        return (Math.abs(comp.value - value) < EPSILON);
+    }
 }

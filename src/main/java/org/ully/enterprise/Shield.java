@@ -16,6 +16,11 @@ public class Shield extends Component implements Loadable {
 
     private Energy load = Energy.ZERO;
 
+    /**
+     * create a shield with the given name.
+     *
+     * @param name
+     */
     public Shield(String name) {
         super(name);
     }
@@ -30,7 +35,6 @@ public class Shield extends Component implements Loadable {
         return load;
     }
 
-
     @Override
     public void load(Energy energy, long msec) {
         if (flowDirection == Direction.IN) {
@@ -38,12 +42,12 @@ public class Shield extends Component implements Loadable {
         } else {
             load = load.sub(energy);
         }
-        load = load.sub(getPowerEntropy(msec));
+        load = load.sub(getEntropy(msec));
         load = load.le(Energy.ZERO) ? Energy.ZERO : load;
     }
 
-    public Energy getPowerEntropy(long msec) {
-        return Energy.of(1).scale(msec);
+    private Energy getEntropy(long msec) {
+        return Power.of(1).toEnergy(msec);
     }
 
     public void setDirection(Direction direction) {
