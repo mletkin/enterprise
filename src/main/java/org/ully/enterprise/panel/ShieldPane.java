@@ -16,7 +16,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class ShieldPane extends GridPane {
+public class ShieldPane extends GridPane implements Refreshable{
 
     private Gauge gauge;
     private Shield shield;
@@ -77,6 +77,7 @@ public class ShieldPane extends GridPane {
         return pane;
     }
 
+    @Override
     public void refresh() {
         gauge.setValue(shield.getLoad().value());
     }

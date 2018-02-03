@@ -1,7 +1,5 @@
 package org.ully.enterprise.panel;
 
-import static java.util.Optional.ofNullable;
-
 import org.ully.enterprise.Reactor;
 import org.ully.enterprise.Starship;
 
@@ -22,6 +20,7 @@ import javafx.stage.WindowEvent;
 public class EnerygPanel extends Application {
 
     private Starship ship = new Starship();
+    private GridPane grid = mkGrid();
 
     private ReactorPane reactorMainPain = new ReactorPane(ship.pwrMain);
     private ReactorPane reactorAuxPain = new ReactorPane(ship.pwrAux);
@@ -54,8 +53,6 @@ public class EnerygPanel extends Application {
     public void start(Stage stage) {
         stage.setTitle("Energy panel");
 
-        GridPane grid = mkGrid();
-
         // main power circuit
         grid.add(frontShieldPain, 0, 0);
         grid.add(rearShieldPain, 1, 0);
@@ -78,6 +75,11 @@ public class EnerygPanel extends Application {
         refreshThread.start();
     }
 
+    /**
+     * Create a grid to holds all the panels.
+     *
+     * @return
+     */
     private GridPane mkGrid() {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -87,20 +89,14 @@ public class EnerygPanel extends Application {
         return grid;
     }
 
+    /**
+     * Refresh all panels on the grid.
+     */
     private void refresh() {
-        ofNullable(warpLeftPain).ifPresent(EnginePane::refresh);
-        ofNullable(warpRightPain).ifPresent(EnginePane::refresh);
-
-        ofNullable(phaserPain).ifPresent(PhaserPane::refresh);
-
-        ofNullable(reactorMainPain).ifPresent(ReactorPane::refresh);
-        ofNullable(reactorAuxPain).ifPresent(ReactorPane::refresh);
-        ofNullable(reactorLifePain).ifPresent(ReactorPane::refresh);
-
-        ofNullable(frontShieldPain).ifPresent(ShieldPane::refresh);
-        ofNullable(rearShieldPain).ifPresent(ShieldPane::refresh);
-
-        ofNullable(lifePain).ifPresent(LifeSupportPane::refresh);
+        grid.getChildren().stream() //
+                .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (Refreshable) c) //
+                .forEach(Refreshable::refresh);
     }
 
     private Thread mkRefreshThread() {

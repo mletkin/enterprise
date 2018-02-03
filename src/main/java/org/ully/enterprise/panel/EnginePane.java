@@ -11,7 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class EnginePane extends GridPane {
+public class EnginePane extends GridPane implements Refreshable {
 
     private Gauge gauge;
     private WarpEngine engine;
@@ -26,10 +26,10 @@ public class EnginePane extends GridPane {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .knobType(KnobType.PLAIN)                                                     // Type for center knob (STANDARD, PLAIN, METAL, FLAT)
-                .knobColor(btnColor())                                                      // Color of center knob
-                .interactive(true)                                                              // Should center knob be act as button
-                .onButtonReleased(buttonEvent -> toggle())            // Handler (triggered when the center knob was released)
+                .knobType(KnobType.PLAIN)
+                .knobColor(btnColor())
+                .interactive(true)
+                .onButtonReleased(buttonEvent -> toggle())
                 .title(engine.getName()).subTitle("warp").unit(Power.SYMBOL).maxValue(engine.getMax().value()).build();
         return gauge;
     }
@@ -44,6 +44,7 @@ public class EnginePane extends GridPane {
         return engine.isOnline() ? Color.LIGHTGREEN : Color.RED;
     }
 
+    @Override
     public void refresh() {
         gauge.setValue(engine.getPower().value());
     }

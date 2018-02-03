@@ -18,7 +18,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class PhaserPane extends GridPane {
+public class PhaserPane extends GridPane implements Refreshable {
 
     private Gauge gauge;
     private Phaser phaser;
@@ -87,6 +87,7 @@ public class PhaserPane extends GridPane {
         return pane;
     }
 
+    @Override
     public void refresh() {
         gauge.setValue(phaser.getLoad().value());
     }

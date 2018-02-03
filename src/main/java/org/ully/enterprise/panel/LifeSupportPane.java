@@ -9,7 +9,7 @@ import eu.hansolo.medusa.GaugeBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
-public class LifeSupportPane extends GridPane {
+public class LifeSupportPane extends GridPane implements Refreshable{
 
     private Gauge gauge;
     private LifeSupport system;
@@ -28,6 +28,7 @@ public class LifeSupportPane extends GridPane {
         return gauge;
     }
 
+    @Override
     public void refresh() {
         gauge.setValue(system.getPower().value());
     }

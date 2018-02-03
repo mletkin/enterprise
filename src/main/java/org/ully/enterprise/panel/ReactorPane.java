@@ -12,7 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 
-public class ReactorPane extends GridPane {
+public class ReactorPane extends GridPane implements Refreshable {
 
     private Gauge gauge;
     private Reactor reactor;
@@ -49,8 +49,8 @@ public class ReactorPane extends GridPane {
         return slider;
     }
 
+    @Override
     public void refresh() {
         gauge.setValue(reactor.getFlow().value());
-        System.out.println("refresh " + reactor.getName());
     }
 }
