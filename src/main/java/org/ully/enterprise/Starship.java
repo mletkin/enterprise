@@ -9,22 +9,30 @@ import org.ully.enterprise.units.Power;
  */
 public class Starship {
 
-    public Shield shieldBow = new Shield("bow");
-    public Shield shieldStern = new Shield("stern");
-    public Phaser phaserBank = new Phaser("main");
-    public WarpEngine warpLeft = new WarpEngine("left");
-    public WarpEngine warpRight = new WarpEngine("right");
+    public final Shield shieldBow = new Shield("bow");
+    public final Shield shieldStern = new Shield("stern");
 
-    public LifeSupport life = new LifeSupport("main");
+    public final Phaser phaserPrime = new Phaser("1st");
+    public final Phaser phaserSec = new Phaser("2nd");
 
-    public Reactor pwrMain = new Reactor("main", Power.of(20));
-    public Reactor pwrAux = new Reactor("aux", Power.of(20));
-    public Reactor pwrLife = new Reactor("life", Power.of(10));
+    public final WarpEngine warpLeft = new WarpEngine("left");
+    public final WarpEngine warpRight = new WarpEngine("right");
 
-    Circuit mainPowerCircuit = new Circuit(pwrAux, pwrMain, shieldBow, shieldStern, phaserBank, warpLeft, warpRight);
-    Circuit lifePowerCircuit = new Circuit(pwrLife, life);
+    public final LifeSupport life = new LifeSupport("main");
 
-    PowerFlowEmulator PowerFlowEmulator;
+    public final Reactor pwrMain = new Reactor("main", Power.of(20));
+    public final Reactor pwrAux = new Reactor("aux", Power.of(20));
+    public final Reactor pwrLife = new Reactor("life", Power.of(10));
+
+    private Circuit mainPowerCircuit = new Circuit(//
+            pwrAux, pwrMain, //
+            shieldBow, shieldStern, //
+            phaserPrime, phaserSec, //
+            warpLeft, warpRight);
+
+    private Circuit lifePowerCircuit = new Circuit(pwrLife, life);
+
+    private PowerFlowEmulator PowerFlowEmulator;
 
     public void powerUp() {
         if (PowerFlowEmulator == null) {
