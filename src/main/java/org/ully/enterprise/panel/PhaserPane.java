@@ -2,6 +2,7 @@ package org.ully.enterprise.panel;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Phaser;
+import org.ully.enterprise.units.Energy;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
@@ -38,7 +39,7 @@ public class PhaserPane extends GridPane {
                 .knobColor(btnColor()) // Color of center knob
                 .interactive(true) // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
-                .title(phaser.getName()).subTitle("phaser").unit("E").maxValue(phaser.getMaxLoad().value()).build();
+                .title(phaser.getName()).subTitle("phaser").unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value()).build();
         return gauge;
     }
 

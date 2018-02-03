@@ -1,6 +1,7 @@
 package org.ully.enterprise.panel;
 
 import org.ully.enterprise.WarpEngine;
+import org.ully.enterprise.units.Power;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
@@ -29,7 +30,7 @@ public class EnginePane extends GridPane {
                 .knobColor(btnColor())                                                      // Color of center knob
                 .interactive(true)                                                              // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle())            // Handler (triggered when the center knob was released)
-                .title(engine.getName()).subTitle("warp").unit("E").maxValue(engine.getMax().value()).build();
+                .title(engine.getName()).subTitle("warp").unit(Power.SYMBOL).maxValue(engine.getMax().value()).build();
         return gauge;
     }
 

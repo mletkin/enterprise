@@ -5,10 +5,10 @@ package org.ully.enterprise.units;
  *
  * Power = Energy / second
  */
-public class Power {
+public class Power extends PhysicalUnit {
 
+    public static final String SYMBOL = "E";
     public static final Power ZERO = new Power(0);
-    private double value;
 
     public Power(double value) {
         this.value = value;
@@ -18,16 +18,13 @@ public class Power {
         return new Power(value);
     }
 
-    public double value() {
-        return value;
+    @Override
+    public String symbol() {
+        return SYMBOL;
     }
 
     public Energy toEnergy(long msec) {
         return Energy.of(value / 1000 * msec);
     }
 
-    @Override
-    public String toString() {
-        return String.format("%.2f", value);
-    }
 }

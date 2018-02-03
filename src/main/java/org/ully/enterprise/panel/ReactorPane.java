@@ -28,7 +28,7 @@ public class ReactorPane extends GridPane {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.AMP)//
-                .title(reactor.getName()).subTitle("pwr").unit("P").maxValue(reactor.maxFlow().value()).build();
+                .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.maxFlow().value()).build();
         return gauge;
     }
 

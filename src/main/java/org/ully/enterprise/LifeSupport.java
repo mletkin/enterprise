@@ -21,7 +21,7 @@ public class LifeSupport extends Component {
         current = power;
     }
 
-    public Power getMax() {
+    public Power getMaxPower() {
         return max;
     }
 

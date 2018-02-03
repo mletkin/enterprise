@@ -2,6 +2,7 @@ package org.ully.enterprise.panel;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Shield;
+import org.ully.enterprise.units.Energy;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
@@ -35,7 +36,7 @@ public class ShieldPane extends GridPane {
                 .knobColor(btnColor()) // Color of center knob
                 .interactive(true) // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
-                .title(shield.getName()).subTitle("shield").unit("E").maxValue(shield.getMaxLoad().value()).build();
+                .title(shield.getName()).subTitle("shield").unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value()).build();
         return gauge;
     }
 

@@ -1,6 +1,7 @@
 package org.ully.enterprise.panel;
 
 import org.ully.enterprise.LifeSupport;
+import org.ully.enterprise.units.Power;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
@@ -23,10 +24,9 @@ public class LifeSupportPane extends GridPane {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(system.getName()).subTitle("life").unit("E").maxValue(system.getMax().value()).build();
+                .title(system.getName()).subTitle("life").unit(Power.SYMBOL).maxValue(system.getMaxPower().value()).build();
         return gauge;
     }
-
 
     public void refresh() {
         gauge.setValue(system.getPower().value());

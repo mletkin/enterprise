@@ -3,10 +3,10 @@ package org.ully.enterprise.units;
 /**
  * representation of an energy unit.
  */
-public class Energy {
+public class Energy extends PhysicalUnit {
 
+    public static final String SYMBOL = "E";
     public static final Energy ZERO = new Energy(0);
-    private double value;
 
     public static Energy of(double value) {
         return new Energy(value);
@@ -16,8 +16,9 @@ public class Energy {
         this.value = value;
     }
 
-    public double value() {
-        return value;
+    @Override
+    public String symbol() {
+        return SYMBOL;
     }
 
     public Power toPower(long msec) {
