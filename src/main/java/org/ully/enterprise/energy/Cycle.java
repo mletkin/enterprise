@@ -6,24 +6,22 @@ import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
 /**
- * What happens within a single loading/discharge cycle.
+ * What happens within a single loading/discharge cycle for a circuit.
  * <p>
- * emulate the energy folw in a single time unit.
+ * Emulates the energy flow within a single time unit.<p>
+ * FIXME: components may switch flow direction while calculating
  */
 public class Cycle {
 
     private static final double EPSILON = 0.00000000001;
     private Circuit circuit;
 
-    private Cycle() {
-
-    }
     public Cycle(Circuit circuit) {
         this.circuit = circuit;
     }
 
     /**
-     * Supply energy to consumer.
+     * Move energy from suppliers to consumers.
      */
     public void calculate(long msec) {
 
@@ -60,7 +58,6 @@ public class Cycle {
         supplier.setFlow(Power.of(current + (wanted - current) / 1000 * msec));
     }
 
-
     private void supplyEnergy(Component s, double fraction, long msec) {
         s.load(Power.of(s.getFlow().value() * fraction), msec);
     }
@@ -69,9 +66,7 @@ public class Cycle {
         s.load(Power.of(s.getFlow().value() * fraction), msec);
     }
 
-
     private double getQuotient(double required, double available) {
-
         if (available <= EPSILON) {
             return 0;
         }

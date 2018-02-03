@@ -1,7 +1,5 @@
 package org.ully.enterprise.energy;
 
-import java.util.Arrays;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,14 +11,12 @@ import org.ully.enterprise.units.Power;
 
 public class CycleTest {
 
-    Circuit c = new Circuit();
 
     @Ignore
     @Test
     public void singleConsumer() {
         Shield shield = new Shield("");
-        c.supplier = Arrays.asList(new Reactor("", Power.of(1)));
-        c.consumer = Arrays.asList(shield);
+        Circuit c = new Circuit(new Reactor("", Power.of(1)), shield);
 
         new Cycle(c).calculate(1000);
         Assert.assertEquals(1.0, shield.getLoad().value(), 0.1d);
@@ -34,7 +30,7 @@ public class CycleTest {
         shield1.setDirection(Direction.OUT);
         Shield shield2 = new Shield("");
 
-        c.consumer = Arrays.asList(shield1, shield2);
+        Circuit c = new Circuit(shield1, shield2);
 
         new Cycle(c).calculate(1000);
         Assert.assertEquals(1.0, shield1.getLoad().value(), 0.1d);

@@ -1,13 +1,11 @@
 package org.ully.enterprise;
 
-import java.util.Arrays;
-
 import org.ully.enterprise.energy.Circuit;
-import org.ully.enterprise.energy.Current;
+import org.ully.enterprise.energy.PowerFlowEmulator;
 import org.ully.enterprise.units.Power;
 
 /**
- * configuration for a galaxy class starship
+ * Configuration for a galaxy class starship
  */
 public class Starship {
 
@@ -23,29 +21,21 @@ public class Starship {
     public Reactor pwrAux = new Reactor("aux", Power.of(20));
     public Reactor pwrLife = new Reactor("life", Power.of(10));
 
-    Circuit mainPowerCircuit = new Circuit();
-    Circuit lifePowerCircuit = new Circuit();
+    Circuit mainPowerCircuit = new Circuit(pwrAux, pwrMain, shieldBow, shieldStern, phaserBank, warpLeft, warpRight);
+    Circuit lifePowerCircuit = new Circuit(pwrLife, life);
 
-    Current powerThread;
-
-    public Starship() {
-        mainPowerCircuit.supplier = Arrays.asList(pwrAux, pwrMain);
-        mainPowerCircuit.consumer = Arrays.asList(shieldBow, shieldStern, phaserBank, warpLeft, warpRight);
-
-        lifePowerCircuit.supplier = Arrays.asList(pwrLife);
-        lifePowerCircuit.consumer = Arrays.asList(life);
-    }
+    PowerFlowEmulator PowerFlowEmulator;
 
     public void powerUp() {
-        if (powerThread == null) {
-            powerThread = new Current(mainPowerCircuit, lifePowerCircuit);
+        if (PowerFlowEmulator == null) {
+            PowerFlowEmulator = new PowerFlowEmulator(mainPowerCircuit, lifePowerCircuit);
         }
-        powerThread.start();
+        PowerFlowEmulator.start();
     }
 
     public void powerDown() {
-        if (powerThread != null) {
-            powerThread.stop();
+        if (PowerFlowEmulator != null) {
+            PowerFlowEmulator.stop();
         }
     }
 }

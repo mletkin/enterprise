@@ -6,14 +6,19 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Power flow emulation class
+ * Power flow emulation.
  */
-public class Current extends Thread {
+public class PowerFlowEmulator extends Thread {
 
     private static final long DELTA_IN_MSEC = 10;
     private Circuit[] circuit;
 
-    public Current(Circuit... circuit) {
+    /**
+     * Create an emulator for a list of circuits.
+     *
+     * @param circuit
+     */
+    public PowerFlowEmulator(Circuit... circuit) {
         this.circuit = circuit;
     }
 

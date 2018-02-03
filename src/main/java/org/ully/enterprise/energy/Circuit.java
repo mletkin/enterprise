@@ -1,39 +1,37 @@
 package org.ully.enterprise.energy;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Reactor;
 
 /**
- * combination of supplier(s) and consumer(s) wired together.
+ * Power circuit, connecting a list of components.
  */
 public class Circuit {
 
-    public List<Reactor> supplier;
+    private List<Component> consumer = new ArrayList<>();
 
-    public List<Component> consumer;
+    public Circuit(Component... components) {
+        if (components != null) {
+            Stream.of(components).forEach(consumer::add);
+        }
+    }
 
     public Stream<Component> getSupplier() {
-        return Stream.concat(//
-                streamOf(consumer).filter(s -> s.getDirection() == Component.Direction.OUT), //
-                streamOf(supplier)//
-        );
+        return consumer.stream().filter(s -> s.getDirection() == Component.Direction.OUT);
     }
 
     public Stream<Component> getConsumer() {
-        return streamOf(consumer).filter(s -> s.getDirection() == Component.Direction.IN);
+        return consumer.stream().filter(s -> s.getDirection() == Component.Direction.IN);
     }
 
     public Stream<Reactor> getReactors() {
-        return streamOf(supplier);
-    }
-
-    public <T> Stream<T> streamOf(List<T> list) {
-        return Optional.ofNullable(list).orElse(Collections.emptyList()).stream();
+        return consumer.stream()//
+                .filter(c -> Reactor.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (Reactor) c);
     }
 
 }
