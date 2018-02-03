@@ -1,9 +1,16 @@
 package org.ully.enterprise;
 
-public class Component {
+import org.ully.enterprise.units.Power;
+
+public abstract class Component {
 
     private String name;
     private boolean online = true;
+    protected Direction flowDirection = Direction.IN;
+
+    public enum Direction {
+        IN, OUT;
+    }
 
     Component(String name) {
         this.name = name;
@@ -20,4 +27,13 @@ public class Component {
     public boolean isOnline() {
         return online;
     }
+
+    public Direction getDirection() {
+        return flowDirection;
+    }
+
+    public abstract Power getFlow();
+
+    public abstract void load(Power power, long msec);
+
 }

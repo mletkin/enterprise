@@ -12,10 +12,6 @@ public interface Loadable {
      */
     void load(Energy energy, long msec);
 
-    default void load(Power power, long msec) {
-        load(power.toEnergy(msec), msec);
-    }
-
     /**
      * Energy to load in the given time unit.
      *

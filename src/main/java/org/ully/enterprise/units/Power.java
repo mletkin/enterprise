@@ -25,4 +25,9 @@ public class Power {
     public Energy toEnergy(long msec) {
         return Energy.of(value / 1000 * msec);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%.2f", value);
+    }
 }

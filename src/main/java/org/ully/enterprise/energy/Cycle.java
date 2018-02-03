@@ -1,6 +1,6 @@
 package org.ully.enterprise.energy;
 
-import org.ully.enterprise.Loadable;
+import org.ully.enterprise.Component;
 import org.ully.enterprise.Reactor;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
@@ -15,6 +15,9 @@ public class Cycle {
     private static final double EPSILON = 0.00000000001;
     private Circuit circuit;
 
+    private Cycle() {
+
+    }
     public Cycle(Circuit circuit) {
         this.circuit = circuit;
     }
@@ -28,18 +31,23 @@ public class Cycle {
         double required = energyRequired(msec);
         double quotient = getQuotient(required, available);
 
-        if (quotient > EPSILON) {
-            circuit.consumer.forEach(s -> this.supplyEnergy(s, quotient, msec));
-        } else {
-            circuit.consumer.forEach(s -> this.supplyEnergy(s, 0, msec));
-        }
+        circuit.getConsumer().forEach(s -> this.supplyEnergy(s, quotient, msec));
+        circuit.getSupplier().forEach(s -> this.consumeEnergy(s, quotient, msec));
 
-        circuit.supplier.stream().forEach(r ->  adjustReactor(r, msec));
+        circuit.getReactors().forEach(r -> adjustReactor(r, msec));
     }
 
     private double energySupplied(long msec) {
-        return circuit.supplier.stream()//
-                .map(Reactor::getFlow)//
+        return circuit.getSupplier()//
+                .map(Component::getFlow)//
+                .map(p -> p.toEnergy(msec))//
+                .mapToDouble(Energy::value)//
+                .sum();
+    }
+
+    private double energyRequired(long msec) {
+        return circuit.getConsumer()//
+                .map(Component::getFlow) //
                 .map(p -> p.toEnergy(msec))//
                 .mapToDouble(Energy::value)//
                 .sum();
@@ -52,13 +60,15 @@ public class Cycle {
         supplier.setFlow(Power.of(current + (wanted - current) / 1000 * msec));
     }
 
-    private void supplyEnergy(Loadable s, double fraction, long msec) {
-        s.load(Energy.of(s.getLoadingPower(msec).value() * fraction), msec);
+
+    private void supplyEnergy(Component s, double fraction, long msec) {
+        s.load(Power.of(s.getFlow().value() * fraction), msec);
     }
 
-    private double energyRequired(long msec) {
-        return circuit.consumer.stream().map(c -> c.getLoadingPower(msec)).mapToDouble(Energy::value).sum();
+    private void consumeEnergy(Component s, double fraction, long msec) {
+        s.load(Power.of(s.getFlow().value() * fraction), msec);
     }
+
 
     private double getQuotient(double required, double available) {
 

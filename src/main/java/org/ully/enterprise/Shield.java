@@ -17,6 +17,7 @@ public class Shield extends Component implements Loadable, Consuming {
 
     public Shield(String name) {
         super(name);
+        flowDirection = Direction.IN;
     }
 
     public Energy getMaxLoad() {
@@ -35,13 +36,32 @@ public class Shield extends Component implements Loadable, Consuming {
 
     @Override
     public void load(Energy energy, long msec) {
-        load = load.add(energy).sub(getPowerEntropy(msec));
+        if (flowDirection == Direction.IN) {
+            load = load.add(energy);
+        } else {
+            load = load.sub(energy);
+        }
+        load = load.sub(getPowerEntropy(msec));
         load = load.le(Energy.ZERO) ? Energy.ZERO : load;
     }
 
     @Override
     public Energy getPowerEntropy(long msec) {
         return Energy.of(1).scale(msec);
+    }
+
+    public void setDirection(Direction direction) {
+        flowDirection = direction;
+    }
+
+    @Override
+    public Power getFlow() {
+        return getPowerInput();
+    }
+
+    @Override
+    public void load(Power power, long msec) {
+        load(power.toEnergy(msec), msec);
     }
 
 }

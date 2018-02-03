@@ -14,6 +14,7 @@ public class Phaser extends Component implements Loadable {
 
     public Phaser(String name) {
         super(name);
+        flowDirection = Direction.IN;
     }
 
     public Energy getMaxLoad() {
@@ -32,7 +33,11 @@ public class Phaser extends Component implements Loadable {
 
     @Override
     public void load(Energy energy, long msec) {
-        load = load.add(energy);
+        if (flowDirection == Direction.IN) {
+            load = load.add(energy);
+        } else {
+            load = load.sub(energy);
+        }
     }
 
     /**
@@ -40,6 +45,20 @@ public class Phaser extends Component implements Loadable {
      */
     public void fire() {
         load = Energy.ZERO;
+    }
+
+    public void setDirection(Direction direction) {
+        flowDirection = direction;
+    }
+
+    @Override
+    public Power getFlow() {
+        return getPowerInput();
+    }
+
+    @Override
+    public void load(Power power, long msec) {
+        load(power.toEnergy(msec), msec);
     }
 
 }

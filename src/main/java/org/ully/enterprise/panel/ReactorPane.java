@@ -51,5 +51,6 @@ public class ReactorPane extends GridPane {
 
     public void refresh() {
         gauge.setValue(reactor.getFlow().value());
+        System.out.println("refresh " + reactor.getName());
     }
 }

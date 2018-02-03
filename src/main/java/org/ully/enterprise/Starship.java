@@ -17,21 +17,28 @@ public class Starship {
     public WarpEngine warpLeft = new WarpEngine("left");
     public WarpEngine warpRight = new WarpEngine("right");
 
+    public LifeSupport life = new LifeSupport("main");
+
     public Reactor pwrMain = new Reactor("main", Power.of(20));
     public Reactor pwrAux = new Reactor("aux", Power.of(20));
+    public Reactor pwrLife = new Reactor("life", Power.of(10));
 
     Circuit mainPowerCircuit = new Circuit();
+    Circuit lifePowerCircuit = new Circuit();
+
     Current powerThread;
 
     public Starship() {
         mainPowerCircuit.supplier = Arrays.asList(pwrAux, pwrMain);
-        mainPowerCircuit.consumer = Arrays.asList(shieldBow, shieldStern, phaserBank,//
-                warpLeft, warpRight);
+        mainPowerCircuit.consumer = Arrays.asList(shieldBow, shieldStern, phaserBank, warpLeft, warpRight);
+
+        lifePowerCircuit.supplier = Arrays.asList(pwrLife);
+        lifePowerCircuit.consumer = Arrays.asList(life);
     }
 
     public void powerUp() {
         if (powerThread == null) {
-            powerThread = new Current(mainPowerCircuit);
+            powerThread = new Current(mainPowerCircuit, lifePowerCircuit);
         }
         powerThread.start();
     }

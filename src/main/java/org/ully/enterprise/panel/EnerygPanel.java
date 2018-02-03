@@ -34,6 +34,9 @@ public class EnerygPanel extends Application {
     private EnginePane warpLeftPain = new EnginePane(ship.warpLeft);
     private EnginePane warpRightPain = new EnginePane(ship.warpRight);
 
+    private LifeSupportPane lifePain = new LifeSupportPane(ship.life);
+    private ReactorPane reactorLifePain = new ReactorPane(ship.pwrLife);
+
     // private Gauge sparkler = sparkGauge("pwrMain", ship.pwrMain);
 
     private Thread refreshThread = mkRefreshThread();
@@ -52,6 +55,8 @@ public class EnerygPanel extends Application {
         stage.setTitle("Energy panel");
 
         GridPane grid = mkGrid();
+
+        // main power circuit
         grid.add(frontShieldPain, 0, 0);
         grid.add(rearShieldPain, 1, 0);
         grid.add(phaserPain, 0, 1);
@@ -60,11 +65,11 @@ public class EnerygPanel extends Application {
         grid.add(warpLeftPain, 0, 3);
         grid.add(warpRightPain, 1, 3);
 
-//        grid.add(mkButton("exit", e -> {
-//            this.shutdown(null);
-//            Platform.exit();
-//        }), 3, 3);
-        Scene scene = new Scene(grid, 500, 500);
+        // Life support circuit
+        grid.add(reactorLifePain, 5, 3);
+        grid.add(lifePain, 6, 3);
+
+        Scene scene = new Scene(grid, 900, 500);
 
         stage.setOnCloseRequest(this::shutdown);
         stage.setScene(scene);
@@ -85,12 +90,17 @@ public class EnerygPanel extends Application {
     private void refresh() {
         ofNullable(warpLeftPain).ifPresent(EnginePane::refresh);
         ofNullable(warpRightPain).ifPresent(EnginePane::refresh);
-        // sparkler.setValue(ship.pwrMain.getFlow().value());
+
         ofNullable(phaserPain).ifPresent(PhaserPane::refresh);
+
         ofNullable(reactorMainPain).ifPresent(ReactorPane::refresh);
         ofNullable(reactorAuxPain).ifPresent(ReactorPane::refresh);
+        ofNullable(reactorLifePain).ifPresent(ReactorPane::refresh);
+
         ofNullable(frontShieldPain).ifPresent(ShieldPane::refresh);
         ofNullable(rearShieldPain).ifPresent(ShieldPane::refresh);
+
+        ofNullable(lifePain).ifPresent(LifeSupportPane::refresh);
     }
 
     private Thread mkRefreshThread() {

@@ -13,6 +13,7 @@ public class Reactor extends Component {
 
     public Reactor(String name, Power maxPower) {
         super(name);
+        flowDirection = Direction.OUT;
         maxFlow = maxPower;
     }
 
@@ -25,12 +26,14 @@ public class Reactor extends Component {
         return maxFlow;
     }
 
+    @Override
     public Power getFlow() {
         return currentFlow;
     }
 
     public void setFlow(Power flow) {
         this.currentFlow = flow;
+//        System.out.println(getName() + ": " + currentFlow.toString() + " -> " + wantedFlow.toString());
     }
 
     public Power getWantedFlow() {
@@ -39,6 +42,11 @@ public class Reactor extends Component {
 
     public void setWantedFlow(Power wantedFlow) {
         this.wantedFlow = wantedFlow;
+    }
+
+    @Override
+    public void load(Power power, long msec) {
+        // no load
     }
 
 }

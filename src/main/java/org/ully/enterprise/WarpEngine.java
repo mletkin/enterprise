@@ -10,6 +10,7 @@ public class WarpEngine extends Component implements Loadable {
 
     WarpEngine(String name) {
         super(name);
+        flowDirection = Direction.IN;
     }
 
     @Override
@@ -37,6 +38,16 @@ public class WarpEngine extends Component implements Loadable {
 
     public void setMax(Power max) {
         this.max = max;
+    }
+
+    @Override
+    public Power getFlow() {
+        return getPowerInput();
+    }
+
+    @Override
+    public void load(Power power, long msec) {
+        load(power.toEnergy(msec), msec);
     }
 
 }
