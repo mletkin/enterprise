@@ -25,7 +25,7 @@ public class EnginePane extends GridPane implements Refreshable {
     }
 
     private Gauge mkGauge() {
-        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
+        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE) //
                 .knobType(KnobType.PLAIN)
                 .knobColor(btnColor())
                 .interactive(true)
@@ -46,6 +46,6 @@ public class EnginePane extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        gauge.setValue(engine.getPower().value());
+        gauge.setValue(engine.getCurrentPowerFlow().value());
     }
 }

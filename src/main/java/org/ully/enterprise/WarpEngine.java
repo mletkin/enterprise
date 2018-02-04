@@ -25,11 +25,6 @@ public class WarpEngine extends Component {
         currentPower = energy.toPower(msec);
     }
 
-    @Deprecated
-    public Power getPower() {
-        return getCurrentPowerFlow();
-    }
-
     @Override
     public Power getMaxPower() {
         return maxPower;
