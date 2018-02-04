@@ -6,6 +6,8 @@ import org.ully.enterprise.units.Power;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
+import eu.hansolo.medusa.LcdDesign;
+import eu.hansolo.medusa.LcdFont;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -28,7 +30,12 @@ public class ReactorPane extends GridPane implements Refreshable {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.AMP)//
-                .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.getMaxPower().value()).build();
+                .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.getMaxPower().value())
+                .threshold(reactor.getWantedFlow().value()).thresholdVisible(true) //
+                .lcdVisible(true)
+                .lcdDesign(LcdDesign.BLACK_YELLOW)
+                .lcdFont(LcdFont.DIGITAL)
+                .build();
         return gauge;
     }
 
@@ -42,10 +49,10 @@ public class ReactorPane extends GridPane implements Refreshable {
         slider.setMajorTickUnit(2);
         slider.setBlockIncrement(1);
         slider.setOrientation(Orientation.VERTICAL);
-        ChangeListener<Number> listener = (observable, oldValue, newValue) -> {
-            reactor.setWantedFlow(Power.of(newValue.doubleValue()));
-        };
-        slider.valueProperty().addListener(listener);
+        slider.valueProperty().addListener(//
+                (ChangeListener<Number>) (observable, oldValue, newValue) -> {
+                    reactor.setWantedFlow(Power.of(newValue.doubleValue()));
+                });
         return slider;
     }
 
@@ -53,9 +60,10 @@ public class ReactorPane extends GridPane implements Refreshable {
     public void refresh() {
         gauge.setValue(reactor.getCurrentPowerFlow().value());
 
-//        if (!reactor.getCurrentPowerFlow().eqls(reactor.getWantedFlow()) && !Power.of(gauge.getThreshold()).eqls(reactor.getWantedFlow())) {
-//            gauge.setThreshold(reactor.getWantedFlow().value());
-//       }
+        if (!reactor.getCurrentPowerFlow().eqls(reactor.getWantedFlow())
+                && !Power.of(gauge.getThreshold()).eqls(reactor.getWantedFlow())) {
+            gauge.setThreshold(reactor.getWantedFlow().value());
+        }
 
     }
 }
