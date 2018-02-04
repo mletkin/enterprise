@@ -20,6 +20,7 @@ public class ShieldPane extends GridPane implements Refreshable{
 
     private Gauge gauge;
     private Shield shield;
+    private Gauge powerGauge;
 
     public ShieldPane(Shield shield) {
         super();
@@ -27,6 +28,7 @@ public class ShieldPane extends GridPane implements Refreshable{
         setAlignment(Pos.CENTER);
 
         add(mkGauge(), 0, 0);
+        add(mkPowerGauge(), 1, 0);
         add(unloadGroup(), 0, 1);
     }
 
@@ -38,6 +40,12 @@ public class ShieldPane extends GridPane implements Refreshable{
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
                 .title(shield.getName()).subTitle("shield").unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value()).build();
         return gauge;
+    }
+
+    private Gauge mkPowerGauge() {
+        powerGauge = GaugeBuilder.create().skinType(SkinType.LINEAR) //
+                .title("pwr").unit(Energy.SYMBOL).maxValue(shield.getMaxPower().value()).build();
+        return powerGauge;
     }
 
     private Object toggle() {
@@ -54,10 +62,12 @@ public class ShieldPane extends GridPane implements Refreshable{
         GridPane pane = new GridPane();
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((ChangeListener<Toggle>) (ov, toggle, new_toggle) -> {
-            if (new_toggle == null)
+            if (new_toggle == null) {
                 shield.setDirection(Component.Direction.IN);
-            else
+            } else {
                 shield.setDirection((Component.Direction) group.getSelectedToggle().getUserData());
+            }
+            powerGauge.setMaxValue(shield.getMaxPower().value());
         });
 
         ToggleButton btnLoad = new ToggleButton();
@@ -80,5 +90,6 @@ public class ShieldPane extends GridPane implements Refreshable{
     @Override
     public void refresh() {
         gauge.setValue(shield.getLoad().value());
+        powerGauge.setValue(shield.getCurrentPowerFlow().value());
     }
 }

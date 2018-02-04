@@ -62,11 +62,7 @@ public class Phaser extends Component implements Loadable {
     }
 
     @Override
-    public Energy getPotentialEnergyFlow(long msec) {
-        return getPotentialPowerFlow().toEnergy(msec);
-    }
-
-    private Power getPotentialPowerFlow() {
+    public Power getPotentialPowerFlow() {
         if (!isOnline()) {
             return Power.ZERO;
         }

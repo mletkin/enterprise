@@ -27,8 +27,8 @@ public class LifeSupport extends Component {
     }
 
     @Override
-    public Energy getPotentialEnergyFlow(long msec) {
-        return neededPower.toEnergy(msec);
+    public Power getPotentialPowerFlow() {
+        return neededPower;
     }
 
     @Override
@@ -40,4 +40,5 @@ public class LifeSupport extends Component {
     public void load(Energy energy, long msec) {
         current = energy.toPower(msec);
     }
+
 }

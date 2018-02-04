@@ -34,6 +34,11 @@ public class Reactor extends Component {
         return currentFlow;
     }
 
+    @Override
+    public Power getPotentialPowerFlow() {
+        return getCurrentPowerFlow();
+    }
+
     public void setFlow(Power flow) {
         this.currentFlow = flow;
     }

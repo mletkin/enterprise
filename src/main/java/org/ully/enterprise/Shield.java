@@ -15,6 +15,7 @@ public class Shield extends Component implements Loadable {
     private static final Power UNLOADING_POWER = Power.of(5);
 
     private Energy load = Energy.ZERO;
+    private Power currentFlow = Power.ZERO;
 
     /**
      * create a shield with the given name.
@@ -37,6 +38,7 @@ public class Shield extends Component implements Loadable {
 
     @Override
     public void load(Energy energy, long msec) {
+        currentFlow = energy.toPower(msec);
         if (flowDirection == Direction.IN) {
             load = load.add(energy);
         } else {
@@ -56,6 +58,11 @@ public class Shield extends Component implements Loadable {
 
     @Override
     public Power getCurrentPowerFlow() {
+        return currentFlow;
+    }
+
+    @Override
+    public Power getPotentialPowerFlow() {
         if (!isOnline()) {
             return Power.ZERO;
         }
@@ -68,7 +75,7 @@ public class Shield extends Component implements Loadable {
 
     @Override
     public Power getMaxPower() {
-        return LOADING_POWER;
+        return getDirection() == Direction.IN ? LOADING_POWER : UNLOADING_POWER;
     }
 
 }

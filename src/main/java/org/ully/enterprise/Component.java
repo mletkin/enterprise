@@ -69,6 +69,13 @@ public abstract class Component {
     public abstract Power getCurrentPowerFlow();
 
     /**
+     * The Power that might flow currently.
+     *
+     * @return the anticipated power flow
+     */
+    public abstract Power getPotentialPowerFlow();
+
+    /**
      * Maximum power that may flow between component and power system.
      *
      * @return
@@ -83,7 +90,7 @@ public abstract class Component {
      * @return the anticipated energy amount
      */
     public Energy getPotentialEnergyFlow(long msec) {
-        return getCurrentPowerFlow().toEnergy(msec);
+        return getPotentialPowerFlow().toEnergy(msec);
     };
 
     /**
