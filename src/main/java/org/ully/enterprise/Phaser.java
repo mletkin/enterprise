@@ -8,11 +8,19 @@ import org.ully.enterprise.units.Power;
  */
 public class Phaser extends Component implements Loadable {
 
-    private static final Power MAX_UNLOAD = Power.of(1);
+    private static final Power MAX_OUT_POWER = Power.of(5);
+    private static final Power MAX_IN_POWER = Power.of(10);
+
     private static final Energy MAX_LOAD = Energy.of(100);
 
     private Energy load = Energy.ZERO;
+    private Power currentFlow = Power.ZERO;
 
+    /**
+     * Create phaser bank with the given name.
+     *
+     * @param name
+     */
     public Phaser(String name) {
         super(name);
     }
@@ -22,7 +30,6 @@ public class Phaser extends Component implements Loadable {
         return MAX_LOAD;
     }
 
-
     @Override
     public Energy getLoad() {
         return load;
@@ -30,6 +37,7 @@ public class Phaser extends Component implements Loadable {
 
     @Override
     public void load(Energy energy, long msec) {
+        currentFlow = energy.toPower(msec);
         if (flowDirection == Direction.IN) {
             load = load.add(energy);
         } else {
@@ -50,6 +58,15 @@ public class Phaser extends Component implements Loadable {
 
     @Override
     public Power getCurrentPowerFlow() {
+        return currentFlow;
+    }
+
+    @Override
+    public Energy getPotentialEnergyFlow(long msec) {
+        return getPotentialPowerFlow().toEnergy(msec);
+    }
+
+    private Power getPotentialPowerFlow() {
         if (!isOnline()) {
             return Power.ZERO;
         }
@@ -57,12 +74,12 @@ public class Phaser extends Component implements Loadable {
         if (flowDirection == Direction.IN) {
             return !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
         }
-        return  load.ge(Energy.ZERO) ? MAX_UNLOAD : Power.ZERO;
+        return load.ge(Energy.ZERO) ? MAX_OUT_POWER : Power.ZERO;
     }
 
     @Override
     public Power getMaxPower() {
-        return Power.of(10);
+        return flowDirection == Direction.IN ? MAX_IN_POWER : MAX_OUT_POWER;
     }
 
 }

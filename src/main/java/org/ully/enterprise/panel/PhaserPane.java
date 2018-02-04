@@ -20,27 +20,39 @@ import javafx.scene.paint.Color;
 
 public class PhaserPane extends GridPane implements Refreshable {
 
-    private Gauge gauge;
     private Phaser phaser;
+    private Gauge loadGauge;
+    private Gauge powerGauge;
 
+    /**
+     * Create a monitoring panel for a phaser bank.
+     *
+     * @param phaser
+     */
     public PhaserPane(Phaser phaser) {
         super();
         this.phaser = phaser;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(), 0, 0);
+        add(mkLoadGauge(), 0, 0);
+        add(mkPowerGauge(), 1, 0);
         add(unloadGroup(), 0, 1);
         add(mkFireBtn(), 1, 1);
     }
 
-    private Gauge mkGauge() {
-        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .knobType(KnobType.PLAIN) // Type for center knob (STANDARD, PLAIN, METAL, FLAT)
-                .knobColor(btnColor()) // Color of center knob
-                .interactive(true) // Should center knob be act as button
-                .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
-                .title(phaser.getName()).subTitle("phaser").unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value()).build();
-        return gauge;
+    private Gauge mkLoadGauge() {
+        loadGauge = GaugeBuilder.create().skinType(SkinType.GAUGE) //
+                .knobType(KnobType.PLAIN).knobColor(btnColor()).interactive(true)
+                .onButtonReleased(buttonEvent -> toggle()) //
+                .title(phaser.getName()).subTitle("phaser").unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value())
+                .build();
+        return loadGauge;
+    }
+
+    private Gauge mkPowerGauge() {
+        powerGauge = GaugeBuilder.create().skinType(SkinType.LINEAR) //
+                .title("pwr").unit(Energy.SYMBOL).maxValue(phaser.getMaxPower().value()).build();
+        return powerGauge;
     }
 
     private Node mkFireBtn() {
@@ -52,7 +64,7 @@ public class PhaserPane extends GridPane implements Refreshable {
 
     private Object toggle() {
         phaser.toggle();
-        gauge.setKnobColor(btnColor());
+        loadGauge.setKnobColor(btnColor());
         return null;
     }
 
@@ -64,10 +76,12 @@ public class PhaserPane extends GridPane implements Refreshable {
         GridPane pane = new GridPane();
         ToggleGroup group = new ToggleGroup();
         group.selectedToggleProperty().addListener((ChangeListener<Toggle>) (ov, toggle, new_toggle) -> {
-            if (new_toggle == null)
+            if (new_toggle == null) {
                 phaser.setDirection(Component.Direction.IN);
-            else
+            } else {
                 phaser.setDirection((Component.Direction) group.getSelectedToggle().getUserData());
+            }
+            powerGauge.setMaxValue(phaser.getMaxPower().value());
         });
 
         ToggleButton btnLoad = new ToggleButton();
@@ -89,6 +103,7 @@ public class PhaserPane extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        gauge.setValue(phaser.getLoad().value());
+        loadGauge.setValue(phaser.getLoad().value());
+        powerGauge.setValue(phaser.getCurrentPowerFlow().value());
     }
 }
