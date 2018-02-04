@@ -11,7 +11,7 @@ import javafx.stage.WindowEvent;
 public class Dashboard extends Application {
 
     private Starship ship = new Starship();
-    private EnergyPanel grid;
+    private EnergyPanel energyPanel;
 
     public static void main(String[] args) {
         launch(args);
@@ -20,14 +20,15 @@ public class Dashboard extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Energy panel");
-
-        grid = new EnergyPanel(ship);
-        Scene scene = new Scene(grid, 900, 500);
+        energyPanel = new EnergyPanel(ship);
+        Scene scene = new Scene(energyPanel, 900, 1000);
         stage.setOnCloseRequest(this::shutdown);
         stage.setScene(scene);
         stage.show();
         ship.powerUp();
         mkTimer().start();
+
+        mkEnvironment(stage).show();
     }
 
     long lastTimerCall = System.nanoTime();
@@ -36,7 +37,7 @@ public class Dashboard extends Application {
             @Override
             public void handle(long now) {
                 if (now > lastTimerCall + 1_000_000L) {
-                    grid.refresh();
+                    energyPanel.refresh();
                     lastTimerCall = now;
                 }
             }
@@ -46,5 +47,21 @@ public class Dashboard extends Application {
 
     private void shutdown(WindowEvent e) {
         this.ship.powerDown();
+    }
+
+
+    private Stage mkEnvironment(Stage opener) {
+        EnvironmentPanel panel = new EnvironmentPanel(ship);
+        Scene scene = new Scene(panel, 200, 100);
+
+        Stage stage = new Stage();
+        stage.setTitle("Environment emulation");
+        stage.setScene(scene);
+
+        // Set position of second window, related to primary window.
+        stage.setX(opener.getX() + 250);
+        stage.setY(opener.getY() + 100);
+
+        return stage;
     }
 }
