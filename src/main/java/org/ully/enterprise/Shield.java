@@ -42,12 +42,12 @@ public class Shield extends Component implements Loadable {
         } else {
             load = load.sub(energy);
         }
-        load = load.sub(getEntropy(msec));
+        load = load.sub(getEntropy().toEnergy(msec));
         load = load.le(Energy.ZERO) ? Energy.ZERO : load;
     }
 
-    private Energy getEntropy(long msec) {
-        return Power.of(1).toEnergy(msec);
+    private Power getEntropy() {
+        return Power.of(1);
     }
 
     public void setDirection(Direction direction) {
@@ -61,7 +61,7 @@ public class Shield extends Component implements Loadable {
         }
 
         if (flowDirection == Direction.IN) {
-            return !load.ge(MAX_LOAD) ? LOADING_POWER : Power.ZERO;
+            return !load.ge(MAX_LOAD) ? LOADING_POWER : getEntropy();
         }
         return load.le(Energy.ZERO) ? Power.ZERO : UNLOADING_POWER;
     }
