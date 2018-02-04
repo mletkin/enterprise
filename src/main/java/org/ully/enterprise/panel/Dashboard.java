@@ -2,6 +2,7 @@ package org.ully.enterprise.panel;
 
 import org.ully.enterprise.Starship;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,7 +12,6 @@ public class Dashboard extends Application {
 
     private Starship ship = new Starship();
     private EnergyPanel grid;
-    private Thread refreshThread = mkRefreshThread();
 
     public static void main(String[] args) {
         launch(args);
@@ -27,29 +27,24 @@ public class Dashboard extends Application {
         stage.setScene(scene);
         stage.show();
         ship.powerUp();
-        refreshThread.start();
+        mkTimer().start();
     }
 
-    private Thread mkRefreshThread() {
-        return new Thread() {
+    long lastTimerCall = System.nanoTime();
+    private AnimationTimer mkTimer() {
+        AnimationTimer timer = new AnimationTimer() {
             @Override
-            public void run() {
-                super.run();
-                for (;;) {
+            public void handle(long now) {
+                if (now > lastTimerCall + 1_000_000L) {
                     grid.refresh();
-                    try {
-                        sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        break;
-                    }
+                    lastTimerCall = now;
                 }
             }
         };
+        return timer;
     }
 
     private void shutdown(WindowEvent e) {
         this.ship.powerDown();
-        refreshThread.stop();
     }
 }
