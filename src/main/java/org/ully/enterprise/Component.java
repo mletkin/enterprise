@@ -18,18 +18,36 @@ public abstract class Component {
         IN, OUT;
     }
 
-    Component(String name) {
+    /**
+     * create a component with the given name.
+     *
+     * @param name
+     */
+    protected Component(String name) {
         this.name = name;
     }
 
+    /**
+     * get the name of the component.
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Toggle online state.
+     */
     public void toggle() {
         online = !online;
     }
 
+    /**
+     * is the component online?
+     *
+     * @return
+     */
     public boolean isOnline() {
         return online;
     }
