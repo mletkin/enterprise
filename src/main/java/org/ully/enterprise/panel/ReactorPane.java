@@ -60,8 +60,8 @@ public class ReactorPane extends GridPane implements Refreshable {
     public void refresh() {
         gauge.setValue(reactor.getCurrentPowerFlow().value());
 
-        if (!reactor.getCurrentPowerFlow().eqls(reactor.getWantedFlow())
-                && !Power.of(gauge.getThreshold()).eqls(reactor.getWantedFlow())) {
+        if (!reactor.getCurrentPowerFlow().equals(reactor.getWantedFlow())
+                && !Power.of(gauge.getThreshold()).equals(reactor.getWantedFlow())) {
             gauge.setThreshold(reactor.getWantedFlow().value());
         }
 

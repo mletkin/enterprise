@@ -25,10 +25,6 @@ public class Energy extends PhysicalUnit {
         return Power.of(value * 1000 / msec);
     }
 
-    public Energy scale(long msec) {
-        return new Energy(this.value * msec / 1000);
-    }
-
     public Energy add(Energy energy) {
         return new Energy(value + energy.value);
     }
@@ -43,6 +39,14 @@ public class Energy extends PhysicalUnit {
 
     public boolean ge(Energy energy) {
         return value >= energy.value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Energy) {
+            return super.equals(obj);
+        }
+        return false;
     }
 
 }

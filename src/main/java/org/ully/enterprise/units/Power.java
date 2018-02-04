@@ -23,8 +23,22 @@ public class Power extends PhysicalUnit {
         return SYMBOL;
     }
 
+    /**
+     * The energy of the power, applied over the given time.
+     *
+     * @param msec
+     *            time in milliseconds
+     * @return the collected energy
+     */
     public Energy toEnergy(long msec) {
         return Energy.of(value / 1000 * msec);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Power) {
+            return super.equals(obj);
+        }
+        return false;
+    }
 }
