@@ -8,25 +8,32 @@ import org.ully.enterprise.units.Power;
  */
 public class LifeSupport extends Component {
 
-    Power max = Power.of(10);
+    Power maxPower = Power.of(10);
+    Power neededPower = Power.of(5);
     Power current = Power.ZERO;
 
+    /**
+     * Create a life support system with the given name.
+     *
+     * @param name of the component
+     */
     LifeSupport(String name) {
         super(name);
     }
 
     @Override
     public Power getCurrentPowerFlow() {
-        return Power.of(5);
+        return current;
+    }
+
+    @Override
+    public Energy getPotentialEnergyFlow(long msec) {
+        return neededPower.toEnergy(msec);
     }
 
     @Override
     public Power getMaxPower() {
-        return max;
-    }
-
-    public Power getPower() {
-        return current;
+        return maxPower;
     }
 
     @Override

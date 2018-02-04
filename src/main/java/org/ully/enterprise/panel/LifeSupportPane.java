@@ -47,6 +47,6 @@ public class LifeSupportPane extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        gauge.setValue(system.getPower().value());
+        gauge.setValue(system.getCurrentPowerFlow().value());
     }
 }
