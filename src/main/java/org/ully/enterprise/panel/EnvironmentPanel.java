@@ -2,8 +2,12 @@ package org.ully.enterprise.panel;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Starship;
-import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.environment.Stress;
+import org.ully.enterprise.environment.StressEmulator;
+import org.ully.enterprise.units.Power;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -17,9 +21,11 @@ import javafx.scene.layout.GridPane;
  */
 public class EnvironmentPanel extends GridPane implements Refreshable {
 
-    private Slider sternSlider = mkSlider();
-    private Slider bowSlider = mkSlider();
-    private Starship ship;
+    private Slider sternPowerSlider = mkSlider();
+    private Slider sternTimeSlider = mkTimeSlider();
+
+    private Slider bowPowerSlider = mkSlider();
+    private Slider bowTimeSlider = mkTimeSlider();
 
     /**
      * create panel.
@@ -29,20 +35,36 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
     public EnvironmentPanel(Starship ship) {
         super();
 
-        this.ship = ship;
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
 
         add(new Label("stern shield"), 0, 0);
-        add(sternSlider, 1, 0);
-        add(mkBtn(ship.shieldStern, sternSlider), 2, 0);
+        add(new Label("pwr"), 0, 1);
+        add(sternPowerSlider, 1, 1);
+        add(new Label("msecr"), 0, 2);
+        add(sternTimeSlider, 1, 2);
+        add(mkBtn(ship.shieldStern, sternPowerSlider, sternTimeSlider), 2, 2);
 
-        add(new Label("bow shield"), 0, 1);
-        add(bowSlider, 1, 1);
-        add(mkBtn(ship.shieldBow, bowSlider), 2, 1);
+        add(new Label("bow shield"), 0, 3);
+        add(bowPowerSlider, 1, 3);
+        add(new Label("msecr"), 0, 4);
+        add(bowTimeSlider, 1, 4);
+        add(mkBtn(ship.shieldBow, bowPowerSlider, bowTimeSlider), 2, 4);
+    }
 
+    private Slider mkTimeSlider() {
+        Slider slider = new Slider();
+        slider.setMin(100);
+        slider.setMax(2000);
+        slider.setValue(100);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(100);
+        slider.setBlockIncrement(100);
+        slider.setOrientation(Orientation.HORIZONTAL);
+        return slider;
     }
 
     private Slider mkSlider() {
@@ -58,10 +80,18 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
         return slider;
     }
 
-    private Button mkBtn(Component component, Slider slider) {
+    private Button mkBtn(Component component, Slider powerSlider, Slider timeSlider) {
         Button btn = new Button("fire");
-        btn.setOnAction(e -> component.load(Energy.of(-slider.getValue()), 1000));
+        EventHandler<ActionEvent> action = e -> stress(component, Power.of(powerSlider.getValue()), (long)timeSlider.getValue());
+        btn.setOnAction(action);
         return btn;
+    }
+
+    private void stress(Component component, Power power, long msec) {
+        Stress stress = new Stress(component);
+        stress.setPower(power);
+        stress.setMilliseconds(msec);
+        StressEmulator.emulate(stress);
     }
 
     /**

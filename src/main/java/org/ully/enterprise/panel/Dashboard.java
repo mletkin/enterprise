@@ -52,15 +52,15 @@ public class Dashboard extends Application {
 
     private Stage mkEnvironment(Stage opener) {
         EnvironmentPanel panel = new EnvironmentPanel(ship);
-        Scene scene = new Scene(panel, 200, 100);
+        Scene scene = new Scene(panel, 350, 300);
 
         Stage stage = new Stage();
         stage.setTitle("Environment emulation");
         stage.setScene(scene);
 
         // Set position of second window, related to primary window.
-        stage.setX(opener.getX() + 250);
-        stage.setY(opener.getY() + 100);
+        stage.setX(opener.getX() + opener.getWidth());
+        stage.setY(opener.getY());
 
         return stage;
     }

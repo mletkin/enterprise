@@ -19,7 +19,7 @@ public abstract class Component {
     }
 
     /**
-     * create a component with the given name.
+     * Create a component with the given name.
      *
      * @param name
      */
@@ -28,7 +28,7 @@ public abstract class Component {
     }
 
     /**
-     * get the name of the component.
+     * The name of the component.
      *
      * @return
      */
@@ -37,14 +37,14 @@ public abstract class Component {
     }
 
     /**
-     * Toggle online state.
+     * Toggles the online state.
      */
     public void toggle() {
         online = !online;
     }
 
     /**
-     * is the component online?
+     * Is the component online?
      *
      * @return
      */
@@ -53,7 +53,7 @@ public abstract class Component {
     }
 
     /**
-     * Returns the current flow direction.
+     * The current flow direction.
      *
      * @return the current flow direction
      */
@@ -62,7 +62,7 @@ public abstract class Component {
     }
 
     /**
-     * Power that currently flows between component and power system.
+     * The power that currently flows between component and power system.
      *
      * @return
      */
@@ -85,7 +85,7 @@ public abstract class Component {
     /**
      * The Energy that might flow in the time interval ahead.
      *
-     * @param msec
+     * @param duration
      *            the next milliseconds to consider.
      * @return the anticipated energy amount
      */
@@ -94,13 +94,26 @@ public abstract class Component {
     };
 
     /**
-     * Supply or consume the Energy in the time interval ahead.
+     * Supply or consume the Energy through the connected circuit in the time
+     * interval ahead.
      *
      * @param energy
-     *            the energy amunt to supply/consume
+     *            the energy amount to supply/consume
      * @param msec
      *            the length of the time interval in milliseconss
      */
     public abstract void load(Energy energy, long msec);
+
+    /**
+     * Draw energy from the component.
+     *
+     * @param power
+     *            the power amount to drain
+     * @param msec
+     *            the length of the time interval in milliseconss
+     */
+    public void drain(Power power, long msec) {
+
+    };
 
 }

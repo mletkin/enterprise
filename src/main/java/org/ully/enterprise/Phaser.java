@@ -78,4 +78,9 @@ public class Phaser extends Component implements Loadable {
         return flowDirection == Direction.IN ? MAX_IN_POWER : MAX_OUT_POWER;
     }
 
+    @Override
+    public void drain(Power power, long msec) {
+        load.sub(power.toEnergy(msec));
+    }
+
 }

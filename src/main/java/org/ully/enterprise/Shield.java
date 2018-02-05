@@ -10,6 +10,7 @@ import org.ully.enterprise.units.Power;
  */
 public class Shield extends Component implements Loadable {
 
+    private static final Power ENTROPY = Power.of(1);
     private static final Energy MAX_LOAD = Energy.of(100);
     private static final Power LOADING_POWER = Power.of(10);
     private static final Power UNLOADING_POWER = Power.of(5);
@@ -49,7 +50,7 @@ public class Shield extends Component implements Loadable {
     }
 
     private Power getEntropy() {
-        return Power.of(1);
+        return ENTROPY;
     }
 
     public void setDirection(Direction direction) {
@@ -68,7 +69,7 @@ public class Shield extends Component implements Loadable {
         }
 
         if (flowDirection == Direction.IN) {
-            return !load.ge(MAX_LOAD) ? LOADING_POWER : getEntropy();
+            return MAX_LOAD.ge(load) ? LOADING_POWER : getEntropy();
         }
         return load.le(Energy.ZERO) ? Power.ZERO : UNLOADING_POWER;
     }
@@ -78,4 +79,8 @@ public class Shield extends Component implements Loadable {
         return getDirection() == Direction.IN ? LOADING_POWER : UNLOADING_POWER;
     }
 
+    @Override
+    public void drain(Power power, long msec) {
+        load = load.sub(power.toEnergy(msec));
+    }
 }
