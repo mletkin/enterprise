@@ -85,6 +85,8 @@ public class Shield extends Component implements Loadable {
 
     @Override
     public void internal(long msec) {
-        load = load.sub(getEntropy().toEnergy(msec));
+        if (!load.equals(Energy.ZERO)) {
+            load = load.sub(getEntropy().toEnergy(msec));
+        }
     }
 }
