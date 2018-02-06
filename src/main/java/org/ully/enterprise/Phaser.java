@@ -52,6 +52,11 @@ public class Phaser extends Component implements Loadable {
         load = Energy.ZERO;
     }
 
+    /**
+     * Sets the direction in which the energy flows currently.
+     *
+     * @param power flow direction
+     */
     public void setDirection(Direction direction) {
         flowDirection = direction;
     }
@@ -70,7 +75,7 @@ public class Phaser extends Component implements Loadable {
         if (flowDirection == Direction.IN) {
             return !load.ge(MAX_LOAD) ? Power.of(100 / (10 + load.value())) : Power.ZERO;
         }
-        return load.ge(Energy.ZERO) ? MAX_OUT_POWER : Power.ZERO;
+        return load.ge(Energy.ZERO) ?MAX_OUT_POWER : Power.ZERO;
     }
 
     @Override

@@ -5,7 +5,14 @@ import org.ully.enterprise.energy.PowerFlowEmulator;
 import org.ully.enterprise.units.Power;
 
 /**
- * Configuration for a galaxy class starship
+ * Configuration for a galaxy class starship.
+ *
+ * <ul>
+ * <li>The starship contains power consuming and supplying components.
+ * <li>The components are connected through (energy) circuits.
+ * <li>The circuits are seperated and not connected.
+ * <li>A single poewer emulator emulates he energy flow within all the circuits.
+ * </ul>
  */
 public class Starship {
 
@@ -34,6 +41,9 @@ public class Starship {
 
     private PowerFlowEmulator PowerFlowEmulator;
 
+    /**
+     * Starts the energy flow emulation.
+     */
     public void powerUp() {
         if (PowerFlowEmulator == null) {
             PowerFlowEmulator = new PowerFlowEmulator(mainPowerCircuit, lifePowerCircuit);
@@ -41,6 +51,9 @@ public class Starship {
         PowerFlowEmulator.start();
     }
 
+    /**
+     * Stops the energy flow emulation.
+     */
     public void powerDown() {
         if (PowerFlowEmulator != null) {
             PowerFlowEmulator.stop();
