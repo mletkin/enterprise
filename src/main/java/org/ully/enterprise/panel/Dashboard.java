@@ -29,15 +29,18 @@ public class Dashboard extends Application {
         mkTimer().start();
 
         mkEnvironment(stage).show();
+        mkHelm(stage).show();
     }
 
     long lastTimerCall = System.nanoTime();
+    private HelmPanel helmPanel;
     private AnimationTimer mkTimer() {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (now > lastTimerCall + 1_000_000L) {
                     energyPanel.refresh();
+                    helmPanel.refresh();
                     lastTimerCall = now;
                 }
             }
@@ -48,7 +51,6 @@ public class Dashboard extends Application {
     private void shutdown(WindowEvent e) {
         this.ship.powerDown();
     }
-
 
     private Stage mkEnvironment(Stage opener) {
         EnvironmentPanel panel = new EnvironmentPanel(ship);
@@ -64,4 +66,20 @@ public class Dashboard extends Application {
 
         return stage;
     }
+
+    private Stage mkHelm(Stage opener) {
+        helmPanel = new HelmPanel(ship);
+        Scene scene = new Scene(helmPanel, 350, 300);
+
+        Stage stage = new Stage();
+        stage.setTitle("helm panel");
+        stage.setScene(scene);
+
+        // Set position of second window, related to primary window.
+        stage.setX(opener.getX() + opener.getWidth());
+        stage.setY(400);
+
+        return stage;
+    }
+
 }
