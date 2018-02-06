@@ -10,7 +10,8 @@ public class WarpEngine extends Component {
 
     Power maxPower = Power.of(10);
     Power currentPower = Power.ZERO;
-    Power wantedPower = maxPower;
+    Power wantedPower = Power.ZERO;
+    Power potentialPower = Power.ZERO;
 
     /**
      * create a warp engine with the given name.
@@ -38,7 +39,7 @@ public class WarpEngine extends Component {
 
     @Override
     public Power getPotentialPowerFlow() {
-        return isOnline() ? wantedPower : Power.ZERO;
+        return isOnline() ? potentialPower : Power.ZERO;
     }
 
     public Power setWantedPowerFlow(Power wantedPower) {
@@ -49,4 +50,11 @@ public class WarpEngine extends Component {
         return wantedPower;
     }
 
+    @Override
+    public void internal(long msec) {
+        double current = getCurrentPowerFlow().value();
+        double wanted = getWantedPowerFlow().value();
+
+        potentialPower = Power.of(current + (wanted - current) / 1000 * msec);
+    }
 }

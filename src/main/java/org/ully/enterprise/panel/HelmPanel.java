@@ -20,6 +20,7 @@ import javafx.scene.layout.GridPane;
  */
 public class HelmPanel extends GridPane {
 
+    private static final double WARP_FACTOR = 2; // E / Warp
     private Starship ship;
     private Gauge leftGauge;
     private Gauge rightGauge;
@@ -49,6 +50,7 @@ public class HelmPanel extends GridPane {
 
     private Gauge mkGauge(WarpEngine engine) {
         return GaugeBuilder.create().skinType(SkinType.HORIZONTAL) //
+                .thresholdVisible(true)//
                 .title(engine.getName()).subTitle("warp").unit("W").maxValue(12).build();
     }
 
@@ -88,8 +90,8 @@ public class HelmPanel extends GridPane {
 
 
     private void setEnergy(double speed, double balance) {
-        ship.warpLeft.setWantedPowerFlow(Power.of(speed * (1 - balance / 100)));
-        ship.warpRight.setWantedPowerFlow(Power.of(speed * (1 + balance / 100)));
+        ship.warpLeft.setWantedPowerFlow(Power.of(speed * (1 - balance / 100) * WARP_FACTOR));
+        ship.warpRight.setWantedPowerFlow(Power.of(speed * (1 + balance / 100) * WARP_FACTOR));
     }
 
     private Button mkCenterBtn() {
@@ -105,8 +107,11 @@ public class HelmPanel extends GridPane {
     public void refresh() {
         double balance = this.balance.getValue();
 
-        leftGauge.setValue(ship.warpLeft.getCurrentPowerFlow().value() * 0.8 * (1 - balance/100));
-        rightGauge.setValue(ship.warpRight.getCurrentPowerFlow().value() * 0.8 * (1 + balance/100));
+        leftGauge.setValue(ship.warpLeft.getCurrentPowerFlow().value() / WARP_FACTOR * (1 - balance/100));
+        leftGauge.setThreshold(ship.warpLeft.getWantedPowerFlow().value()/ WARP_FACTOR * (1 - balance/100));
+
+        rightGauge.setValue(ship.warpRight.getCurrentPowerFlow().value() / WARP_FACTOR * (1 + balance/100));
+        rightGauge.setThreshold(ship.warpRight.getWantedPowerFlow().value()/ WARP_FACTOR * (1 + balance/100));
     }
 
 }
