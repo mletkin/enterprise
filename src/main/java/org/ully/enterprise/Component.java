@@ -113,7 +113,17 @@ public abstract class Component {
      *            the length of the time interval in milliseconss
      */
     public void drain(Power power, long msec) {
-
+        // does nothing by default
     };
+
+    /**
+     * Internal change during a time interval.
+     *
+     * @param msec
+     *            the length of the time interval in milliseconss
+     */
+    public void internal(long msec) {
+        // does nothing by default
+    }
 
 }

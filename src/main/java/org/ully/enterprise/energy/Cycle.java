@@ -1,9 +1,7 @@
 package org.ully.enterprise.energy;
 
 import org.ully.enterprise.Component;
-import org.ully.enterprise.Reactor;
 import org.ully.enterprise.units.Energy;
-import org.ully.enterprise.units.Power;
 
 /**
  * What happens within a single loading/discharge cycle for a circuit.
@@ -33,8 +31,7 @@ public class Cycle {
 
         circuit.getConsumer().forEach(s -> this.supplyEnergy(s, supplyQuotient, msec));
         circuit.getSupplier().forEach(s -> this.consumeEnergy(s, consumeQuotient, msec));
-
-        circuit.getReactors().forEach(r -> adjustReactor(r, msec));
+        circuit.getComponents().forEach(c -> c.internal(msec));
     }
 
     private double energySupplied(long msec) {
@@ -49,13 +46,6 @@ public class Cycle {
                 .map(c -> c.getPotentialEnergyFlow(msec)) //
                 .mapToDouble(Energy::value)//
                 .sum();
-    }
-
-    private void adjustReactor(Reactor supplier, long msec) {
-        double current = supplier.getCurrentPowerFlow().value();
-        double wanted = supplier.getWantedFlow().value();
-
-        supplier.setFlow(Power.of(current + (wanted - current) / 1000 * msec));
     }
 
     private void supplyEnergy(Component s, double fraction, long msec) {

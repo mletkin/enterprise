@@ -45,7 +45,6 @@ public class Shield extends Component implements Loadable {
         } else {
             load = load.sub(energy);
         }
-        load = load.sub(getEntropy().toEnergy(msec));
         load = load.le(Energy.ZERO) ? Energy.ZERO : load;
     }
 
@@ -82,5 +81,10 @@ public class Shield extends Component implements Loadable {
     @Override
     public void drain(Power power, long msec) {
         load = load.sub(power.toEnergy(msec));
+    }
+
+    @Override
+    public void internal(long msec) {
+        load = load.sub(getEntropy().toEnergy(msec));
     }
 }

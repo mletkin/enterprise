@@ -53,7 +53,14 @@ public class Reactor extends Component {
 
     @Override
     public void load(Energy energy, long msec) {
-        // loading ha sno effect
+        // loading has no effect
     }
 
+    @Override
+    public void internal(long msec) {
+        double current = getCurrentPowerFlow().value();
+        double wanted = getWantedFlow().value();
+
+        setFlow(Power.of(current + (wanted - current) / 1000 * msec));
+    }
 }
