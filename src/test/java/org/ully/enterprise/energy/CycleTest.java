@@ -39,14 +39,14 @@ public class CycleTest {
         Circuit c = new Circuit(src, dst);
         new Cycle(c).calculate(1000);
 
-        Assert.assertEquals(3.0, src.getLoad().value(), 0.1d);
+        Assert.assertEquals(4.0, src.getLoad().value(), 0.1d);
         Assert.assertEquals(4.0, dst.getLoad().value(), 0.1d);
     }
 
     @Test
     public void unloadFromOnePhaserToTheOther() {
         Phaser src = new Phaser("");
-        src.load(Energy.of(1), 1000);
+        src.load(Energy.of(10), 1000);
         src.setDirection(Direction.OUT);
 
         Phaser dest = new Phaser("");
@@ -55,8 +55,8 @@ public class CycleTest {
         Circuit c = new Circuit(src, dest);
 
         new Cycle(c).calculate(1000);
-        Assert.assertEquals(0.0, src.getLoad().value(), 0.1d);
-        Assert.assertEquals(1.0, dest.getLoad().value(), 0.1d);
+        Assert.assertEquals(5.0, src.getLoad().value(), 0.1d);
+        Assert.assertEquals(5.0, dest.getLoad().value(), 0.1d);
     }
 
     @Test
