@@ -37,4 +37,25 @@ public abstract class PhysicalUnit {
         return false;
     }
 
+    /**
+     * Calculate maximum of two unit ojects.
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public static <T extends PhysicalUnit> T min(T a, T b) {
+        return (a.value < b.value) ? a : b;
+    }
+
+    /**
+     * calculate maximum of two unit ojects.
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    public static <T extends PhysicalUnit> T max(T a, T b) {
+        return (a.value > b.value) ? a : b;
+    }
 }
