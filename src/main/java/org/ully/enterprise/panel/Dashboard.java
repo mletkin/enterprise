@@ -1,6 +1,9 @@
 package org.ully.enterprise.panel;
 
 import org.ully.enterprise.Starship;
+import org.ully.enterprise.panel.energy.EnergyPanel;
+import org.ully.enterprise.panel.environment.EnvironmentPanel;
+import org.ully.enterprise.panel.helm.HelmPanel;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

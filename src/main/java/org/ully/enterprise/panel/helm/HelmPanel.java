@@ -1,4 +1,4 @@
-package org.ully.enterprise.panel;
+package org.ully.enterprise.panel.helm;
 
 import org.ully.enterprise.Starship;
 import org.ully.enterprise.WarpEngine;

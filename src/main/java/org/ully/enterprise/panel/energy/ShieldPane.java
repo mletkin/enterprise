@@ -1,7 +1,8 @@
-package org.ully.enterprise.panel;
+package org.ully.enterprise.panel.energy;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Shield;
+import org.ully.enterprise.panel.Refreshable;
 import org.ully.enterprise.units.Energy;
 
 import eu.hansolo.medusa.Gauge;

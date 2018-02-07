@@ -1,9 +1,10 @@
-package org.ully.enterprise.panel;
+package org.ully.enterprise.panel.environment;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Starship;
 import org.ully.enterprise.environment.Stress;
 import org.ully.enterprise.environment.StressEmulator;
+import org.ully.enterprise.panel.Refreshable;
 import org.ully.enterprise.units.Power;
 
 import javafx.event.ActionEvent;

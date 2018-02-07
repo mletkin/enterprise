@@ -1,6 +1,7 @@
-package org.ully.enterprise.panel;
+package org.ully.enterprise.panel.energy;
 
 import org.ully.enterprise.WarpEngine;
+import org.ully.enterprise.panel.Refreshable;
 import org.ully.enterprise.units.Power;
 
 import eu.hansolo.medusa.Gauge;
