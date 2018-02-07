@@ -2,7 +2,6 @@ package org.ully.enterprise.panel;
 
 import org.ully.enterprise.Starship;
 import org.ully.enterprise.WarpEngine;
-import org.ully.enterprise.units.Power;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
@@ -20,7 +19,6 @@ import javafx.scene.layout.GridPane;
  */
 public class HelmPanel extends GridPane {
 
-    private static final double WARP_FACTOR = 2; // E / Warp
     private Starship ship;
     private Gauge leftGauge;
     private Gauge rightGauge;
@@ -66,7 +64,7 @@ public class HelmPanel extends GridPane {
         slider.setOrientation(Orientation.HORIZONTAL);
         slider.valueProperty().addListener(//
                 (ChangeListener<Number>) (observable, oldValue, newValue) -> {
-                    setEnergy(newValue.doubleValue(), this.balance.getValue());
+                    setWarpFactor(newValue.doubleValue(), this.balance.getValue());
                 });
         return slider;
     }
@@ -83,15 +81,15 @@ public class HelmPanel extends GridPane {
         slider.setOrientation(Orientation.HORIZONTAL);
         slider.valueProperty().addListener(//
                 (ChangeListener<Number>) (observable, oldValue, newValue) -> {
-                    setEnergy(warp.getValue(), newValue.doubleValue());
+                    setWarpFactor(warp.getValue(), newValue.doubleValue());
                 });
         return slider;
     }
 
 
-    private void setEnergy(double speed, double balance) {
-        ship.warpLeft.setWantedPowerFlow(Power.of(speed * (1 - balance / 100) * WARP_FACTOR));
-        ship.warpRight.setWantedPowerFlow(Power.of(speed * (1 + balance / 100) * WARP_FACTOR));
+    private void setWarpFactor(double speed, double balance) {
+        ship.warpLeft.setWantedWarp(speed * (1 - balance / 100));
+        ship.warpRight.setWantedWarp(speed * (1 + balance / 100));
     }
 
     private Button mkCenterBtn() {
@@ -105,13 +103,11 @@ public class HelmPanel extends GridPane {
      * Refresh all panels on the grid.
      */
     public void refresh() {
-        double balance = this.balance.getValue();
+        leftGauge.setValue(ship.warpLeft.getCurrentWarp());
+        leftGauge.setThreshold(ship.warpLeft.getWantedWarp());
 
-        leftGauge.setValue(ship.warpLeft.getCurrentPowerFlow().value() / WARP_FACTOR * (1 - balance/100));
-        leftGauge.setThreshold(ship.warpLeft.getWantedPowerFlow().value()/ WARP_FACTOR * (1 - balance/100));
-
-        rightGauge.setValue(ship.warpRight.getCurrentPowerFlow().value() / WARP_FACTOR * (1 + balance/100));
-        rightGauge.setThreshold(ship.warpRight.getWantedPowerFlow().value()/ WARP_FACTOR * (1 + balance/100));
+        rightGauge.setValue(ship.warpRight.getCurrentWarp());
+        rightGauge.setThreshold(ship.warpRight.getWantedWarp());
     }
 
 }

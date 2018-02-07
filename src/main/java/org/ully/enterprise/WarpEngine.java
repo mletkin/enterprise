@@ -8,6 +8,8 @@ import org.ully.enterprise.units.Power;
  */
 public class WarpEngine extends Component {
 
+    private static final double WARP_FACTOR = 2; // == Power / Warp
+
     Power maxPower = Power.of(10);
     Power currentPower = Power.ZERO;
     Power wantedPower = Power.ZERO;
@@ -57,4 +59,17 @@ public class WarpEngine extends Component {
 
         potentialPower = Power.of(current + (wanted - current) / 1000 * msec);
     }
+
+    public double getWantedWarp() {
+        return getWantedPowerFlow().value() / WARP_FACTOR;
+    }
+
+    public void setWantedWarp(double warp) {
+        setWantedPowerFlow(Power.of(warp  * WARP_FACTOR));
+    }
+
+    public double getCurrentWarp() {
+        return getCurrentPowerFlow().value() / WARP_FACTOR;
+    }
+
 }
