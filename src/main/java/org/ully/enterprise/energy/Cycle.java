@@ -29,9 +29,9 @@ public class Cycle {
         double supplyQuotient = getQuotientSupplied(required, available);
         double consumeQuotient = getQuotientConsumed(required, available);
 
+        circuit.getComponents().forEach(c -> c.internal(msec));
         circuit.getConsumer().forEach(s -> this.supplyEnergy(s, supplyQuotient, msec));
         circuit.getSupplier().forEach(s -> this.consumeEnergy(s, consumeQuotient, msec));
-        circuit.getComponents().forEach(c -> c.internal(msec));
     }
 
     private double energySupplied(long msec) {

@@ -40,7 +40,7 @@ public class CycleTest {
         new Cycle(c).calculate(1000);
 
         Assert.assertEquals(4.0, src.getLoad().value(), 0.1d);
-        Assert.assertEquals(4.0, dst.getLoad().value(), 0.1d);
+        Assert.assertEquals(5.0, dst.getLoad().value(), 0.1d);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class CycleTest {
 
         new Cycle(c).calculate(1000);
 
-        Assert.assertEquals(4.0, s1.getLoad().value(), 0.1d);
+        Assert.assertEquals(5.0, s1.getLoad().value(), 0.1d);
         Assert.assertEquals(5.0, p1.getLoad().value(), 0.1d);
     }
 
@@ -79,7 +79,7 @@ public class CycleTest {
 
         new Cycle(c).calculate(1000);
 
-        Assert.assertEquals(1.5, s1.getLoad().value(), 0.001d);
+        Assert.assertEquals(2.5, s1.getLoad().value(), 0.001d);
         Assert.assertEquals(2.5, p1.getLoad().value(), 0.001d);
     }
 
