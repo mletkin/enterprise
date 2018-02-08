@@ -29,17 +29,19 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
     private Slider bowTimeSlider = mkTimeSlider();
 
     /**
-     * create panel.
+     * create environment emulating panel.
      *
      * @param starship
+     * @param gridVisible
      */
-    public EnvironmentPanel(Starship ship) {
+    public EnvironmentPanel(Starship ship, boolean gridVisible) {
         super();
 
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
+        setGridLinesVisible(gridVisible);
 
         add(new Label("stern shield"), 0, 0);
         add(new Label("pwr"), 0, 1);

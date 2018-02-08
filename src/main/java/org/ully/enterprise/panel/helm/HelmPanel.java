@@ -28,9 +28,10 @@ public class HelmPanel extends GridPane {
     /**
      * create the helm panel.
      *
-     * @param starship
+     * @param ship
+     * @param gridVisible
      */
-    public HelmPanel(Starship ship) {
+    public HelmPanel(Starship ship, boolean gridVisible) {
         super();
         this.ship = ship;
 
@@ -38,12 +39,12 @@ public class HelmPanel extends GridPane {
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
-
+        setGridLinesVisible(gridVisible);
         add(leftGauge = mkGauge(ship.warpLeft),   0, 0, 1, 1);
-        add(rightGauge = mkGauge(ship.warpRight), 1, 0, 1, 1);
-        add(warp = mkWarpSlider(),                0, 1, 2, 1);
-        add(balance = mkBalanceSlider(),          0, 2, 2, 1);
-        add(mkCenterBtn(),                        0, 3, 2, 1);
+        add(rightGauge = mkGauge(ship.warpRight), 2, 0, 1, 1);
+        add(warp = mkWarpSlider(),                0, 1, 3, 1);
+        add(balance = mkBalanceSlider(),          0, 2, 3, 1);
+        add(mkCenterBtn(),                        1, 3, 1, 1);
     }
 
     private Gauge mkGauge(WarpEngine engine) {

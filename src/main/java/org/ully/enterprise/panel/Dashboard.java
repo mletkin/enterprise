@@ -15,6 +15,7 @@ public class Dashboard extends Application {
 
     private Starship ship = new Starship();
     private EnergyPanel energyPanel;
+    private boolean gridVisible = true;
 
     public static void main(String[] args) {
         launch(args);
@@ -23,7 +24,7 @@ public class Dashboard extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Energy panel");
-        energyPanel = new EnergyPanel(ship);
+        energyPanel = new EnergyPanel(ship, gridVisible);
         Scene scene = new Scene(energyPanel, 900, 1000);
         stage.setOnCloseRequest(this::shutdown);
         stage.setScene(scene);
@@ -56,7 +57,7 @@ public class Dashboard extends Application {
     }
 
     private Stage mkEnvironment(Stage opener) {
-        EnvironmentPanel panel = new EnvironmentPanel(ship);
+        EnvironmentPanel panel = new EnvironmentPanel(ship, gridVisible);
         Scene scene = new Scene(panel, 350, 300);
 
         Stage stage = new Stage();
@@ -71,7 +72,7 @@ public class Dashboard extends Application {
     }
 
     private Stage mkHelm(Stage opener) {
-        helmPanel = new HelmPanel(ship);
+        helmPanel = new HelmPanel(ship, gridVisible);
         Scene scene = new Scene(helmPanel, 350, 300);
 
         Stage stage = new Stage();

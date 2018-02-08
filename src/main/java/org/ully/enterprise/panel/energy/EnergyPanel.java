@@ -15,15 +15,17 @@ public class EnergyPanel extends GridPane {
     /**
      * create the energy panel.
      *
-     * @param starship
+     * @param ship
+     * @param gridVisible
      */
-    public EnergyPanel(Starship ship) {
+    public EnergyPanel(Starship ship, boolean gridVisible) {
         super();
 
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
+        setGridLinesVisible(gridVisible);
 
         // main power circuit
         add(new ShieldPane(ship.shieldBow), 0, 0);
