@@ -1,5 +1,7 @@
 package org.ully.enterprise.energy;
 
+import static java.util.Optional.ofNullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -9,29 +11,58 @@ import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
 /**
- * Power circuit, connecting a list of components.
+ * Represents a power circuit that connects a set of components.
+ * <p>
+ * The circuit itself acts as a component. This way a set of circuits can be
+ * treated as a circuit to exchange power via {@code PowerGateway}-Objects.
+ * <p>
+ * The direction is to be viewed from outside the circuit.
+ * <ul>
+ * <li>OUT means, the circuit has surplus energy.
+ * <li>IN means the circuit requires energy,
+ * </ul>
+ *
  */
 public class Circuit extends Component {
 
     private Power potentialPower = null;
     private List<Component> consumer = new ArrayList<>();
-    Powergateway gateway = new Powergateway();
+    PowerGateway gateway = new PowerGateway();
 
     /**
-     * Creates a circuit containing the given Components.
+     * Creates a power circuit with a power exchange gateway.
+     */
+    private Circuit() {
+        super("");
+        consumer.add(gateway);
+    }
+
+    /**
+     * Creates a circuit that contains the components from the stream.
      *
      * @param components
      */
-    public Circuit(Component... components) {
-        super("");
-        if (components != null) {
-            Stream.of(components).forEach(consumer::add);
-            consumer.add(gateway);
+    public Circuit(Stream<Component> components) {
+        this();
+        ofNullable(components).orElse(Stream.empty()).forEach(consumer::add);
+    }
+
+    /**
+     * Creates a circuit that contains the given components.
+     *
+     * @param c
+     * @param cList
+     */
+    public Circuit(Component c, Component... cList) {
+        this();
+        consumer.add(c);
+        if (cList != null) {
+            Stream.of(cList).forEach(consumer::add);
         }
     }
 
     /**
-     * Gets all power supplying components in teh circuit.
+     * Returns all power supplying components in the circuit.
      *
      * @return
      */
@@ -40,7 +71,7 @@ public class Circuit extends Component {
     }
 
     /**
-     * Gets all power consuming components in teh circuit.
+     * Returnss all power consuming components in the circuit.
      *
      * @return
      */
@@ -49,7 +80,7 @@ public class Circuit extends Component {
     }
 
     /**
-     * Gets all components in teh circuit.
+     * Returns all components in the circuit.
      *
      * @return
      */
@@ -59,17 +90,17 @@ public class Circuit extends Component {
 
     @Override
     public Power getPotentialPowerFlow() {
-//        if (potentialPower == null) {
-            calculate();
-//        }
+        // if (potentialPower == null) {
+        calculate();
+        // }
         return potentialPower;
     }
 
     @Override
     public Direction getDirection() {
-//        if (direction == null) {
-            calculate();
-//        }
+        // if (direction == null) {
+        calculate();
+        // }
         return flowDirection;
     }
 
@@ -96,7 +127,7 @@ public class Circuit extends Component {
     }
 
     /**
-     * Calculate potention flow.
+     * Calculate potential power flow.
      *
      * @param msec
      */

@@ -1,7 +1,7 @@
 package org.ully.enterprise.panel.environment;
 
 import org.ully.enterprise.Component;
-import org.ully.enterprise.Starship;
+import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.environment.Stress;
 import org.ully.enterprise.environment.StressEmulator;
 import org.ully.enterprise.panel.Refreshable;
@@ -34,7 +34,7 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
      * @param starship
      * @param gridVisible
      */
-    public EnvironmentPanel(Starship ship, boolean gridVisible) {
+    public EnvironmentPanel(Enterprise ship, boolean gridVisible) {
         super();
 
         setAlignment(Pos.CENTER);

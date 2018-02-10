@@ -1,6 +1,6 @@
 package org.ully.enterprise.panel;
 
-import org.ully.enterprise.Starship;
+import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.panel.energy.EnergyPanel;
 import org.ully.enterprise.panel.environment.EnvironmentPanel;
 import org.ully.enterprise.panel.helm.HelmPanel;
@@ -13,9 +13,9 @@ import javafx.stage.WindowEvent;
 
 public class Dashboard extends Application {
 
-    private Starship ship = new Starship();
+    private Enterprise ship = new Enterprise();
     private EnergyPanel energyPanel;
-    private boolean gridVisible = true;
+    private boolean gridVisible = false;
 
     public static void main(String[] args) {
         launch(args);

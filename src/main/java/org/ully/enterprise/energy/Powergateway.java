@@ -4,11 +4,26 @@ import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
 
-public class Powergateway extends Component {
+/**
+ * Power exchange gateway.
+ * <p>
+ * A component attached to a circuit to reflect the amount of energy the circuit
+ * requires or provides for or from other circuits. Acts as a gateway to export
+ * the surplus or to import required energy. circuits.
+ * <p>
+ * The direction is to be viewed from the circuit the gateway belongs to.
+ * <ul>
+ * <li>OUT means, the circuit _requires_ energy, because the gateway acts as a
+ * supplier.
+ * <li>IN means the circuit has energy surplus, because the gateway acts as a
+ * consumer in the circuit.
+ * </ul>
+ */
+public class PowerGateway extends Component {
 
     Power power = Power.ZERO;
 
-    protected Powergateway() {
+    protected PowerGateway() {
         super("gateway");
     }
 

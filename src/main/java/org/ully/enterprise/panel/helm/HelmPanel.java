@@ -1,6 +1,6 @@
 package org.ully.enterprise.panel.helm;
 
-import org.ully.enterprise.Starship;
+import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.WarpEngine;
 
 import eu.hansolo.medusa.Gauge;
@@ -15,11 +15,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 
 /**
- * Panel for Starship helm.
+ * Panel for Enterprise helm.
  */
 public class HelmPanel extends GridPane {
 
-    private Starship ship;
+    private Enterprise ship;
     private Gauge leftGauge;
     private Gauge rightGauge;
     private Slider balance;
@@ -31,7 +31,7 @@ public class HelmPanel extends GridPane {
      * @param ship
      * @param gridVisible
      */
-    public HelmPanel(Starship ship, boolean gridVisible) {
+    public HelmPanel(Enterprise ship, boolean gridVisible) {
         super();
         this.ship = ship;
 

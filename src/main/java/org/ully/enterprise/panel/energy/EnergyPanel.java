@@ -1,6 +1,6 @@
 package org.ully.enterprise.panel.energy;
 
-import org.ully.enterprise.Starship;
+import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
 
 import javafx.geometry.Insets;
@@ -8,7 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
 /**
- * Energy Panel for Starship components.
+ * Energy Panel for Enterprise components.
  */
 public class EnergyPanel extends GridPane {
 
@@ -18,7 +18,7 @@ public class EnergyPanel extends GridPane {
      * @param ship
      * @param gridVisible
      */
-    public EnergyPanel(Starship ship, boolean gridVisible) {
+    public EnergyPanel(Enterprise ship, boolean gridVisible) {
         super();
 
         setAlignment(Pos.CENTER);

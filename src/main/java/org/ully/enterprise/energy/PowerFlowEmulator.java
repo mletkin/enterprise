@@ -1,7 +1,10 @@
 package org.ully.enterprise.energy;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Power;
 
 /**
@@ -15,7 +18,7 @@ public class PowerFlowEmulator extends Thread {
     private static final long DELTA_IN_MSEC = 10;
     private long delta;
     private Cycle cycle;
-    private Circuit[] circuit;
+    private List<Circuit> circuit;
 
     /**
      * Create an emulator object for a given tme interval.
@@ -53,7 +56,12 @@ public class PowerFlowEmulator extends Thread {
      * @return the {@code PowerFlowEmulator}-Object
      */
     public PowerFlowEmulator with(Circuit... circuit) {
-        this.circuit = circuit;
+        this.circuit = Stream.of(circuit).collect(Collectors.toList());
+        return this;
+    }
+
+    public PowerFlowEmulator with(Stream<Circuit> circuits) {
+        this.circuit = circuits.collect(Collectors.toList());
         return this;
     }
 
@@ -76,13 +84,13 @@ public class PowerFlowEmulator extends Thread {
     void calculateSingleCycle() {
 
         // reset the gateway power in each circuit
-        Stream.of(circuit).forEach(c -> c.setGatewayPower(Power.ZERO));
+        circuit.forEach(c -> c.setGatewayPower(Power.ZERO));
 
         // calculate gateway power in eah circuit
-        cycle.calculate(new Circuit(circuit));
+        cycle.calculate(new Circuit(circuit.stream().map(c -> (Component)c)));
 
         // calculate power flow in each cycle wrapped circuit
-        Stream.of(circuit).forEach(cycle::calculate);
+        circuit.forEach(cycle::calculate);
     }
 
 }
