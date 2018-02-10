@@ -27,6 +27,9 @@ public class Cycle {
 
     /**
      * calculate and perform the energy transfer.
+     *
+     * @param circuit
+     *            the circuit to be calculated
      */
     public void calculate(Circuit circuit) {
 

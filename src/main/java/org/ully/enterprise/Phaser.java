@@ -19,7 +19,7 @@ public class Phaser extends Component implements Loadable {
     /**
      * Create phaser bank with the given name.
      *
-     * @param name
+     * @param name name of the phaser bank
      */
     public Phaser(String name) {
         super(name);
@@ -55,7 +55,7 @@ public class Phaser extends Component implements Loadable {
     /**
      * Sets the direction in which the energy flows currently.
      *
-     * @param power flow direction
+     * @param direction flow direction
      */
     public void setDirection(Direction direction) {
         flowDirection = direction;

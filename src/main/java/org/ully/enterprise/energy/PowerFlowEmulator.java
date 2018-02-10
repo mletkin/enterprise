@@ -36,6 +36,7 @@ public class PowerFlowEmulator extends Thread {
      *
      * @param delta
      *            time interval in milliseconds
+     * @return the new emulator instance
      */
     public static PowerFlowEmulator get(long delta) {
         return new PowerFlowEmulator(delta);
@@ -43,6 +44,8 @@ public class PowerFlowEmulator extends Thread {
 
     /**
      * Creates an emulator for the standard interval.
+     *
+     * @return the new emulator instance
      */
     public static PowerFlowEmulator get() {
         return new PowerFlowEmulator(DELTA_IN_MSEC);
@@ -87,7 +90,7 @@ public class PowerFlowEmulator extends Thread {
         circuit.forEach(c -> c.setGatewayPower(Power.ZERO));
 
         // calculate gateway power in eah circuit
-        cycle.calculate(new Circuit(circuit.stream().map(c -> (Component)c)));
+        cycle.calculate(new Circuit(circuit.stream().map(c -> (Component) c)));
 
         // calculate power flow in each cycle wrapped circuit
         circuit.forEach(cycle::calculate);

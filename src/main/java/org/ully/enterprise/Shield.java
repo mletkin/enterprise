@@ -19,9 +19,10 @@ public class Shield extends Component implements Loadable {
     private Power currentFlow = Power.ZERO;
 
     /**
-     * create a shield with the given name.
+     * Creates a shield with the given name.
      *
      * @param name
+     *            name of the shield
      */
     public Shield(String name) {
         super(name);

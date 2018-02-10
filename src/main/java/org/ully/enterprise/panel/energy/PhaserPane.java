@@ -26,9 +26,10 @@ public class PhaserPane extends GridPane implements Refreshable {
     private Gauge powerGauge;
 
     /**
-     * Create a monitoring panel for a phaser bank.
+     * Creates a monitoring panel for a phaser bank.
      *
      * @param phaser
+     *            the phaser bank to monitor
      */
     public PhaserPane(Phaser phaser) {
         super();

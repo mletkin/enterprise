@@ -9,16 +9,16 @@ public abstract class PhysicalUnit {
     protected double value;
 
     /**
-     * Get the value as scalar.
+     * Gets the value as scalar.
      *
-     * @return
+     * @return value of the object
      */
     public double value() {
         return value;
     }
 
     /**
-     * Define the units symbol.
+     * Returns the units symbol.
      *
      * @return string representation of the unit symbol
      */
@@ -38,22 +38,30 @@ public abstract class PhysicalUnit {
     }
 
     /**
-     * Calculate maximum of two unit ojects.
+     * Calculate the minimum of two unit ojects.
      *
+     * @param <T>
+     *            return type, subtype of PhysicalUnit
      * @param a
+     *            first unit
      * @param b
-     * @return
+     *            second unit
+     * @return unit with minimum value
      */
     public static <T extends PhysicalUnit> T min(T a, T b) {
         return (a.value < b.value) ? a : b;
     }
 
     /**
-     * calculate maximum of two unit ojects.
+     * Calculate the maximum of two unit ojects.
      *
+     * @param <T>
+     *            return type, subtype of PhysicalUnit
      * @param a
+     *            first unit
      * @param b
-     * @return
+     *            second unit
+     * @return unit with maximum value
      */
     public static <T extends PhysicalUnit> T max(T a, T b) {
         return (a.value > b.value) ? a : b;

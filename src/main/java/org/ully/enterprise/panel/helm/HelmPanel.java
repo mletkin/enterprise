@@ -2,6 +2,7 @@ package org.ully.enterprise.panel.helm;
 
 import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.WarpEngine;
+import org.ully.enterprise.panel.Refreshable;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
@@ -17,7 +18,7 @@ import javafx.scene.layout.GridPane;
 /**
  * Panel for Enterprise helm.
  */
-public class HelmPanel extends GridPane {
+public class HelmPanel extends GridPane implements Refreshable {
 
     private Enterprise ship;
     private Gauge leftGauge;
@@ -26,10 +27,12 @@ public class HelmPanel extends GridPane {
     private Slider warp;
 
     /**
-     * create the helm panel.
+     * Create the helm panel.
      *
      * @param ship
+     *            the instance of the ship to monitor
      * @param gridVisible
+     *            show grid lines for debugging
      */
     public HelmPanel(Enterprise ship, boolean gridVisible) {
         super();
@@ -40,11 +43,11 @@ public class HelmPanel extends GridPane {
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
         setGridLinesVisible(gridVisible);
-        add(leftGauge = mkGauge(ship.warpLeft),   0, 0, 1, 1);
+        add(leftGauge = mkGauge(ship.warpLeft), 0, 0, 1, 1);
         add(rightGauge = mkGauge(ship.warpRight), 2, 0, 1, 1);
-        add(warp = mkWarpSlider(),                0, 1, 3, 1);
-        add(balance = mkBalanceSlider(),          0, 2, 3, 1);
-        add(mkCenterBtn(),                        1, 3, 1, 1);
+        add(warp = mkWarpSlider(), 0, 1, 3, 1);
+        add(balance = mkBalanceSlider(), 0, 2, 3, 1);
+        add(mkCenterBtn(), 1, 3, 1, 1);
     }
 
     private Gauge mkGauge(WarpEngine engine) {
@@ -87,7 +90,6 @@ public class HelmPanel extends GridPane {
         return slider;
     }
 
-
     private void setWarpFactor(double speed, double balance) {
         ship.warpLeft.setWantedWarp(speed * (1 - balance / 100));
         ship.warpRight.setWantedWarp(speed * (1 + balance / 100));
@@ -103,6 +105,7 @@ public class HelmPanel extends GridPane {
     /**
      * Refresh all panels on the grid.
      */
+    @Override
     public void refresh() {
         leftGauge.setValue(ship.warpLeft.getCurrentWarp());
         leftGauge.setThreshold(ship.warpLeft.getWantedWarp());

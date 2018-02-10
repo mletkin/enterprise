@@ -16,7 +16,9 @@ public class EnergyPanel extends GridPane {
      * create the energy panel.
      *
      * @param ship
+     *            the instance of the ship to monitor
      * @param gridVisible
+     *            show grid lines for debugging
      */
     public EnergyPanel(Enterprise ship, boolean gridVisible) {
         super();

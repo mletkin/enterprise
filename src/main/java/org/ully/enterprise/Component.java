@@ -26,6 +26,7 @@ public abstract class Component {
      * Create a component with the given name.
      *
      * @param name
+     *            the name of the component.
      */
     protected Component(String name) {
         this.name = name;
@@ -34,7 +35,7 @@ public abstract class Component {
     /**
      * The name of the component.
      *
-     * @return
+     * @return the name of the component
      */
     public String getName() {
         return name;
@@ -50,7 +51,7 @@ public abstract class Component {
     /**
      * Is the component online?
      *
-     * @return
+     * @return true iff the component is connected
      */
     public boolean isOnline() {
         return online;
@@ -68,7 +69,7 @@ public abstract class Component {
     /**
      * The power that currently flows between component and power system.
      *
-     * @return
+     * @return the power currently flowing
      */
     public abstract Power getCurrentPowerFlow();
 
@@ -82,14 +83,14 @@ public abstract class Component {
     /**
      * Maximum power that may flow between component and power system.
      *
-     * @return
+     * @return the maximum power that migth flow
      */
     public abstract Power getMaxPower();
 
     /**
      * The Energy that might flow in the time interval ahead.
      *
-     * @param duration
+     * @param msec
      *            the next milliseconds to consider.
      * @return the anticipated energy amount
      */

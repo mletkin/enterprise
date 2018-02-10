@@ -41,6 +41,7 @@ public class Circuit extends Component {
      * Creates a circuit that contains the components from the stream.
      *
      * @param components
+     *            stream of components to add
      */
     public Circuit(Stream<Component> components) {
         this();
@@ -51,7 +52,9 @@ public class Circuit extends Component {
      * Creates a circuit that contains the given components.
      *
      * @param c
+     *            component to add
      * @param cList
+     *            list of comonents to add
      */
     public Circuit(Component c, Component... cList) {
         this();
@@ -64,7 +67,7 @@ public class Circuit extends Component {
     /**
      * Returns all power supplying components in the circuit.
      *
-     * @return
+     * @return a stream of all power supplier
      */
     public Stream<Component> getSupplier() {
         return consumer.stream().filter(s -> s.getDirection() == Component.Direction.OUT);
@@ -73,7 +76,7 @@ public class Circuit extends Component {
     /**
      * Returnss all power consuming components in the circuit.
      *
-     * @return
+     * @return a stream of all power consumer
      */
     public Stream<Component> getConsumer() {
         return consumer.stream().filter(s -> s.getDirection() == Component.Direction.IN);
@@ -82,7 +85,7 @@ public class Circuit extends Component {
     /**
      * Returns all components in the circuit.
      *
-     * @return
+     * @return a stream of all components
      */
     public Stream<Component> getComponents() {
         return consumer.stream();
@@ -104,6 +107,12 @@ public class Circuit extends Component {
         return flowDirection;
     }
 
+    /**
+     * Sets the power flow of the gateway.
+     *
+     * @param power
+     *            the power flow of the gateway
+     */
     public void setGatewayPower(Power power) {
         gateway.setPower(power);
     }
@@ -127,9 +136,7 @@ public class Circuit extends Component {
     }
 
     /**
-     * Calculate potential power flow.
-     *
-     * @param msec
+     * Calculate the potential power flow.
      */
     public void calculate() {
         double flow = getComponents()//

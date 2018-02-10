@@ -13,10 +13,12 @@ public class Reactor extends Component {
     private Power wantedFlow = Power.ZERO;
 
     /**
-     * create a reator with given name and maximum power.
+     * Creates a reator with given name and maximum power.
      *
      * @param name
+     *            name of the reactor
      * @param maxPower
+     *            maxumum power of the reactor
      */
     public Reactor(String name, Power maxPower) {
         super(name);
@@ -39,14 +41,25 @@ public class Reactor extends Component {
         return getCurrentPowerFlow();
     }
 
-    public void setFlow(Power flow) {
+    private void setCurrentPowerFlow(Power flow) {
         this.currentFlow = flow;
     }
 
+    /**
+     * Returns currently requested power flow.
+     *
+     * @return the requested power flow
+     */
     public Power getWantedFlow() {
         return wantedFlow;
     }
 
+    /**
+     * Sets currently requested power flow.
+     *
+     * @param wantedFlow
+     *            the power flow to set
+     */
     public void setWantedFlow(Power wantedFlow) {
         this.wantedFlow = wantedFlow;
     }
@@ -61,6 +74,6 @@ public class Reactor extends Component {
         double current = getCurrentPowerFlow().value();
         double wanted = getWantedFlow().value();
 
-        setFlow(Power.of(current + (wanted - current) / 1000 * msec));
+        setCurrentPowerFlow(Power.of(current + (wanted - current) / 1000 * msec));
     }
 }

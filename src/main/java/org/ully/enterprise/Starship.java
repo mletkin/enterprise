@@ -26,6 +26,7 @@ public abstract class Starship {
      * Create a ship with the given name.
      *
      * @param name
+     *            name of the starship
      */
     public Starship(String name) {
         this.name = name;
