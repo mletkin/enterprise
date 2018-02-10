@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.ully.enterprise.Component.Direction;
 import org.ully.enterprise.Phaser;
-import org.ully.enterprise.Reactor;
 import org.ully.enterprise.Shield;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
@@ -14,17 +13,12 @@ public class CycleTest {
     @Test
     public void singleConsumerWithoutEntropy() {
         Phaser one = new Phaser("");
-        Reactor reactor = mkReactor(Power.of(1));
+        ConstantSupplier reactor = new ConstantSupplier(Power.of(1));
         Circuit c = new Circuit(reactor, one);
 
-        new Cycle(c).calculate(1000);
-        Assert.assertEquals(1.0, one.getLoad().value(), 0.1d);
-    }
+        PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
-    private Reactor mkReactor(Power flow) {
-        Reactor reactor = new Reactor("", Power.of(10));
-        reactor.setFlow(flow);
-        return reactor;
+        Assert.assertEquals(1.0, one.getLoad().value(), 0.1d);
     }
 
     @Test
@@ -37,7 +31,8 @@ public class CycleTest {
         dst.setDirection(Direction.IN);
 
         Circuit c = new Circuit(src, dst);
-        new Cycle(c).calculate(1000);
+
+        PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
         Assert.assertEquals(4.0, src.getLoad().value(), 0.1d);
         Assert.assertEquals(5.0, dst.getLoad().value(), 0.1d);
@@ -54,7 +49,8 @@ public class CycleTest {
 
         Circuit c = new Circuit(src, dest);
 
-        new Cycle(c).calculate(1000);
+        PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
+
         Assert.assertEquals(5.0, src.getLoad().value(), 0.1d);
         Assert.assertEquals(5.0, dest.getLoad().value(), 0.1d);
     }
@@ -63,9 +59,11 @@ public class CycleTest {
     public void twoConsumersWithSufficientPowerSupply() {
         Shield s1 = new Shield("");
         Phaser p1 = new Phaser("");
-        Circuit c = new Circuit(mkReactor(Power.of(10)), s1, p1);
+        ConstantSupplier reactor = new ConstantSupplier(Power.of(10));
 
-        new Cycle(c).calculate(1000);
+        Circuit c = new Circuit(reactor, s1, p1);
+
+        PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
         Assert.assertEquals(5.0, s1.getLoad().value(), 0.1d);
         Assert.assertEquals(5.0, p1.getLoad().value(), 0.1d);
@@ -75,9 +73,11 @@ public class CycleTest {
     public void twoConsumersWith50PercentPowerSupply() {
         Shield s1 = new Shield("");
         Phaser p1 = new Phaser("");
-        Circuit c = new Circuit(mkReactor(Power.of(5)), s1, p1);
+        ConstantSupplier reactor = new ConstantSupplier(Power.of(5));
 
-        new Cycle(c).calculate(1000);
+        Circuit c = new Circuit(reactor, s1, p1);
+
+        PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
         Assert.assertEquals(2.5, s1.getLoad().value(), 0.001d);
         Assert.assertEquals(2.5, p1.getLoad().value(), 0.001d);

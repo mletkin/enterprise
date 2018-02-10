@@ -1,37 +1,68 @@
 package org.ully.enterprise.energy;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.ully.enterprise.units.Power;
 
 /**
- * Power flow emulation.
+ * Perform the power flow emulation.
+ * <p>
+ * Repeatedly performs the power flow emulation for a set of
+ * {@code Circuit}-Objects with a configurable time interval in an endless loop.
  */
 public class PowerFlowEmulator extends Thread {
 
     private static final long DELTA_IN_MSEC = 10;
+    private long delta;
+    private Cycle cycle;
     private Circuit[] circuit;
 
     /**
-     * Create an emulator for a list of circuits.
+     * Create an emulator object for a given tme interval.
+     *
+     * @param delta
+     *            time interval in milliseconds
+     */
+    private PowerFlowEmulator(long delta) {
+        this.delta = delta;
+        cycle = new Cycle(delta);
+    }
+
+    /**
+     * Creates an emulator for a given interval.
+     *
+     * @param delta
+     *            time interval in milliseconds
+     */
+    public static PowerFlowEmulator get(long delta) {
+        return new PowerFlowEmulator(delta);
+    }
+
+    /**
+     * Creates an emulator for the standard interval.
+     */
+    public static PowerFlowEmulator get() {
+        return new PowerFlowEmulator(DELTA_IN_MSEC);
+    }
+
+    /**
+     * Use the given list of circuits.
      *
      * @param circuit
+     *            the list of circuits for which to emulate the power flow
+     * @return the {@code PowerFlowEmulator}-Object
      */
-    public PowerFlowEmulator(Circuit... circuit) {
+    public PowerFlowEmulator with(Circuit... circuit) {
         this.circuit = circuit;
+        return this;
     }
 
     @Override
     public void run() {
-        List<Cycle> cycleList = mkCycles();
-
         for (;;) {
-            calculateSingleCycle(cycleList);
+            calculateSingleCycle();
             try {
-                sleep(DELTA_IN_MSEC);
+                sleep(delta);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 break;
@@ -39,21 +70,19 @@ public class PowerFlowEmulator extends Thread {
         }
     }
 
-    private void calculateSingleCycle(List<Cycle> cycleList) {
+    /**
+     * Perform the power flow emulation for a single cycle.
+     */
+    void calculateSingleCycle() {
+
         // reset the gateway power in each circuit
         Stream.of(circuit).forEach(c -> c.setGatewayPower(Power.ZERO));
 
         // calculate gateway power in eah circuit
-        new Cycle(new Circuit(circuit)).calculate(DELTA_IN_MSEC);
+        cycle.calculate(new Circuit(circuit));
 
         // calculate power flow in each cycle wrapped circuit
-        cycleList.forEach(c -> c.calculate(DELTA_IN_MSEC));
+        Stream.of(circuit).forEach(cycle::calculate);
     }
 
-    private List<Cycle> mkCycles() {
-        return Stream.of(circuit) //
-                .filter(Objects::nonNull) //
-                .map(Cycle::new) //
-                .collect(Collectors.toList());
-    }
 }

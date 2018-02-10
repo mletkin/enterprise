@@ -4,28 +4,34 @@ import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Energy;
 
 /**
- * What happens within a single loading/discharge cycle for a circuit.
+ * Calculates the energy flow of single loading/discharge cycle for a circuit.
  * <p>
- * Emulates the energy flow within a single time unit.
+ * Emulates the energy flow within a given time unit.
  * <p>
  * FIXME: components may switch flow direction while calculating
  */
 public class Cycle {
 
     private static final double EPSILON = 0.00000000001;
-    private Circuit circuit;
+    private long msec;
 
-    public Cycle(Circuit circuit) {
-        this.circuit = circuit;
+    /**
+     * Create a cycle calculator for the given time interval.
+     *
+     * @param msec
+     *            interval length in milliseconds
+     */
+    public Cycle(long msec) {
+        this.msec = msec;
     }
 
     /**
-     * Move energy from suppliers to consumers.
+     * calculate and perform the energy transfer.
      */
-    public void calculate(long msec) {
+    public void calculate(Circuit circuit) {
 
-        double available = energySupplied(msec);
-        double required = energyRequired(msec);
+        double available = energySupplied(circuit);
+        double required = energyRequired(circuit);
         double supplyQuotient = getQuotientSupplied(required, available);
         double consumeQuotient = getQuotientConsumed(required, available);
 
@@ -34,14 +40,14 @@ public class Cycle {
         circuit.getSupplier().forEach(s -> this.consumeEnergy(s, consumeQuotient, msec));
     }
 
-    private double energySupplied(long msec) {
+    private double energySupplied(Circuit circuit) {
         return circuit.getSupplier()//
                 .map(c -> c.getPotentialEnergyFlow(msec)) //
                 .mapToDouble(Energy::value)//
                 .sum();
     }
 
-    private double energyRequired(long msec) {
+    private double energyRequired(Circuit circuit) {
         return circuit.getConsumer()//
                 .map(c -> c.getPotentialEnergyFlow(msec)) //
                 .mapToDouble(Energy::value)//

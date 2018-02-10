@@ -46,7 +46,7 @@ public class Starship {
      */
     public void powerUp() {
         if (PowerFlowEmulator == null) {
-            PowerFlowEmulator = new PowerFlowEmulator(mainPowerCircuit, lifePowerCircuit);
+            PowerFlowEmulator = PowerFlowEmulator.get().with(mainPowerCircuit, lifePowerCircuit);
         }
         PowerFlowEmulator.start();
     }
