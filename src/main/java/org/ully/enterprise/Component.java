@@ -16,6 +16,10 @@ public abstract class Component {
 
     public enum Direction {
         IN, OUT;
+
+        public Direction revert() {
+            return this == IN ? OUT : IN;
+        }
     }
 
     /**

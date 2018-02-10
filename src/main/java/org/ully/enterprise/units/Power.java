@@ -34,6 +34,10 @@ public class Power extends PhysicalUnit {
         return Energy.of(value / 1000 * msec);
     }
 
+    public Power neg() {
+        return of(-value);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Power) {

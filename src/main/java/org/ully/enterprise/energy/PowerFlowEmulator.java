@@ -5,6 +5,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.ully.enterprise.units.Power;
+
 /**
  * Power flow emulation.
  */
@@ -24,9 +26,10 @@ public class PowerFlowEmulator extends Thread {
 
     @Override
     public void run() {
-        List<Cycle> cycle = mkCycles();
+        List<Cycle> cycleList = mkCycles();
+
         for (;;) {
-            cycle.forEach(c -> c.calculate(DELTA_IN_MSEC));
+            calculateSingleCycle(cycleList);
             try {
                 sleep(DELTA_IN_MSEC);
             } catch (InterruptedException e) {
@@ -34,6 +37,17 @@ public class PowerFlowEmulator extends Thread {
                 break;
             }
         }
+    }
+
+    private void calculateSingleCycle(List<Cycle> cycleList) {
+        // reset the gateway power in each circuit
+        Stream.of(circuit).forEach(c -> c.setGatewayPower(Power.ZERO));
+
+        // calculate gateway power in eah circuit
+        new Cycle(new Circuit(circuit)).calculate(DELTA_IN_MSEC);
+
+        // calculate power flow in each cycle wrapped circuit
+        cycleList.forEach(c -> c.calculate(DELTA_IN_MSEC));
     }
 
     private List<Cycle> mkCycles() {
