@@ -17,7 +17,7 @@ import org.ully.enterprise.energy.PowerFlowEmulator;
  */
 public abstract class Starship {
 
-    private PowerFlowEmulator PowerFlowEmulator;
+    private PowerFlowEmulator powerFlowEmulator;
     private String name;
 
     public abstract Stream<Circuit> getCircuits();
@@ -45,18 +45,18 @@ public abstract class Starship {
      * Starts the energy flow emulation.
      */
     public void powerUp() {
-        if (PowerFlowEmulator == null) {
-            PowerFlowEmulator = PowerFlowEmulator.get().with(getCircuits());
+        if (powerFlowEmulator == null) {
+            powerFlowEmulator = PowerFlowEmulator.get().with(getCircuits());
         }
-        PowerFlowEmulator.start();
+        powerFlowEmulator.start();
     }
 
     /**
      * Stops the energy flow emulation.
      */
     public void powerDown() {
-        if (PowerFlowEmulator != null) {
-            PowerFlowEmulator.stop();
+        if (powerFlowEmulator != null) {
+            powerFlowEmulator.stop();
         }
     }
 }
