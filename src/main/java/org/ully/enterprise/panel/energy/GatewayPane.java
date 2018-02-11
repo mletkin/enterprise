@@ -15,8 +15,8 @@ import javafx.scene.layout.GridPane;
  * Panel for a circuit energy exchange gateway.
  * <ul>
  * <li>Shows the energy flowing from or to the circuit through the gateway.
- * <li>When energy flows OUT of the circuit, the needle goes left.
- * <li>When energy flows INto the circuit the needle goes right.
+ * <li>When energy flows OUT of the circuit, the needle goes right.
+ * <li>When energy flows INto the circuit the needle goes left.
  * <li>The scale is logarithmic from the center to the border.
  * </ul>
  * The scales maximum value is fixed at +/- 5 so the maximum power that may flow
@@ -32,6 +32,7 @@ public class GatewayPane extends GridPane implements Refreshable {
      * Ceates a pane for the given gateway.
      *
      * @param gateway
+     *            the {@code PowerGateway}-object to attach
      */
     public GatewayPane(PowerGateway gateway) {
         super();
@@ -42,7 +43,7 @@ public class GatewayPane extends GridPane implements Refreshable {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.INDICATOR)//
-                .title("gate").subTitle("pwr").unit(Power.SYMBOL).minValue(-MAX).maxValue(MAX).build();
+                .title(gateway.getName()).subTitle("pwr").unit(Power.SYMBOL).minValue(-MAX).maxValue(MAX).build();
         gauge.setBarColor(gauge.getBarBackgroundColor());
         return gauge;
     }
@@ -51,7 +52,7 @@ public class GatewayPane extends GridPane implements Refreshable {
     public void refresh() {
         double value = gateway.getCurrentPowerFlow().equals(Power.ZERO) //
                 ? 0
-                : (gateway.getDirection() == Direction.IN ? -1 : 1) * gateway.getCurrentPowerFlow().value();
+                : (gateway.getDirection() == Direction.OUT ? -1 : 1) * gateway.getCurrentPowerFlow().value();
         gauge.setValue(scale(value));
     }
 

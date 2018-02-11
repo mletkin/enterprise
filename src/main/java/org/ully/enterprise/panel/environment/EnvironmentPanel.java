@@ -18,7 +18,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 
 /**
- * Panel for envoronment emulation for a starship.
+ * Panel for environment emulation for the enterprise.
  */
 public class EnvironmentPanel extends GridPane implements Refreshable {
 
@@ -29,10 +29,12 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
     private Slider bowTimeSlider = mkTimeSlider();
 
     /**
-     * create environment emulating panel.
+     * Create an environment emulating panel.
      *
-     * @param starship
+     * @param ship
+     *            the instance of the ship to monitor
      * @param gridVisible
+     *            show grid lines for debugging
      */
     public EnvironmentPanel(Enterprise ship, boolean gridVisible) {
         super();
@@ -85,7 +87,8 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
 
     private Button mkBtn(Component component, Slider powerSlider, Slider timeSlider) {
         Button btn = new Button("fire");
-        EventHandler<ActionEvent> action = e -> stress(component, Power.of(powerSlider.getValue()), (long)timeSlider.getValue());
+        EventHandler<ActionEvent> action = e -> stress(component, Power.of(powerSlider.getValue()),
+                (long) timeSlider.getValue());
         btn.setOnAction(action);
         return btn;
     }

@@ -26,16 +26,19 @@ import org.ully.enterprise.units.Power;
 public class Circuit extends Component {
 
     private Power potentialPower = null;
-    private List<Component> consumer = new ArrayList<>();
+    private List<Component> components = new ArrayList<>();
     private PowerGateway gateway;
 
     /**
      * Creates a power circuit with a power exchange gateway.
+     *
+     * @param name
+     *            the name of the circuit
      */
     public Circuit(String name) {
         super(name);
         gateway = new PowerGateway(getName());
-        consumer.add(gateway);
+        components.add(gateway);
     }
 
     /**
@@ -43,23 +46,23 @@ public class Circuit extends Component {
      *
      * @param components
      *            stream of components to add
+     * @return the Circuit
      */
     public Circuit with(Stream<Component> components) {
-        ofNullable(components).orElse(Stream.empty()).forEach(consumer::add);
+        ofNullable(components).orElse(Stream.empty()).forEach(this.components::add);
         return this;
     }
 
     /**
      * Creates a circuit that contains the given components.
      *
-     * @param c
-     *            component to add
-     * @param cList
+     * @param components
      *            list of comonents to add
+     * @return the Circuit
      */
-    public Circuit with(Component... cList) {
-        if (cList != null) {
-            Stream.of(cList).forEach(consumer::add);
+    public Circuit with(Component... components) {
+        if (components != null) {
+            Stream.of(components).forEach(this.components::add);
         }
         return this;
     }
@@ -70,7 +73,7 @@ public class Circuit extends Component {
      * @return a stream of all power supplier
      */
     public Stream<Component> getSupplier() {
-        return consumer.stream().filter(s -> s.getDirection() == Component.Direction.OUT);
+        return components.stream().filter(s -> s.getDirection() == Component.Direction.OUT);
     }
 
     /**
@@ -79,7 +82,7 @@ public class Circuit extends Component {
      * @return a stream of all power consumer
      */
     public Stream<Component> getConsumer() {
-        return consumer.stream().filter(s -> s.getDirection() == Component.Direction.IN);
+        return components.stream().filter(s -> s.getDirection() == Component.Direction.IN);
     }
 
     /**
@@ -88,7 +91,7 @@ public class Circuit extends Component {
      * @return a stream of all components
      */
     public Stream<Component> getComponents() {
-        return consumer.stream();
+        return components.stream();
     }
 
     @Override

@@ -21,16 +21,17 @@ import org.ully.enterprise.units.Power;
  */
 public class PowerGateway extends Component {
 
+    Power power = Power.ZERO;
+
     /**
      * Creates a power exchange gateway with the given name.
      *
      * @param name
+     *            name of the gateway
      */
     public PowerGateway(String name) {
         super(name);
     }
-
-    Power power = Power.ZERO;
 
     @Override
     public Power getCurrentPowerFlow() {
@@ -48,8 +49,7 @@ public class PowerGateway extends Component {
 
     @Override
     public Power getMaxPower() {
-        // TODO Auto-generated method stub
-        return null;
+        return power;
     }
 
     @Override
@@ -57,6 +57,12 @@ public class PowerGateway extends Component {
         // TODO Auto-generated method stub
     }
 
+    /**
+     * Sets the direction of the energy flow.
+     *
+     * @param direction
+     *            flow direction OUT means the circuit needs energy
+     */
     public void setDirection(Direction direction) {
         flowDirection = direction;
     }
