@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.ully.enterprise.Component;
-import org.ully.enterprise.units.Power;
-
 /**
  * Perform the power flow emulation.
  * <p>
@@ -87,12 +84,12 @@ public class PowerFlowEmulator extends Thread {
     void calculateSingleCycle() {
 
         // reset the gateway power in each circuit
-        circuit.forEach(c -> c.setGatewayPower(Power.ZERO));
+        circuit.forEach(Circuit::resetGateway);
 
         // calculate gateway power in eah circuit
-        cycle.calculate(new Circuit("energy bus").with(circuit.stream().map(c -> (Component) c)));
+        cycle.calculate(new Circuit("energy bus").with(circuit));
 
-        // calculate power flow in each cycle wrapped circuit
+        // calculate power flow in each circuit
         circuit.forEach(cycle::calculate);
     }
 

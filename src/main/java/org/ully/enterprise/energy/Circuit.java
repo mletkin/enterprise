@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
+import org.ully.enterprise.util.Util;
 
 /**
  * Represents a power circuit that connects a set of components.
@@ -42,28 +43,26 @@ public class Circuit extends Component {
     }
 
     /**
-     * Creates a circuit that contains the components from the stream.
+     * Adds a stream of circuits to the circuit.
      *
      * @param components
-     *            stream of components to add
+     *            list of circuits to add
      * @return the Circuit
      */
-    public Circuit with(Stream<Component> components) {
-        ofNullable(components).orElse(Stream.empty()).forEach(this.components::add);
+    public Circuit with(List<Circuit> components) {
+        Util.streamOf(components).forEach(this.components::add);
         return this;
     }
 
     /**
-     * Creates a circuit that contains the given components.
+     * Adds a list of components to the circuit.
      *
      * @param components
      *            list of comonents to add
      * @return the Circuit
      */
     public Circuit with(Component... components) {
-        if (components != null) {
-            Stream.of(components).forEach(this.components::add);
-        }
+        Stream.of(ofNullable(components).orElse(new Component[] {})).forEach(this.components::add);
         return this;
     }
 
@@ -111,13 +110,10 @@ public class Circuit extends Component {
     }
 
     /**
-     * Sets the power flow of the gateway.
-     *
-     * @param power
-     *            the power flow of the gateway
+     * Sets the power flow of the gateway to zero.
      */
-    public void setGatewayPower(Power power) {
-        gateway.setPower(power);
+    public void resetGateway() {
+        gateway.setPower(Power.ZERO);
     }
 
     @Override
