@@ -84,8 +84,8 @@ public class Switch<T> extends HBox {
      *            value to return when switcehd to "off"
      * @return the switch-Object
      */
-    public Switch<T> withOff(String name, T value) {
-        offText = ofNullable(name).orElse(offText);
+    public Switch<T> withOff(String text, T value) {
+        offText = ofNullable(text).orElse(offText);
         offValue = ofNullable(value).orElse(offValue);
         return this;
     }
