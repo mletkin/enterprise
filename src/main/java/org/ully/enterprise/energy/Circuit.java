@@ -27,13 +27,14 @@ public class Circuit extends Component {
 
     private Power potentialPower = null;
     private List<Component> consumer = new ArrayList<>();
-    PowerGateway gateway = new PowerGateway();
+    private PowerGateway gateway;
 
     /**
      * Creates a power circuit with a power exchange gateway.
      */
-    private Circuit() {
-        super("");
+    public Circuit(String name) {
+        super(name);
+        gateway = new PowerGateway(getName());
         consumer.add(gateway);
     }
 
@@ -43,9 +44,9 @@ public class Circuit extends Component {
      * @param components
      *            stream of components to add
      */
-    public Circuit(Stream<Component> components) {
-        this();
+    public Circuit with(Stream<Component> components) {
         ofNullable(components).orElse(Stream.empty()).forEach(consumer::add);
+        return this;
     }
 
     /**
@@ -56,12 +57,11 @@ public class Circuit extends Component {
      * @param cList
      *            list of comonents to add
      */
-    public Circuit(Component c, Component... cList) {
-        this();
-        consumer.add(c);
+    public Circuit with(Component... cList) {
         if (cList != null) {
             Stream.of(cList).forEach(consumer::add);
         }
+        return this;
     }
 
     /**

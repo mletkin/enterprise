@@ -14,7 +14,7 @@ public class CycleTest {
     public void singleConsumerWithoutEntropy() {
         Phaser one = new Phaser("");
         ConstantSupplier reactor = new ConstantSupplier(Power.of(1));
-        Circuit c = new Circuit(reactor, one);
+        Circuit c = new Circuit("").with(reactor, one);
 
         PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
@@ -30,7 +30,7 @@ public class CycleTest {
         Shield dst = new Shield("");
         dst.setDirection(Direction.IN);
 
-        Circuit c = new Circuit(src, dst);
+        Circuit c = new Circuit("").with(src, dst);
 
         PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
@@ -47,7 +47,7 @@ public class CycleTest {
         Phaser dest = new Phaser("");
         dest.setDirection(Direction.IN);
 
-        Circuit c = new Circuit(src, dest);
+        Circuit c = new Circuit("").with(src, dest);
 
         PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
@@ -61,7 +61,7 @@ public class CycleTest {
         Phaser p1 = new Phaser("");
         ConstantSupplier reactor = new ConstantSupplier(Power.of(10));
 
-        Circuit c = new Circuit(reactor, s1, p1);
+        Circuit c = new Circuit("").with(reactor, s1, p1);
 
         PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
@@ -75,7 +75,7 @@ public class CycleTest {
         Phaser p1 = new Phaser("");
         ConstantSupplier reactor = new ConstantSupplier(Power.of(5));
 
-        Circuit c = new Circuit(reactor, s1, p1);
+        Circuit c = new Circuit("").with(reactor, s1, p1);
 
         PowerFlowEmulator.get(1000).with(c).calculateSingleCycle();
 
