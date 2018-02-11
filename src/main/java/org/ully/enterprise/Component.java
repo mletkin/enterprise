@@ -8,7 +8,7 @@ import org.ully.enterprise.units.Power;
  * <p>
  * By default a component is consuming only.<br>
  */
-public abstract class Component {
+public abstract class Component implements Switchable {
 
     private String name;
     private boolean online = true;
@@ -41,18 +41,18 @@ public abstract class Component {
         return name;
     }
 
-    /**
-     * Toggles the online state.
+    /* (non-Javadoc)
+     * @see org.ully.enterprise.Switchable#toggle()
      */
+    @Override
     public void toggle() {
         online = !online;
     }
 
-    /**
-     * Is the component online?
-     *
-     * @return true iff the component is connected
+    /* (non-Javadoc)
+     * @see org.ully.enterprise.Switchable#isOnline()
      */
+    @Override
     public boolean isOnline() {
         return online;
     }

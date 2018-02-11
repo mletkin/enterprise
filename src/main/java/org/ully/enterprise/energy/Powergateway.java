@@ -44,7 +44,7 @@ public class PowerGateway extends Component {
     }
 
     public void setPower(Power power) {
-        this.power = power;
+        this.power = isOnline() ? power : Power.ZERO;
     }
 
     @Override

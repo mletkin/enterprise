@@ -7,7 +7,7 @@ import org.ully.enterprise.units.Power;
 public class CycleTest2 {
 
     @Test
-    public void supplierCircuitonsumerCircuit() {
+    public void supplierCircuitOpenConsumerCircuitOpen() {
         ConstantSupplier sup = new ConstantSupplier(Power.of(5));
         Circuit c1 = new Circuit("").with(sup);
 
@@ -24,6 +24,47 @@ public class CycleTest2 {
             Assert.assertEquals(n * 0.4, con.load.value(), 0.01d);
         }
     }
+
+    @Test
+    public void supplierCircuitOpenConsumerCircuitClosed() {
+        ConstantSupplier sup = new ConstantSupplier(Power.of(5));
+        Circuit c1 = new Circuit("").with(sup);
+
+        ConstantConsumer con = new ConstantConsumer(Power.of(4));
+        Circuit c2 = new Circuit("").with(con);
+        c2.getPowerGateway().offline();
+
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c1, c2);
+
+        for (int n = 1; n <= 5; n++) {
+            emulator.calculateSingleCycle();
+
+            Assert.assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
+            Assert.assertEquals(0.0, con.getCurrentPowerFlow().value(), 0.01d);
+            Assert.assertEquals(0.0, con.load.value(), 0.01d);
+        }
+    }
+
+    @Test
+    public void supplierCircuitClosedConsumerCircuitOpen() {
+        ConstantSupplier sup = new ConstantSupplier(Power.of(5));
+        Circuit c1 = new Circuit("").with(sup);
+        c1.getPowerGateway().offline();
+
+        ConstantConsumer con = new ConstantConsumer(Power.of(4));
+        Circuit c2 = new Circuit("").with(con);
+
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c1, c2);
+
+        for (int n = 1; n <= 5; n++) {
+            emulator.calculateSingleCycle();
+
+            Assert.assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
+            Assert.assertEquals(0.0, con.getCurrentPowerFlow().value(), 0.01d);
+            Assert.assertEquals(0.0, con.load.value(), 0.01d);
+        }
+    }
+
 
     @Test
     public void noSurplusFromSupplierCircuit() {

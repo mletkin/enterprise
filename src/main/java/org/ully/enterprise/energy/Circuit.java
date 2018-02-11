@@ -142,10 +142,13 @@ public class Circuit extends Component {
      * Calculate the potential power flow.
      */
     public void calculate() {
-        double flow = getComponents()//
-                .map(this::flow) //
-                .mapToDouble(Power::value)//
-                .sum();
+        double flow = gateway.isOnline() //
+                ? getComponents()//
+                        .map(this::flow) //
+                        .mapToDouble(Power::value)//
+                        .sum() //
+                : 0;
+
         potentialPower = Power.of(Math.abs(flow));
         flowDirection = flow > 0 ? Direction.OUT : Direction.IN;
     }

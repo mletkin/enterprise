@@ -1,5 +1,7 @@
 package org.ully.enterprise.panel.energy;
 
+import static java.util.Optional.ofNullable;
+
 import org.ully.enterprise.Component.Direction;
 import org.ully.enterprise.energy.PowerGateway;
 import org.ully.enterprise.panel.Refreshable;
@@ -39,6 +41,23 @@ public class GatewayPane extends GridPane implements Refreshable {
         this.gateway = gateway;
         setAlignment(Pos.CENTER);
         add(mkGauge(), 0, 0);
+        add(mkOnlineSwitch(), 0, 1);
+    }
+
+    private Switch<Boolean> mkOnlineSwitch() {
+        return new Switch<Boolean>() //
+                .withOn("on", Boolean.TRUE) //
+                .withOff("off", Boolean.FALSE) //
+                .with(this::toggle)//
+                .get();
+    }
+
+    private void toggle(Boolean value) {
+        if (ofNullable(value).orElse(Boolean.FALSE)) {
+            gateway.online();
+        } else {
+            gateway.offline();
+        }
     }
 
     private Gauge mkGauge() {
