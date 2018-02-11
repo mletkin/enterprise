@@ -1,5 +1,7 @@
 package org.ully.enterprise.panel.energy;
 
+import static java.util.Optional.ofNullable;
+
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.panel.Refreshable;
@@ -9,16 +11,15 @@ import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
 import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+/**
+ * Panel for the energy flow control of a phaser bank.
+ */
 public class PhaserPane extends GridPane implements Refreshable {
 
     private Phaser phaser;
@@ -38,7 +39,7 @@ public class PhaserPane extends GridPane implements Refreshable {
 
         add(mkLoadGauge(), 0, 0);
         add(mkPowerGauge(), 1, 0);
-        add(unloadGroup(), 0, 1);
+        add(mkLoadSwitch(), 0, 1);
         add(mkFireBtn(), 1, 1);
     }
 
@@ -53,7 +54,7 @@ public class PhaserPane extends GridPane implements Refreshable {
 
     private Gauge mkPowerGauge() {
         powerGauge = GaugeBuilder.create().skinType(SkinType.LINEAR) //
-                .title("pwr").unit(Energy.SYMBOL).maxValue(phaser.getMaxPower().value()).build();
+                .maxValue(phaser.getMaxPower().value()).build();
         return powerGauge;
     }
 
@@ -74,33 +75,17 @@ public class PhaserPane extends GridPane implements Refreshable {
         return phaser.isOnline() ? Color.LIGHTGREEN : Color.RED;
     }
 
-    private GridPane unloadGroup() {
-        GridPane pane = new GridPane();
-        ToggleGroup group = new ToggleGroup();
-        group.selectedToggleProperty().addListener((ChangeListener<Toggle>) (ov, toggle, new_toggle) -> {
-            if (new_toggle == null) {
-                phaser.setDirection(Component.Direction.IN);
-            } else {
-                phaser.setDirection((Component.Direction) group.getSelectedToggle().getUserData());
-            }
-            powerGauge.setMaxValue(phaser.getMaxPower().value());
-        });
+    private Switch<Component.Direction> mkLoadSwitch() {
+        return new Switch<Component.Direction>()//
+                .withOn("load", Component.Direction.IN) //
+                .withOff("unload", Component.Direction.OUT) //
+                .with(this::onToggle)//
+                .get();
+    }
 
-        ToggleButton btnLoad = new ToggleButton();
-        btnLoad.setText("load");
-        btnLoad.setToggleGroup(group);
-        btnLoad.setUserData(Component.Direction.IN);
-        btnLoad.setSelected(true);
-        pane.add(btnLoad, 0, 0);
-
-        ToggleButton btnUnload = new ToggleButton();
-        btnUnload.setText("unload");
-        btnUnload.setToggleGroup(group);
-        btnUnload.setUserData(Component.Direction.OUT);
-        btnUnload.setSelected(false);
-        pane.add(btnUnload, 1, 0);
-
-        return pane;
+    void onToggle(Component.Direction value) {
+        phaser.setDirection(ofNullable(value).orElse(Component.Direction.IN));
+        powerGauge.setMaxValue(phaser.getMaxPower().value());
     }
 
     @Override

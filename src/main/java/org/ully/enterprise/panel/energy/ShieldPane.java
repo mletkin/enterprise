@@ -1,5 +1,7 @@
 package org.ully.enterprise.panel.energy;
 
+import static java.util.Optional.ofNullable;
+
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Shield;
 import org.ully.enterprise.panel.Refreshable;
@@ -9,15 +11,14 @@ import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
 import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class ShieldPane extends GridPane implements Refreshable{
+/**
+ * Panel for the energy flow control of a power shield.
+ */
+public class ShieldPane extends GridPane implements Refreshable {
 
     private Gauge gauge;
     private Shield shield;
@@ -30,7 +31,7 @@ public class ShieldPane extends GridPane implements Refreshable{
 
         add(mkGauge(), 0, 0);
         add(mkPowerGauge(), 1, 0);
-        add(unloadGroup(), 0, 1);
+        add(mkLoadSwitch(), 0, 1);
     }
 
     private Gauge mkGauge() {
@@ -39,13 +40,14 @@ public class ShieldPane extends GridPane implements Refreshable{
                 .knobColor(btnColor()) // Color of center knob
                 .interactive(true) // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
-                .title(shield.getName()).subTitle("shield").unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value()).build();
+                .title(shield.getName()).subTitle("shield").unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value())
+                .build();
         return gauge;
     }
 
     private Gauge mkPowerGauge() {
         powerGauge = GaugeBuilder.create().skinType(SkinType.LINEAR) //
-                .title("pwr").unit(Energy.SYMBOL).maxValue(shield.getMaxPower().value()).build();
+                .maxValue(shield.getMaxPower().value()).build();
         return powerGauge;
     }
 
@@ -59,33 +61,17 @@ public class ShieldPane extends GridPane implements Refreshable{
         return shield.isOnline() ? Color.LIGHTGREEN : Color.RED;
     }
 
-    private GridPane unloadGroup() {
-        GridPane pane = new GridPane();
-        ToggleGroup group = new ToggleGroup();
-        group.selectedToggleProperty().addListener((ChangeListener<Toggle>) (ov, toggle, new_toggle) -> {
-            if (new_toggle == null) {
-                shield.setDirection(Component.Direction.IN);
-            } else {
-                shield.setDirection((Component.Direction) group.getSelectedToggle().getUserData());
-            }
-            powerGauge.setMaxValue(shield.getMaxPower().value());
-        });
+    private Switch<Component.Direction> mkLoadSwitch() {
+        return new Switch<Component.Direction>()//
+                .withOn("load", Component.Direction.IN) //
+                .withOff("unload", Component.Direction.OUT) //
+                .with(this::onToggle)//
+                .get();
+    }
 
-        ToggleButton btnLoad = new ToggleButton();
-        btnLoad.setText("load");
-        btnLoad.setToggleGroup(group);
-        btnLoad.setUserData(Component.Direction.IN);
-        btnLoad.setSelected(true);
-        pane.add(btnLoad, 0, 0);
-
-        ToggleButton btnUnload = new ToggleButton();
-        btnUnload.setText("unload");
-        btnUnload.setToggleGroup(group);
-        btnUnload.setUserData(Component.Direction.OUT);
-        btnUnload.setSelected(false);
-        pane.add(btnUnload, 1, 0);
-
-        return pane;
+    void onToggle(Component.Direction value) {
+        shield.setDirection(ofNullable(value).orElse(Component.Direction.IN));
+        powerGauge.setMaxValue(shield.getMaxPower().value());
     }
 
     @Override
