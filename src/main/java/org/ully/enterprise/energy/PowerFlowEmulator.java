@@ -60,6 +60,13 @@ public class PowerFlowEmulator extends Thread {
         return this;
     }
 
+    /**
+     * Use the given list of circuits.
+     *
+     * @param circuits
+     *            the list of circuits for which to emulate the power flow
+     * @return the {@code PowerFlowEmulator}-Object
+     */
     public PowerFlowEmulator with(Stream<Circuit> circuits) {
         this.circuit = circuits.collect(Collectors.toList());
         return this;
