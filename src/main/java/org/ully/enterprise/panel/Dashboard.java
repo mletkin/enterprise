@@ -1,5 +1,8 @@
 package org.ully.enterprise.panel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.panel.energy.EnergyPanel;
 import org.ully.enterprise.panel.environment.EnvironmentPanel;
@@ -15,7 +18,9 @@ public class Dashboard extends Application {
 
     private Enterprise ship = new Enterprise();
     private EnergyPanel energyPanel;
+    private HelmPanel helmPanel;
     private boolean gridVisible = false;
+    private List<Stage> stageList = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -37,7 +42,7 @@ public class Dashboard extends Application {
     }
 
     long lastTimerCall = System.nanoTime();
-    private HelmPanel helmPanel;
+
     private AnimationTimer mkTimer() {
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -54,6 +59,7 @@ public class Dashboard extends Application {
 
     private void shutdown(WindowEvent e) {
         this.ship.powerDown();
+        stageList.forEach(Stage::close);
     }
 
     private Stage mkEnvironment(Stage opener) {
@@ -63,6 +69,8 @@ public class Dashboard extends Application {
         Stage stage = new Stage();
         stage.setTitle("Environment emulation");
         stage.setScene(scene);
+
+        stageList.add(stage);
 
         // Set position of second window, related to primary window.
         stage.setX(opener.getX() + opener.getWidth());
@@ -78,6 +86,8 @@ public class Dashboard extends Application {
         Stage stage = new Stage();
         stage.setTitle("helm panel");
         stage.setScene(scene);
+
+        stageList.add(stage);
 
         // Set position of second window, related to primary window.
         stage.setX(opener.getX() + opener.getWidth());
