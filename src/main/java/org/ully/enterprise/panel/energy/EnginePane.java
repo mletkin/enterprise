@@ -12,6 +12,9 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+/**
+ * Panel for the energy flow control of a warp or impulse engine.
+ */
 public class EnginePane extends GridPane implements Refreshable {
 
     private Gauge gauge;

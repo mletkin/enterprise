@@ -15,6 +15,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Panel for the energy flow control of a energy supplying reactor.
+ */
 public class ReactorPane extends GridPane implements Refreshable {
 
     private Gauge gauge;

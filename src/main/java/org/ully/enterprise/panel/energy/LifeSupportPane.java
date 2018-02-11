@@ -13,6 +13,9 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+/**
+ * Panel for the energy flow control of a life support system.
+ */
 public class LifeSupportPane extends GridPane implements Refreshable {
 
     private Gauge gauge;
@@ -33,13 +36,6 @@ public class LifeSupportPane extends GridPane implements Refreshable {
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
                 .title(system.getName()).subTitle("life").unit(Power.SYMBOL).maxValue(system.getMaxPower().value()) //
                 .needleColor(Color.DARKBLUE)//
-/*
-                .ledVisible(true) //
-                .ledType(LedType.STANDARD) //
-                .ledColor(Color.color(1, 0, 0)) //
-                .ledBlinking(true) //
-                .ledOn(true) //
- */
                 .areas(section) //
                 .areasVisible(true) //
                 .build();
