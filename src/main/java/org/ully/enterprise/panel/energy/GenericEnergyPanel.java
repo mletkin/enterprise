@@ -35,7 +35,7 @@ public class GenericEnergyPanel extends TilePane {
     }
 
     /**
-     * Refresh all panels onValue the grid.
+     * Refresh all panels and sub-panels the grid.
      */
     public void refresh() {
         getChildren().stream() //
