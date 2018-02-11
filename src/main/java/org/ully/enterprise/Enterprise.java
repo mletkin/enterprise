@@ -31,7 +31,7 @@ public class Enterprise extends Starship {
             phaserPrime, phaserSec, //
             warpLeft, warpRight);
 
-    public final Circuit lifePowerCircuit = new Circuit("lif").with(pwrLife, life);
+    public final Circuit lifePowerCircuit = new Circuit("life").with(pwrLife, life);
 
     public Enterprise() {
         super("NCC-1701 Enterprise");
