@@ -147,6 +147,10 @@ public class Circuit extends Component {
         flowDirection = flow > 0 ? Direction.OUT : Direction.IN;
     }
 
+    public PowerGateway getPowerGateway() {
+        return gateway;
+    }
+
     private Power flow(Component comp) {
         return comp.getDirection() == Direction.IN ? comp.getPotentialPowerFlow().neg() : comp.getPotentialPowerFlow();
     }
