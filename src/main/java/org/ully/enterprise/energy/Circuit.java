@@ -113,24 +113,22 @@ public class Circuit extends Component {
      * Sets the power flow of the gateway to zero.
      */
     public void resetGateway() {
-        gateway.setPower(Power.ZERO);
+        gateway.load(Energy.ZERO, 1);
     }
 
     @Override
     public Power getCurrentPowerFlow() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public Power getMaxPower() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void load(Energy energy, long msec) {
-        gateway.setPower(energy.toPower(msec));
+        gateway.load(energy, msec);
         gateway.setDirection(flowDirection.revert());
     }
 
@@ -149,6 +147,11 @@ public class Circuit extends Component {
         flowDirection = flow > 0 ? Direction.OUT : Direction.IN;
     }
 
+    /**
+     * Access to the power exchange gateway.
+     *
+     * @return the gateway for the circuit
+     */
     public PowerGateway getPowerGateway() {
         return gateway;
     }

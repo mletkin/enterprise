@@ -43,10 +43,6 @@ public class PowerGateway extends Component {
         return power;
     }
 
-    public void setPower(Power power) {
-        this.power = isOnline() ? power : Power.ZERO;
-    }
-
     @Override
     public Power getMaxPower() {
         return power;
@@ -54,7 +50,7 @@ public class PowerGateway extends Component {
 
     @Override
     public void load(Energy energy, long msec) {
-        // TODO Auto-generated method stub
+        this.power = isOnline() ? energy.toPower(msec) : Power.ZERO;
     }
 
     /**
