@@ -25,13 +25,13 @@ public class Enterprise extends Starship {
     public final Reactor pwrAux = new Reactor("aux", Power.of(20));
     public final Reactor pwrLife = new Reactor("life", Power.of(10));
 
-    private Circuit mainPowerCircuit = new Circuit(//
+    public final Circuit mainPowerCircuit = new Circuit(//
             pwrAux, pwrMain, //
             shieldBow, shieldStern, //
             phaserPrime, phaserSec, //
             warpLeft, warpRight);
 
-    private Circuit lifePowerCircuit = new Circuit(pwrLife, life);
+    public final Circuit lifePowerCircuit = new Circuit(pwrLife, life);
 
     public Enterprise() {
         super("NCC-1701 Enterprise");
