@@ -1,20 +1,24 @@
 package org.ully.enterprise.panel.energy;
 
+import java.util.Objects;
+
+import org.ully.enterprise.Component;
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
 import org.ully.enterprise.Shield;
-import org.ully.enterprise.Switchable;
 import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.energy.PowerGateway;
+import org.ully.enterprise.panel.Refreshable;
 
+import javafx.scene.Node;
 import javafx.scene.layout.TilePane;
 
 /**
  * Creates a generic panel for a power circuit.
  */
-public class CircuitPanel extends TilePane {
+public class CircuitPanel extends TilePane implements Refreshable {
 
     public CircuitPanel(Circuit circuit) {
         super();
@@ -23,6 +27,7 @@ public class CircuitPanel extends TilePane {
         setVgap(10);
         setPrefTileHeight(200);
         setPrefTileWidth(200);
+        // getChildren().add(new Label(circuit.getName()));
         populate(circuit);
     }
 
@@ -30,32 +35,43 @@ public class CircuitPanel extends TilePane {
      * Populate the Panel with instruments.
      *
      * @param circuit
+     *            circuit containing the components
      */
     private void populate(Circuit circuit) {
-        circuit.getComponents().forEach(this::addPanel);
+        circuit.getComponents().map(this::mkPanel).filter(Objects::nonNull).forEach(getChildren()::add);
     }
 
-    private void addPanel(Switchable component) {
+    /**
+     * Creates a panel for a component.
+     *
+     * @param component
+     *            component for which to create the panel
+     * @return panel for the component
+     */
+    private Node mkPanel(Component component) {
         switch (component.getClass().getSimpleName()) {
         case "Shield":
-            getChildren().add(new ShieldPane((Shield) component));
-            break;
+            return new ShieldPane((Shield) component);
         case "Phaser":
-            getChildren().add(new PhaserPane((Phaser) component));
-            break;
+            return new PhaserPane((Phaser) component);
         case "WarpEngine":
-            getChildren().add(new EnginePane((WarpEngine) component));
-            break;
+            return new EnginePane((WarpEngine) component);
         case "LifeSupport":
-            getChildren().add(new LifeSupportPane((LifeSupport) component));
-            break;
+            return new LifeSupportPane((LifeSupport) component);
         case "Reactor":
-            getChildren().add(new ReactorPane((Reactor) component));
-            break;
+            return new ReactorPane((Reactor) component);
         case "PowerGateway":
-            getChildren().add(new GatewayPane((PowerGateway) component));
-            break;
+            return new GatewayPane((PowerGateway) component);
         }
+        return null;
+    }
 
+    @Override
+    public void refresh() {
+        getChildren().stream() //
+                .filter(Objects::nonNull) //
+                .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (Refreshable) c) //
+                .forEach(Refreshable::refresh);
     }
 }
