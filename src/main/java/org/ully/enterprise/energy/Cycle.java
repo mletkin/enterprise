@@ -32,7 +32,6 @@ public class Cycle {
      *            the circuit to be calculated
      */
     public void calculate(Circuit circuit) {
-
         double available = energySupplied(circuit);
         double required = energyRequired(circuit);
         double supplyQuotient = getQuotientSupplied(required, available);
@@ -41,6 +40,8 @@ public class Cycle {
         circuit.getComponents().forEach(c -> c.internal(msec));
         circuit.getConsumer().forEach(s -> this.supplyEnergy(s, supplyQuotient, msec));
         circuit.getSupplier().forEach(s -> this.consumeEnergy(s, consumeQuotient, msec));
+
+        circuit.getSubCircuits().forEach(this::calculate);
     }
 
     private double energySupplied(Circuit circuit) {

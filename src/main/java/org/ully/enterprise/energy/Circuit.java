@@ -31,6 +31,19 @@ public class Circuit extends Component {
     private PowerGateway gateway;
 
     /**
+     * Create a circuit with a name and component list
+     *
+     * @param name
+     *            name of the circuit
+     * @param list
+     *            list of contained components
+     * @return the newly created circuit
+     */
+    public static Circuit of(String name, Component... list) {
+        return new Circuit(name).with(list);
+    }
+
+    /**
      * Creates a power circuit with a power exchange gateway.
      *
      * @param name
@@ -85,6 +98,17 @@ public class Circuit extends Component {
     }
 
     /**
+     * Returns all subcircuits in the circuit.
+     *
+     * @return a stream of all circuits
+     */
+    Stream<Circuit> getSubCircuits() {
+        return components.stream() //
+                .filter(c -> Circuit.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (Circuit) c);
+    }
+
+    /**
      * Returns all components in the circuit.
      *
      * @return a stream of all components
@@ -95,24 +119,19 @@ public class Circuit extends Component {
 
     @Override
     public Power getPotentialPowerFlow() {
-        // if (potentialPower == null) {
-        calculate();
-        // }
         return potentialPower;
     }
 
     @Override
     public Direction getDirection() {
-        // if (direction == null) {
-        calculate();
-        // }
         return flowDirection;
     }
 
     /**
-     * Sets the power flow of the gateway to zero.
+     * Sets the power flow of the gateway ans all subgateways to zero.
      */
     public void resetGateway() {
+        getSubCircuits().forEach(Circuit::resetGateway);
         gateway.load(Energy.ZERO, 1);
     }
 
@@ -136,6 +155,7 @@ public class Circuit extends Component {
      * Calculate the potential power flow.
      */
     public void calculate() {
+        getSubCircuits().forEach(Circuit::calculate);
         double flow = gateway.isOnline() //
                 ? getComponents()//
                         .map(this::flow) //

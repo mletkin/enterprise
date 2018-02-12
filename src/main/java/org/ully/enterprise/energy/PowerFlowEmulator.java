@@ -90,14 +90,14 @@ public class PowerFlowEmulator extends Thread {
      */
     void calculateSingleCycle() {
 
-        // reset the gateway power in each circuit
+        // reset the gateway power in each circuit (and sub-circuits)
         circuit.forEach(Circuit::resetGateway);
 
-        // calculate gateway power in eah circuit
-        cycle.calculate(new Circuit("energy bus").with(circuit));
+        // calculate gateway power for all circuits (and sub-circuits)
+        circuit.forEach(Circuit::calculate);
 
-        // calculate power flow in each circuit
-        circuit.forEach(cycle::calculate);
+        // calculate gateway power for all circuits
+        cycle.calculate(new Circuit("energy bus").with(circuit));
     }
 
 }
