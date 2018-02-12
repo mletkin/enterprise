@@ -31,19 +31,6 @@ public class Circuit extends Component {
     private PowerGateway gateway;
 
     /**
-     * Create a circuit with a name and component list
-     *
-     * @param name
-     *            name of the circuit
-     * @param list
-     *            list of contained components
-     * @return the newly created circuit
-     */
-    public static Circuit of(String name, Component... list) {
-        return new Circuit(name).with(list);
-    }
-
-    /**
      * Creates a power circuit with a power exchange gateway.
      *
      * @param name
@@ -128,7 +115,7 @@ public class Circuit extends Component {
     }
 
     /**
-     * Sets the power flow of the gateway ans all subgateways to zero.
+     * Sets the power flow of the gateway and all subgateways to zero.
      */
     public void resetGateway() {
         getSubCircuits().forEach(Circuit::resetGateway);
@@ -178,5 +165,14 @@ public class Circuit extends Component {
 
     private Power flow(Component comp) {
         return comp.getDirection() == Direction.IN ? comp.getPotentialPowerFlow().neg() : comp.getPotentialPowerFlow();
+    }
+
+    /**
+     * Returns a stream with all circuits contained in the circuit.
+     *
+     * @return a stream with all circuits
+     */
+    public Stream<Circuit> getAllCircuits() {
+        return Stream.concat(Stream.of(this), getSubCircuits().flatMap(Circuit::getAllCircuits));
     }
 }

@@ -17,6 +17,8 @@ public class GenericEnergyPanel extends TilePane {
 
     /**
      * Creates the energy panel.
+     * <p>
+     * Each circuit (and sub circuit) has it's own curcuit panel.
      *
      * @param ship
      *            the instance of the ship to monitor

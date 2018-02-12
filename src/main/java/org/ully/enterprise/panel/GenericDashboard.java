@@ -1,6 +1,7 @@
 package org.ully.enterprise.panel;
 
-import org.ully.enterprise.Enterprise;
+import org.ully.enterprise.Potemkin;
+import org.ully.enterprise.Starship;
 import org.ully.enterprise.panel.energy.GenericEnergyPanel;
 
 import javafx.animation.AnimationTimer;
@@ -14,7 +15,7 @@ import javafx.stage.WindowEvent;
  */
 public class GenericDashboard extends Application {
 
-    private Enterprise ship = new Enterprise();
+    private Starship ship = new Potemkin();
     private GenericEnergyPanel energyPanel;
     private boolean gridVisible = false;
     private long lastTimerCall = System.nanoTime();
