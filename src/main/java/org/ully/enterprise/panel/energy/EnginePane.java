@@ -29,7 +29,7 @@ public class EnginePane extends GridPane implements Refreshable {
     }
 
     private Gauge mkGauge() {
-        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE) //
+        gauge = GaugeBuilder.create().skinType(SkinType.DIGITAL) //
                 .knobType(KnobType.PLAIN)
                 .knobColor(btnColor())
                 .interactive(true)
