@@ -1,6 +1,7 @@
 package org.ully.enterprise.panel.energy;
 
 import org.ully.enterprise.Starship;
+import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.panel.Refreshable;
 
 import javafx.geometry.Insets;
@@ -29,7 +30,9 @@ public class GenericEnergyPanel extends TilePane implements Refreshable {
         setHgap(4);
         setPrefColumns(1);
 
-        ship.getCircuits().map(CircuitPanel::new).forEach(getChildren()::add);
+        if (new Checker().isSafe(ship.getCircuits())) {
+            ship.getCircuits().map(CircuitPanel::new).forEach(getChildren()::add);
+        }
     }
 
     @Override

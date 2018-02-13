@@ -175,4 +175,14 @@ public class Circuit extends Component {
     public Stream<Circuit> getAllCircuits() {
         return Stream.concat(Stream.of(this), getSubCircuits().flatMap(Circuit::getAllCircuits));
     }
+
+    /**
+     * Returns a stream with all components and subcomponents.
+     *
+     * @return a stream with all components
+     */
+    public Stream<Component> getAllComponents() {
+        return Stream.concat(getComponents(), getSubCircuits().flatMap(Circuit::getAllComponents));
+    }
+
 }

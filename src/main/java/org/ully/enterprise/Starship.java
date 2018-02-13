@@ -2,6 +2,7 @@ package org.ully.enterprise;
 
 import java.util.stream.Stream;
 
+import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.energy.PowerFlowEmulator;
 
@@ -46,6 +47,7 @@ public abstract class Starship {
      */
     public void powerUp() {
         if (powerFlowEmulator == null) {
+            new Checker().check(getCircuits());
             powerFlowEmulator = PowerFlowEmulator.get().with(getCircuits());
         }
         powerFlowEmulator.start();

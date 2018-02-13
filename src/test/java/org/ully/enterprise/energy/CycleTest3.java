@@ -1,15 +1,12 @@
 package org.ully.enterprise.energy;
 
+import static org.ully.enterprise.energy.TestUtil.c;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Power;
 
 public class CycleTest3 {
-
-    private Circuit c(Component... cList) {
-        return new Circuit("").with(cList);
-    }
 
     @Test
     public void supplierCircuitOpenConsumerCircuitOpen() {

@@ -1,6 +1,6 @@
 package org.ully.enterprise.panel.energy;
 
-import org.ully.enterprise.Enterprise;
+import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
 
 import javafx.geometry.Insets;

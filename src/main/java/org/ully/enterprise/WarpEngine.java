@@ -18,9 +18,9 @@ public class WarpEngine extends Component {
     /**
      * create a warp engine with the given name.
      *
-     * @param name
+     * @param name Name of the engine
      */
-    WarpEngine(String name) {
+    public WarpEngine(String name) {
         super(name);
     }
 

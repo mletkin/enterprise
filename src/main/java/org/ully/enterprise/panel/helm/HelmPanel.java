@@ -1,7 +1,7 @@
 package org.ully.enterprise.panel.helm;
 
-import org.ully.enterprise.Enterprise;
 import org.ully.enterprise.WarpEngine;
+import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
 
 import eu.hansolo.medusa.Gauge;

@@ -17,7 +17,7 @@ public class LifeSupport extends Component {
      *
      * @param name of the component
      */
-    LifeSupport(String name) {
+    public LifeSupport(String name) {
         super(name);
     }
 

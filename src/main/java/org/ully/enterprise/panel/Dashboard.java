@@ -3,7 +3,7 @@ package org.ully.enterprise.panel;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ully.enterprise.Enterprise;
+import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.energy.EnergyPanel;
 import org.ully.enterprise.panel.environment.EnvironmentPanel;
 import org.ully.enterprise.panel.helm.HelmPanel;

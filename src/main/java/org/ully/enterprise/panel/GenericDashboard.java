@@ -1,12 +1,16 @@
 package org.ully.enterprise.panel;
 
-import org.ully.enterprise.Potemkin;
 import org.ully.enterprise.Starship;
+import org.ully.enterprise.energy.Checker.ShortCircuitException;
+import org.ully.enterprise.fleet.Potemkin;
 import org.ully.enterprise.panel.energy.GenericEnergyPanel;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -32,8 +36,12 @@ public class GenericDashboard extends Application {
         stage.setOnCloseRequest(this::shutdown);
         stage.setScene(scene);
         stage.show();
-        ship.powerUp();
-        mkTimer().start();
+        try {
+            ship.powerUp();
+            mkTimer().start();
+        } catch (ShortCircuitException e) {
+            new Alert(AlertType.INFORMATION, e.msg(), ButtonType.OK).showAndWait();
+        }
     }
 
     private AnimationTimer mkTimer() {
