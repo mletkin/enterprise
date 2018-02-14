@@ -48,7 +48,7 @@ public class PowerFlowEmulator extends Thread {
      * Use the given list of circuits.
      *
      * @param circuit
-     *            the list of circuits for which to emulate the power flow
+     *            the circuit for which to emulate the power flow
      * @return the {@code PowerFlowEmulator}-Object
      */
     public PowerFlowEmulator with(Circuit circuit) {

@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Energy;
 import org.ully.enterprise.units.Power;
-import org.ully.enterprise.util.Util;
 
 /**
  * Represents a power circuit that connects a set of components.
@@ -42,17 +41,6 @@ public class Circuit extends Component {
         components.add(gateway);
     }
 
-    /**
-     * Adds a stream of circuits to the circuit.
-     *
-     * @param components
-     *            list of circuits to add
-     * @return the Circuit
-     */
-    public Circuit with(List<Circuit> components) {
-        Util.streamOf(components).forEach(this.components::add);
-        return this;
-    }
 
     /**
      * Adds a list of components to the circuit.
@@ -165,15 +153,6 @@ public class Circuit extends Component {
 
     private Power flow(Component comp) {
         return comp.getDirection() == Direction.IN ? comp.getPotentialPowerFlow().neg() : comp.getPotentialPowerFlow();
-    }
-
-    /**
-     * Returns a stream with all circuits contained in the circuit.
-     *
-     * @return a stream with all circuits
-     */
-    public Stream<Circuit> getAllCircuits() {
-        return Stream.concat(Stream.of(this), getSubCircuits().flatMap(Circuit::getAllCircuits));
     }
 
     /**

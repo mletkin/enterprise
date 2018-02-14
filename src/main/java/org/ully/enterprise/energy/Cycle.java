@@ -26,7 +26,7 @@ public class Cycle {
     }
 
     /**
-     * calculate and perform the energy transfer.
+     * Recursively calculates and performs the energy transfer.
      *
      * @param circuit
      *            the circuit to be calculated
@@ -38,8 +38,8 @@ public class Cycle {
         double consumeQuotient = getQuotientConsumed(required, available);
 
         circuit.getComponents().forEach(c -> c.internal(msec));
-        circuit.getConsumer().forEach(s -> this.supplyEnergy(s, supplyQuotient, msec));
-        circuit.getSupplier().forEach(s -> this.consumeEnergy(s, consumeQuotient, msec));
+        circuit.getConsumer().forEach(s -> distributeEnergy(s, supplyQuotient, msec));
+        circuit.getSupplier().forEach(s -> distributeEnergy(s, consumeQuotient, msec));
 
         circuit.getSubCircuits().forEach(this::calculate);
     }
@@ -58,12 +58,8 @@ public class Cycle {
                 .sum();
     }
 
-    private void supplyEnergy(Component s, double fraction, long msec) {
+    private void distributeEnergy(Component s, double fraction, long msec) {
         s.load(Energy.of(s.getPotentialEnergyFlow(msec).value() * fraction), msec);
-    }
-
-    private void consumeEnergy(Component s, double fraction, long msec) {
-        supplyEnergy(s, fraction, msec);
     }
 
     /**
@@ -74,15 +70,10 @@ public class Cycle {
      * @return
      */
     private double getQuotientSupplied(double required, double available) {
-        if (Math.abs(available) <= EPSILON || Math.abs(required) <= EPSILON) {
-            return 0;
+        if (isZero(available) || isZero(required)) {
+            return 0.0;
         }
-
-        if (available >= required) {
-            return 1.0;
-        }
-
-        return available / required;
+        return (available >= required) ? 1.0 : available / required;
     }
 
     /**
@@ -93,15 +84,20 @@ public class Cycle {
      * @return
      */
     private double getQuotientConsumed(double required, double available) {
-        if (Math.abs(available) <= EPSILON || Math.abs(required) <= EPSILON) {
+        if (isZero(available) || isZero(required)) {
             return 0;
         }
+        return (available >= required) ? required / available : 1.0;
+    }
 
-        if (available >= required) {
-            return required / available;
-        }
-
-        return 1.0;
+    /**
+     * Check double value to be about zero.
+     *
+     * @param value
+     * @return
+     */
+    private boolean isZero(double value) {
+        return Math.abs(value) <= EPSILON;
     }
 
 }

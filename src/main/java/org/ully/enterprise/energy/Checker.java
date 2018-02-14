@@ -1,17 +1,20 @@
 package org.ully.enterprise.energy;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.ully.enterprise.Component;
 
+/**
+ * Check a energy circuit for short circuits.
+ */
 public class Checker {
 
     private Set<Component> checkList = new HashSet<>();
 
+    /**
+     * To be thrown, when a short circuit is found.
+     */
     public class ShortCircuitException extends RuntimeException {
 
         private Component c;
@@ -28,9 +31,16 @@ public class Checker {
         }
     }
 
-    public boolean isSafe(Stream<Circuit> circuits) {
+    /**
+     * Checks the circuit exception free for errors.
+     *
+     * @param circuit
+     *            the power circuit to check
+     * @return true, if there's no short circuit
+     */
+    public boolean isSafe(Circuit circuit) {
         try {
-            check(circuits);
+            check(circuit);
             return true;
         } catch (ShortCircuitException e) {
             return false;
@@ -38,26 +48,16 @@ public class Checker {
     }
 
     /**
-     * Is the circuit safe?
+     * Checks the circuit an throws an exception is a short circuit is found.
      *
      * @param circuit
-     *            the power circuit to check
-     * @return true, if there's no short circuit
+     *            the circuit to check
+     * @throws ShortCircuitException
      */
-    public boolean isSafe(Circuit circuit) {
-        return isSafe(Stream.of(circuit));
-    }
-
-    public void check(Stream<Circuit> circuits) throws ShortCircuitException {
-        List<Circuit> liste = circuits.collect(Collectors.toList());
-        checkList.clear();
-        liste.forEach(this::checkIntern);
-        liste.stream().flatMap(Circuit::getAllComponents).forEach(this::checkIntern);
-    }
-
     public void check(Circuit circuit) throws ShortCircuitException {
         checkList.clear();
-        check(Stream.of(circuit));
+        checkIntern(circuit);
+        circuit.getAllComponents().forEach(this::checkIntern);
     }
 
     private void checkIntern(Component component) {
