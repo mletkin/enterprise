@@ -1,6 +1,8 @@
 package org.ully.enterprise.energy;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.fleet.Pegasus;
@@ -12,17 +14,17 @@ public class CheckerTest2 {
 
     @Test
     public void enterpriseIsOk() {
-        Assert.assertTrue(checker.isSafe(new Enterprise().getCircuits()));
+        assertTrue(checker.isSafe(new Enterprise().powerSystem()));
     }
 
     @Test
     public void pegasusIsDefect() {
-        Assert.assertFalse(checker.isSafe(new Pegasus().getCircuits()));
+        assertFalse(checker.isSafe(new Pegasus().powerSystem()));
     }
 
     @Test
     public void potemkinIsOk() {
-        Assert.assertTrue(checker.isSafe(new Potemkin().getCircuits()));
+        assertTrue(checker.isSafe(new Potemkin().powerSystem()));
     }
 
 }

@@ -1,7 +1,5 @@
 package org.ully.enterprise.fleet;
 
-import java.util.stream.Stream;
-
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
@@ -44,8 +42,8 @@ public class Enterprise extends Starship {
     }
 
     @Override
-    public Stream<Circuit> getCircuits() {
-        return Stream.of(mainPowerCircuit, lifePowerCircuit);
+    public Circuit powerSystem() {
+        return new Circuit("power bus").with(mainPowerCircuit, lifePowerCircuit);
     }
 
 }

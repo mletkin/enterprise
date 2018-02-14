@@ -89,7 +89,7 @@ public class Circuit extends Component {
      *
      * @return a stream of all circuits
      */
-    Stream<Circuit> getSubCircuits() {
+    public Stream<Circuit> getSubCircuits() {
         return components.stream() //
                 .filter(c -> Circuit.class.isAssignableFrom(c.getClass())) //
                 .map(c -> (Circuit) c);

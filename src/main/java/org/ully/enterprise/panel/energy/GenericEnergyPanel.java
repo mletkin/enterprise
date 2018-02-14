@@ -30,8 +30,8 @@ public class GenericEnergyPanel extends TilePane implements Refreshable {
         setHgap(4);
         setPrefColumns(1);
 
-        if (new Checker().isSafe(ship.getCircuits())) {
-            ship.getCircuits().map(CircuitPanel::new).forEach(getChildren()::add);
+        if (new Checker().isSafe(ship.powerSystem())) {
+            ship.powerSystem().getSubCircuits().map(CircuitPanel::new).forEach(getChildren()::add);
         }
     }
 

@@ -1,7 +1,5 @@
 package org.ully.enterprise.fleet;
 
-import java.util.stream.Stream;
-
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
@@ -22,10 +20,6 @@ import org.ully.enterprise.units.Power;
  */
 public class Potemkin extends Starship {
 
-    public Potemkin() {
-        super("NCC-1657 Potemkin");
-    }
-
     private Circuit shieldCircuit = new Circuit("shield") //
             .with(new Shield("stern"), new Shield("aft"), new Reactor("life", Power.of(20)));
 
@@ -35,9 +29,16 @@ public class Potemkin extends Starship {
     private Circuit lifePowerCircuit = new Circuit("life")//
             .with(new LifeSupport("main"), new Reactor("life", Power.of(10)));
 
+    private Circuit bus = new Circuit("energy bus") //
+            .with(mainPowerCircuit, lifePowerCircuit);
+
+    public Potemkin() {
+        super("NCC-1657 Potemkin");
+    }
+
     @Override
-    public Stream<Circuit> getCircuits() {
-        return Stream.of(lifePowerCircuit, mainPowerCircuit);
+    public Circuit powerSystem() {
+        return bus;
     }
 
 }

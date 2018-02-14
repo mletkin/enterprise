@@ -1,9 +1,5 @@
 package org.ully.enterprise.energy;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 /**
  * Perform the power flow emulation.
  * <p>
@@ -15,7 +11,7 @@ public class PowerFlowEmulator extends Thread {
     private static final long DELTA_IN_MSEC = 10;
     private long delta;
     private Cycle cycle;
-    private List<Circuit> circuit;
+    private Circuit circuit;
 
     /**
      * Create an emulator object for a given tme interval.
@@ -55,20 +51,8 @@ public class PowerFlowEmulator extends Thread {
      *            the list of circuits for which to emulate the power flow
      * @return the {@code PowerFlowEmulator}-Object
      */
-    public PowerFlowEmulator with(Circuit... circuit) {
-        this.circuit = Stream.of(circuit).collect(Collectors.toList());
-        return this;
-    }
-
-    /**
-     * Use the given list of circuits.
-     *
-     * @param circuits
-     *            the list of circuits for which to emulate the power flow
-     * @return the {@code PowerFlowEmulator}-Object
-     */
-    public PowerFlowEmulator with(Stream<Circuit> circuits) {
-        this.circuit = circuits.collect(Collectors.toList());
+    public PowerFlowEmulator with(Circuit circuit) {
+        this.circuit = circuit;
         return this;
     }
 
@@ -91,13 +75,13 @@ public class PowerFlowEmulator extends Thread {
     void calculateSingleCycle() {
 
         // reset the gateway power in each circuit (and sub-circuits)
-        circuit.forEach(Circuit::resetGateway);
+        circuit.resetGateway();
 
         // calculate gateway power for all circuits (and sub-circuits)
-        circuit.forEach(Circuit::calculate);
+        circuit.calculate();
 
         // calculate gateway power for all circuits
-        cycle.calculate(new Circuit("energy bus").with(circuit));
+        cycle.calculate(circuit);
     }
 
 }

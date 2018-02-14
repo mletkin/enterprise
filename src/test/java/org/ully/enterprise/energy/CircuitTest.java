@@ -1,8 +1,8 @@
 package org.ully.enterprise.energy;
 
+import static org.junit.Assert.assertEquals;
 import static org.ully.enterprise.energy.TestUtil.c;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Power;
@@ -15,31 +15,31 @@ public class CircuitTest {
     @Test
     public void singleCircuit_2() {
         Circuit c1 = c();
-        Assert.assertEquals(1, c1.getAllComponents().count());
+        assertEquals(1, c1.getAllComponents().count());
     }
 
     @Test
     public void singleCircuitSingleComponent_3() {
         Circuit c1 = c(s());
-        Assert.assertEquals(2, c1.getAllComponents().count());
+        assertEquals(2, c1.getAllComponents().count());
     }
 
     @Test
     public void oneCircuitTwoComponents_6() {
         Circuit c1 = c(s(), s());
-        Assert.assertEquals(3, c1.getAllComponents().count());
+        assertEquals(3, c1.getAllComponents().count());
     }
 
     @Test
     public void twoCircuitsOneComponent() {
         Circuit c1 = c(c(s()));
-        Assert.assertEquals(4, c1.getAllComponents().count());
+        assertEquals(4, c1.getAllComponents().count());
     }
 
     @Test
     public void twoCircuitTwoComponents_6() {
         Circuit c1 = c(s(), c(s()));
-        Assert.assertEquals(5, c1.getAllComponents().count());
+        assertEquals(5, c1.getAllComponents().count());
     }
 
 }

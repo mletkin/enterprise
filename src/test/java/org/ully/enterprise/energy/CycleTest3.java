@@ -1,8 +1,8 @@
 package org.ully.enterprise.energy;
 
+import static org.junit.Assert.assertEquals;
 import static org.ully.enterprise.energy.TestUtil.c;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.ully.enterprise.units.Power;
 
@@ -13,58 +13,52 @@ public class CycleTest3 {
         ConstantSupplier sup = new ConstantSupplier(Power.of(5));
         ConstantConsumer con = new ConstantConsumer(Power.of(4));
 
-        Circuit c4 = c(c(con), c(c(sup)));
-
-        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c4);
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c(c(con), c(c(sup))));
 
         for (int n = 1; n <= 5; n++) {
             emulator.calculateSingleCycle();
 
-            Assert.assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(4.0, con.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(n * 0.4, con.load.value(), 0.01d);
+            assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(4.0, con.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(n * 0.4, con.load.value(), 0.01d);
         }
     }
 
     @Test
     public void supplierCircuitOpenConsumerCircuitClosed() {
         ConstantSupplier sup = new ConstantSupplier(Power.of(5));
-
         ConstantConsumer con = new ConstantConsumer(Power.of(4));
-        Circuit c2 = c(con);
 
+        Circuit c2 = c(con);
         c2.getPowerGateway().offline();
 
-        Circuit c4 = c(c2, c(c(sup)));
-
-        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c4);
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c(c2, c(c(sup))));
 
         for (int n = 1; n <= 5; n++) {
             emulator.calculateSingleCycle();
 
-            Assert.assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(0.0, con.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(0.0, con.load.value(), 0.01d);
+            assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(0.0, con.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(0.0, con.load.value(), 0.01d);
         }
     }
 
     @Test
     public void supplierCircuitClosedConsumerCircuitOpen() {
         ConstantSupplier sup = new ConstantSupplier(Power.of(5));
+        ConstantConsumer con = new ConstantConsumer(Power.of(4));
+
         Circuit c1 = c(sup);
         c1.getPowerGateway().offline();
 
-        ConstantConsumer con = new ConstantConsumer(Power.of(4));
-        Circuit c4 = c(c(con), c(c1));
-
-        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c4);
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c(c(con), c(c1)));
 
         for (int n = 1; n <= 5; n++) {
             emulator.calculateSingleCycle();
 
-            Assert.assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(0.0, con.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(0.0, con.load.value(), 0.01d);
+            assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(0.0, con.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(0.0, con.load.value(), 0.01d);
         }
     }
 
@@ -72,21 +66,17 @@ public class CycleTest3 {
     public void noSurplusFromSupplierCircuit() {
         ConstantSupplier sup = new ConstantSupplier(Power.of(5));
         ConstantConsumer con1 = new ConstantConsumer(Power.of(5));
-        Circuit c1 = new Circuit("").with(sup, con1);
-
         ConstantConsumer con2 = new ConstantConsumer(Power.of(5));
-        Circuit c2 = new Circuit("").with(con2);
-
-        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c1, c2);
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c(c(sup, con1), c(con2)));
 
         for (int n = 1; n <= 5; n++) {
             emulator.calculateSingleCycle();
 
-            Assert.assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(n * 0.5, con1.getLoad().value(), 0.01d);
-            Assert.assertEquals(5.0, con1.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(n * 0.0, con2.getLoad().value(), 0.01d);
-            Assert.assertEquals(0.0, con2.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(5.0, sup.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(n * 0.5, con1.getLoad().value(), 0.01d);
+            assertEquals(5.0, con1.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(n * 0.0, con2.getLoad().value(), 0.01d);
+            assertEquals(0.0, con2.getCurrentPowerFlow().value(), 0.01d);
         }
     }
 
@@ -94,21 +84,17 @@ public class CycleTest3 {
     public void surplusFromReactorCircuit() {
         ConstantSupplier r1 = new ConstantSupplier(Power.of(100));
         ConstantConsumer p1 = new ConstantConsumer(Power.of(5));
-        Circuit c1 = new Circuit("").with(r1, p1);
-
         ConstantConsumer p2 = new ConstantConsumer(Power.of(5));
-        Circuit c2 = new Circuit("").with(p2);
-
-        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c1, c2);
+        PowerFlowEmulator emulator = PowerFlowEmulator.get(100).with(c(c(r1, p1), c(p2)));
 
         for (int n = 1; n <= 5; n++) {
             emulator.calculateSingleCycle();
 
-            Assert.assertEquals(100, r1.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(n * 0.5, p1.getLoad().value(), 0.01d);
-            Assert.assertEquals(5.0, p1.getCurrentPowerFlow().value(), 0.01d);
-            Assert.assertEquals(n * 0.5, p2.getLoad().value(), 0.01d);
-            Assert.assertEquals(5.0, p2.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(100, r1.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(n * 0.5, p1.getLoad().value(), 0.01d);
+            assertEquals(5.0, p1.getCurrentPowerFlow().value(), 0.01d);
+            assertEquals(n * 0.5, p2.getLoad().value(), 0.01d);
+            assertEquals(5.0, p2.getCurrentPowerFlow().value(), 0.01d);
         }
     }
 

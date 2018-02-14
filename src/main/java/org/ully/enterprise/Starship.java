@@ -1,7 +1,5 @@
 package org.ully.enterprise;
 
-import java.util.stream.Stream;
-
 import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.energy.PowerFlowEmulator;
@@ -21,7 +19,7 @@ public abstract class Starship {
     private PowerFlowEmulator powerFlowEmulator;
     private String name;
 
-    public abstract Stream<Circuit> getCircuits();
+    public abstract Circuit powerSystem();
 
     /**
      * Create a ship with the given name.
@@ -47,8 +45,8 @@ public abstract class Starship {
      */
     public void powerUp() {
         if (powerFlowEmulator == null) {
-            new Checker().check(getCircuits());
-            powerFlowEmulator = PowerFlowEmulator.get().with(getCircuits());
+            new Checker().check(powerSystem());
+            powerFlowEmulator = PowerFlowEmulator.get().with(powerSystem());
         }
         powerFlowEmulator.start();
     }
