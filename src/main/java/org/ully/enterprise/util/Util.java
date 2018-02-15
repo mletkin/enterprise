@@ -14,10 +14,26 @@ public final class Util {
         // prevent instantiation
     }
 
+    /**
+     * create a {@code null} tolerant stream.
+     *
+     * @param <T>
+     *            Typ eof the stream elements
+     * @param list
+     *            a list to stream, might be {@code null}
+     * @return a stream from the list
+     */
     public static <T> Stream<T> streamOf(List<T> list) {
         return Optional.ofNullable(list).orElse(Collections.emptyList()).stream();
     }
 
+    /**
+     * Get the maximum from the list.
+     *
+     * @param value
+     *            list of long values
+     * @return the maximum
+     */
     public static long max(long... value) {
         return LongStream.of(value).max().orElse(0);
     }
@@ -26,9 +42,10 @@ public final class Util {
      * Check double value to be about zero.
      *
      * @param value
-     * @return
+     *            floating point value to check
+     * @return true, if the value is (about) zero
      */
-    public static  boolean isZero(double value) {
+    public static boolean isZero(double value) {
         return Math.abs(value) <= EPSILON;
     }
 

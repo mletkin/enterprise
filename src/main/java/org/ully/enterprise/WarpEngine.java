@@ -9,7 +9,6 @@ import org.ully.enterprise.util.Util;
 
 /**
  * Represents a single warp engine drive.
- * <p>
  * <ul>
  * <li>Actually it acts more like an impulse engine.
  * <li>The actual value approaches the wanted value with asymptotic latency

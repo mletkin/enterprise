@@ -1,5 +1,7 @@
 package org.ully.enterprise.fleet;
 
+import java.util.stream.Stream;
+
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
@@ -37,13 +39,20 @@ public class Enterprise extends Starship {
 
     public final Circuit lifePowerCircuit = new Circuit("life").with(pwrLife, life);
 
+    private final Circuit bus = new Circuit("power bus").with(mainPowerCircuit, lifePowerCircuit);
+
     public Enterprise() {
         super("NCC-1701 Enterprise");
     }
 
     @Override
     public Circuit powerSystem() {
-        return new Circuit("power bus").with(mainPowerCircuit, lifePowerCircuit);
+        return bus;
+    }
+
+    @Override
+    public Stream<WarpEngine> engines() {
+        return Stream.of(warpLeft, warpRight);
     }
 
     @Override

@@ -1,10 +1,13 @@
 package org.ully.enterprise.fleet;
 
+import java.util.stream.Stream;
+
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
 import org.ully.enterprise.Shield;
 import org.ully.enterprise.Starship;
+import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.units.Power;
 
@@ -32,6 +35,16 @@ public class Pegasus extends Starship {
     @Override
     public Circuit powerSystem() {
         return bus;
+    }
+
+    @Override
+    public Stream<WarpEngine> engines() {
+        return Stream.empty();
+    }
+
+    @Override
+    public double mass() {
+        return 100;
     }
 
 }

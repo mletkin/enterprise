@@ -4,8 +4,9 @@ import java.util.stream.Stream;
 
 import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.energy.Circuit;
-import org.ully.enterprise.energy.MovementEmulator;
-import org.ully.enterprise.energy.PowerFlowEmulator;
+import org.ully.enterprise.energy.Emulator;
+import org.ully.enterprise.energy.MovementCycle;
+import org.ully.enterprise.energy.PowerCycle;
 
 /**
  * Configuration for a galaxy class starship.
@@ -19,8 +20,8 @@ import org.ully.enterprise.energy.PowerFlowEmulator;
  */
 public abstract class Starship {
 
-    private PowerFlowEmulator powerFlowEmulator;
-    private MovementEmulator movementEmulator;
+    private Emulator powerFlowEmulator;
+    private Emulator movementEmulator;
 
     private String name;
 
@@ -69,11 +70,9 @@ public abstract class Starship {
     /**
      * The total mass of the straship
      *
-     * @return
+     * @return the starship#s total mass
      */
-    public double mass() {
-        return 0;
-    }
+    public abstract double mass();
 
     /**
      * Starts the emulation.
@@ -81,12 +80,13 @@ public abstract class Starship {
      * No emulation with a corrupted power system-
      */
     public void powerUp() {
+        new Checker().check(powerSystem());
+
         if (powerFlowEmulator == null) {
-            new Checker().check(powerSystem());
-            powerFlowEmulator = PowerFlowEmulator.get().with(this);
+            powerFlowEmulator = Emulator.get().with(this).with(new PowerCycle());
         }
         if (movementEmulator == null) {
-            movementEmulator = MovementEmulator.get().with(this);
+            movementEmulator = Emulator.get().with(this).with(new MovementCycle());
         }
 
         powerFlowEmulator.start();
@@ -94,7 +94,7 @@ public abstract class Starship {
     }
 
     /**
-     * Stops emulation.
+     * Stops the emulation.
      */
     public void powerDown() {
         if (powerFlowEmulator != null) {

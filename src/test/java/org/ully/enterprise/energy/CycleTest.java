@@ -2,6 +2,7 @@ package org.ully.enterprise.energy;
 
 import static org.junit.Assert.assertEquals;
 import static org.ully.enterprise.energy.TestUtil.c;
+import static org.ully.enterprise.energy.TestUtil.ship;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,12 +14,14 @@ import org.ully.enterprise.units.Power;
 
 public class CycleTest {
 
+    PowerCycle cycle = new PowerCycle().withDelta(1000);
+
     @Test
     public void singleConsumerWithoutEntropy() {
         Phaser one = new Phaser("");
         ConstantSupplier reactor = new ConstantSupplier(Power.of(1));
 
-        PowerFlowEmulator.get(1000).with(c(reactor, one)).calculateSingleCycle();
+        cycle.calculateSingleCycle(ship(c(reactor, one)));
 
         Assert.assertEquals(1.0, one.getLoad().value(), 0.1d);
     }
@@ -32,7 +35,7 @@ public class CycleTest {
         Shield dst = new Shield("");
         dst.setDirection(Direction.IN);
 
-        PowerFlowEmulator.get(1000).with(c(src, dst)).calculateSingleCycle();
+        cycle.calculateSingleCycle(ship(c(src, dst)));
 
         Assert.assertEquals(4.0, src.getLoad().value(), 0.1d);
         Assert.assertEquals(5.0, dst.getLoad().value(), 0.1d);
@@ -47,7 +50,7 @@ public class CycleTest {
         Phaser dest = new Phaser("");
         dest.setDirection(Direction.IN);
 
-        PowerFlowEmulator.get(1000).with(c(src, dest)).calculateSingleCycle();
+        cycle.calculateSingleCycle(ship(c(src, dest)));
 
         assertEquals(5.0, src.getLoad().value(), 0.1d);
         assertEquals(5.0, dest.getLoad().value(), 0.1d);
@@ -59,7 +62,7 @@ public class CycleTest {
         Phaser p1 = new Phaser("");
         ConstantSupplier reactor = new ConstantSupplier(Power.of(10));
 
-        PowerFlowEmulator.get(1000).with(c(reactor, s1, p1)).calculateSingleCycle();
+        cycle.calculateSingleCycle(ship(c(reactor, s1, p1)));
 
         assertEquals(5.0, s1.getLoad().value(), 0.1d);
         assertEquals(5.0, p1.getLoad().value(), 0.1d);
@@ -71,7 +74,7 @@ public class CycleTest {
         Phaser p1 = new Phaser("");
         ConstantSupplier reactor = new ConstantSupplier(Power.of(5));
 
-        PowerFlowEmulator.get(1000).with(c(reactor, s1, p1)).calculateSingleCycle();
+        cycle.calculateSingleCycle(ship(c(reactor, s1, p1)));
 
         assertEquals(2.5, s1.getLoad().value(), 0.001d);
         assertEquals(2.5, p1.getLoad().value(), 0.001d);

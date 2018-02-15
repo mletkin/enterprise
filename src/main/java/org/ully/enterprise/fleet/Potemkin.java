@@ -41,4 +41,9 @@ public class Potemkin extends Starship {
         return bus;
     }
 
+    @Override
+    public double mass() {
+        return 200;
+    }
+
 }

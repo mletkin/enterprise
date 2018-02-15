@@ -52,7 +52,7 @@ public class Checker {
      *
      * @param circuit
      *            the circuit to check
-     * @throws ShortCircuitException
+     * @throws ShortCircuitException thrown in case of a short circuit
      */
     public void check(Circuit circuit) throws ShortCircuitException {
         checkList.clear();
