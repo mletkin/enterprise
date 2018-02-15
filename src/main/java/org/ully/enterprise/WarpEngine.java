@@ -1,10 +1,19 @@
 package org.ully.enterprise;
 
+import static java.lang.Math.sqrt;
+
 import org.ully.enterprise.units.Energy;
+import org.ully.enterprise.units.Force;
 import org.ully.enterprise.units.Power;
+import org.ully.enterprise.util.Util;
 
 /**
  * Represents a single warp engine drive.
+ * <p>
+ * <ul>
+ * <li>Actually it acts more like an impulse engine.
+ * <li>The actual value approaches the wanted value with asymptotic latency
+ * </ul>
  */
 public class WarpEngine extends Component {
 
@@ -15,10 +24,13 @@ public class WarpEngine extends Component {
     Power wantedPower = Power.ZERO;
     Power potentialPower = Power.ZERO;
 
+    public double time = 0;
+
     /**
-     * create a warp engine with the given name.
+     * Creates a warp engine with the given name.
      *
-     * @param name Name of the engine
+     * @param name
+     *            Name of the engine
      */
     public WarpEngine(String name) {
         super(name);
@@ -27,6 +39,18 @@ public class WarpEngine extends Component {
     @Override
     public void load(Energy energy, long msec) {
         currentPower = energy.toPower(msec);
+        time = msec / 1000.0;
+    }
+
+    /**
+     * Calculates the force output from the current power flow.
+     *
+     * @param mass
+     *            the mass of the starship to be accelerated.
+     * @return the calculated force
+     */
+    public Force getForce(double mass) {
+        return Util.isZero(time) ? Force.ZERO : Force.of(mass * sqrt(2 * currentPower.value() / mass / time));
     }
 
     @Override
@@ -65,7 +89,7 @@ public class WarpEngine extends Component {
     }
 
     public void setWantedWarp(double warp) {
-        setWantedPowerFlow(Power.of(warp  * WARP_FACTOR));
+        setWantedPowerFlow(Power.of(warp * WARP_FACTOR));
     }
 
     public double getCurrentWarp() {

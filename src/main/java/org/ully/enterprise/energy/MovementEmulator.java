@@ -8,23 +8,23 @@ import org.ully.enterprise.Starship;
  * Repeatedly performs the power flow emulation for a set of
  * {@code Circuit}-Objects with a configurable time interval in an endless loop.
  */
-public class PowerFlowEmulator extends Thread {
+public class MovementEmulator extends Thread {
 
     private static final long DELTA_IN_MSEC = 10;
 
     private long delta;
-    private Cycle cycle;
+    private MovementCycle cycle;
     private Starship ship;
 
     /**
-     * Create an emulator object for a given tme interval.
+     * Create an emulator object for a given time interval.
      *
      * @param delta
      *            time interval in milliseconds
      */
-    private PowerFlowEmulator(long delta) {
+    private MovementEmulator(long delta) {
         this.delta = delta;
-        cycle = new Cycle(delta);
+        cycle = new MovementCycle(delta);
     }
 
     /**
@@ -34,8 +34,8 @@ public class PowerFlowEmulator extends Thread {
      *            time interval in milliseconds
      * @return the new emulator instance
      */
-    public static PowerFlowEmulator get(long delta) {
-        return new PowerFlowEmulator(delta);
+    public static MovementEmulator get(long delta) {
+        return new MovementEmulator(delta);
     }
 
     /**
@@ -43,18 +43,16 @@ public class PowerFlowEmulator extends Thread {
      *
      * @return the new emulator instance
      */
-    public static PowerFlowEmulator get() {
-        return new PowerFlowEmulator(DELTA_IN_MSEC);
+    public static MovementEmulator get() {
+        return new MovementEmulator(DELTA_IN_MSEC);
     }
 
     /**
-     * Use the given list of circuits.
+     * Adds the ship to the emulator.
      *
-     * @param circuit
-     *            the circuit for which to emulate the power flow
-     * @return the {@code PowerFlowEmulator}-Object
+     * @return the new emulator instance
      */
-    public PowerFlowEmulator with(Starship ship) {
+    public MovementEmulator with(Starship ship) {
         this.ship = ship;
         return this;
     }
@@ -62,7 +60,7 @@ public class PowerFlowEmulator extends Thread {
     @Override
     public void run() {
         for (;;) {
-            cycle.calculateSingleCycle(ship);
+            cycle.calculate(ship);
             try {
                 sleep(delta);
             } catch (InterruptedException e) {

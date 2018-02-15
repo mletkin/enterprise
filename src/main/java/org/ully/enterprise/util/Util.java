@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 
 public final class Util {
 
+    private static final double EPSILON = 0.00000000001;
+
     private Util() {
         // prevent instantiation
     }
@@ -18,6 +20,16 @@ public final class Util {
 
     public static long max(long... value) {
         return LongStream.of(value).max().orElse(0);
+    }
+
+    /**
+     * Check double value to be about zero.
+     *
+     * @param value
+     * @return
+     */
+    public static  boolean isZero(double value) {
+        return Math.abs(value) <= EPSILON;
     }
 
 }

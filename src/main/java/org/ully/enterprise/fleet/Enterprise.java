@@ -46,4 +46,8 @@ public class Enterprise extends Starship {
         return new Circuit("power bus").with(mainPowerCircuit, lifePowerCircuit);
     }
 
+    @Override
+    public double mass() {
+        return 400.0;
+    }
 }

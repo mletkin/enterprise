@@ -81,7 +81,7 @@ public class Dashboard extends Application {
 
     private Stage mkHelm(Stage opener) {
         helmPanel = new HelmPanel(ship, gridVisible);
-        Scene scene = new Scene(helmPanel, 350, 300);
+        Scene scene = new Scene(helmPanel, 350, 400);
 
         Stage stage = new Stage();
         stage.setTitle("helm panel");

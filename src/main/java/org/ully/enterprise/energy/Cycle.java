@@ -1,6 +1,9 @@
 package org.ully.enterprise.energy;
 
+import static org.ully.enterprise.util.Util.isZero;
+
 import org.ully.enterprise.Component;
+import org.ully.enterprise.Starship;
 import org.ully.enterprise.units.Energy;
 
 /**
@@ -12,7 +15,6 @@ import org.ully.enterprise.units.Energy;
  */
 public class Cycle {
 
-    private static final double EPSILON = 0.00000000001;
     private long msec;
 
     /**
@@ -26,12 +28,29 @@ public class Cycle {
     }
 
     /**
+     * Calculate power flow emulation for a single cycle.
+     */
+    void calculateSingleCycle(Starship ship) {
+
+        Circuit circuit = ship.powerSystem();
+
+        // reset the gateway power in each circuit (and sub-circuits)
+        circuit.resetGateway();
+
+        // calculate gateway power for all circuits (and sub-circuits)
+        circuit.calculate();
+
+        // calculate gateway power for all circuits
+        calculate(circuit);
+    }
+
+    /**
      * Recursively calculates and performs the energy transfer.
      *
      * @param circuit
      *            the circuit to be calculated
      */
-    public void calculate(Circuit circuit) {
+    private void calculate(Circuit circuit) {
         double available = energySupplied(circuit);
         double required = energyRequired(circuit);
         double supplyQuotient = getQuotientSupplied(required, available);
@@ -88,16 +107,6 @@ public class Cycle {
             return 0;
         }
         return (available >= required) ? required / available : 1.0;
-    }
-
-    /**
-     * Check double value to be about zero.
-     *
-     * @param value
-     * @return
-     */
-    private boolean isZero(double value) {
-        return Math.abs(value) <= EPSILON;
     }
 
 }

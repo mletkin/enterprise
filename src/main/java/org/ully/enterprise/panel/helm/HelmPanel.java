@@ -1,5 +1,6 @@
 package org.ully.enterprise.panel.helm;
 
+import org.ully.enterprise.Starship;
 import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
@@ -20,11 +21,15 @@ import javafx.scene.layout.GridPane;
  */
 public class HelmPanel extends GridPane implements Refreshable {
 
+    private static final String UNIT_ACCELERATION = "m/s\u00B2";
     private Enterprise ship;
     private Gauge leftGauge;
     private Gauge rightGauge;
     private Slider balance;
     private Slider warp;
+    private Gauge speedGauge;
+    private Gauge accGauge;
+    private Gauge distGauge;
 
     /**
      * Create the helm panel.
@@ -48,6 +53,24 @@ public class HelmPanel extends GridPane implements Refreshable {
         add(warp = mkWarpSlider(), 0, 1, 3, 1);
         add(balance = mkBalanceSlider(), 0, 2, 3, 1);
         add(mkCenterBtn(), 1, 3, 1, 1);
+        add(accGauge = mkAccGauge(ship), 0, 4, 5, 1);
+        add(speedGauge = mkSpeedGauge(ship), 0, 5, 5, 1);
+        add(distGauge = mkDistanceGauge(ship), 0, 6, 5, 1);
+    }
+
+    private Gauge mkDistanceGauge(Starship ship) {
+        return GaugeBuilder.create().skinType(SkinType.LCD) //
+                .title("distance").unit("km").build();
+    }
+
+    private Gauge mkSpeedGauge(Starship ship) {
+        return GaugeBuilder.create().skinType(SkinType.LCD) //
+                .title("speed").unit("m/s").build();
+    }
+
+    private Gauge mkAccGauge(Starship ship) {
+        return GaugeBuilder.create().skinType(SkinType.LCD) //
+                .title("acceleration").unit(UNIT_ACCELERATION).build();
     }
 
     private Gauge mkGauge(WarpEngine engine) {
@@ -109,6 +132,10 @@ public class HelmPanel extends GridPane implements Refreshable {
     public void refresh() {
         leftGauge.setValue(ship.warpLeft.getCurrentWarp());
         leftGauge.setThreshold(ship.warpLeft.getWantedWarp());
+
+        speedGauge.setValue(ship.speed);
+        accGauge.setValue(ship.acceleration);
+        distGauge.setValue(ship.dist / 1000.0);
 
         rightGauge.setValue(ship.warpRight.getCurrentWarp());
         rightGauge.setThreshold(ship.warpRight.getWantedWarp());

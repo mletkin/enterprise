@@ -1,7 +1,10 @@
 package org.ully.enterprise;
 
+import java.util.stream.Stream;
+
 import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.energy.Circuit;
+import org.ully.enterprise.energy.MovementEmulator;
 import org.ully.enterprise.energy.PowerFlowEmulator;
 
 /**
@@ -17,12 +20,35 @@ import org.ully.enterprise.energy.PowerFlowEmulator;
 public abstract class Starship {
 
     private PowerFlowEmulator powerFlowEmulator;
+    private MovementEmulator movementEmulator;
+
     private String name;
 
+    // movement parameters (temporary)
+    public double acceleration = 0;
+    public double speed = 0;
+    public double dist = 0;
+
+    /**
+     * Returns the complete power system.
+     *
+     * @return the circuit containing the whole power systeem
+     */
     public abstract Circuit powerSystem();
 
     /**
-     * Create a ship with the given name.
+     * Returns all the ship's engines.
+     *
+     * @return a Stream with all WarpEngine components
+     */
+    public Stream<WarpEngine> engines() {
+        return powerSystem().getAllComponents() //
+                .filter(c -> WarpEngine.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (WarpEngine) c);
+    }
+
+    /**
+     * Creates a ship with the given name.
      *
      * @param name
      *            name of the starship
@@ -41,22 +67,42 @@ public abstract class Starship {
     }
 
     /**
-     * Starts the energy flow emulation.
+     * The total mass of the straship
+     *
+     * @return
+     */
+    public double mass() {
+        return 0;
+    }
+
+    /**
+     * Starts the emulation.
+     * <p>
+     * No emulation with a corrupted power system-
      */
     public void powerUp() {
         if (powerFlowEmulator == null) {
             new Checker().check(powerSystem());
-            powerFlowEmulator = PowerFlowEmulator.get().with(powerSystem());
+            powerFlowEmulator = PowerFlowEmulator.get().with(this);
         }
+        if (movementEmulator == null) {
+            movementEmulator = MovementEmulator.get().with(this);
+        }
+
         powerFlowEmulator.start();
+        movementEmulator.start();
     }
 
     /**
-     * Stops the energy flow emulation.
+     * Stops emulation.
      */
     public void powerDown() {
         if (powerFlowEmulator != null) {
             powerFlowEmulator.stop();
+        }
+
+        if (movementEmulator != null) {
+            movementEmulator.stop();
         }
     }
 }
