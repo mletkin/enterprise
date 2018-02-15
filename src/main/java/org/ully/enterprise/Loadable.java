@@ -7,18 +7,17 @@ import org.ully.enterprise.units.Energy;
  */
 public interface Loadable {
 
-
     /**
-     * Current energy load of the component.
+     * Returns the current energy load of the component.
      *
      * @return the energy currently stored.
      */
     Energy getLoad();
 
     /**
-     * maximum energy load of the component.
+     * Returns the maximum energy load of the component.
      *
-     * @return the maximum energy.
+     * @return the maximum capacity.
      */
     Energy getMaxLoad();
 
