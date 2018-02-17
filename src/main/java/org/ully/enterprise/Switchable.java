@@ -1,5 +1,8 @@
 package org.ully.enterprise;
 
+/**
+ * Interface for components that may be dis-/connected.
+ */
 public interface Switchable {
 
     /**
@@ -14,12 +17,18 @@ public interface Switchable {
      */
     boolean isOnline();
 
+    /**
+     * Sets the engine online.
+     */
     default void online() {
         if (!isOnline()) {
             toggle();
         }
     }
 
+    /**
+     * Sets the engine online.
+     */
     default void offline() {
         if (isOnline()) {
             toggle();

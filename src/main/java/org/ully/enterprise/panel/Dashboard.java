@@ -14,6 +14,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * Main dashboard of the Enterprise.
+ */
 public class Dashboard extends Application {
 
     private Enterprise ship = new Enterprise();
@@ -21,6 +24,7 @@ public class Dashboard extends Application {
     private HelmPanel helmPanel;
     private boolean gridVisible = false;
     private List<Stage> stageList = new ArrayList<>();
+    private long lastTimerCall = System.nanoTime();
 
     public static void main(String[] args) {
         launch(args);
@@ -41,8 +45,6 @@ public class Dashboard extends Application {
         mkHelm(stage).show();
     }
 
-    long lastTimerCall = System.nanoTime();
-
     private AnimationTimer mkTimer() {
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -62,6 +64,13 @@ public class Dashboard extends Application {
         stageList.forEach(Stage::close);
     }
 
+    /**
+     * Creates the stage for the environmental controls.
+     *
+     * @param opener
+     *            the owning stage of the window.
+     * @return the stage with the environment controller
+     */
     private Stage mkEnvironment(Stage opener) {
         EnvironmentPanel panel = new EnvironmentPanel(ship, gridVisible);
         Scene scene = new Scene(panel, 350, 300);
@@ -72,13 +81,19 @@ public class Dashboard extends Application {
 
         stageList.add(stage);
 
-        // Set position of second window, related to primary window.
         stage.setX(opener.getX() + opener.getWidth());
         stage.setY(opener.getY());
 
         return stage;
     }
 
+    /**
+     * Creates the stage for the helm controls.
+     *
+     * @param opener
+     *            the owning stage of the window.
+     * @return the stage with the helm controller
+     */
     private Stage mkHelm(Stage opener) {
         helmPanel = new HelmPanel(ship, gridVisible);
         Scene scene = new Scene(helmPanel, 350, 400);
@@ -89,7 +104,6 @@ public class Dashboard extends Application {
 
         stageList.add(stage);
 
-        // Set position of second window, related to primary window.
         stage.setX(opener.getX() + opener.getWidth());
         stage.setY(400);
 

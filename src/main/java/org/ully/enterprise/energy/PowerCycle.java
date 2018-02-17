@@ -75,7 +75,7 @@ public class PowerCycle implements Cycle {
     }
 
     /**
-     * calculate the fraction of energy that will actually be supplied.
+     * Calculates the fraction of energy that will actually be supplied.
      *
      * @param required
      * @param available
@@ -89,7 +89,7 @@ public class PowerCycle implements Cycle {
     }
 
     /**
-     * calculate the fraction of energy that will actually be consumed.
+     * Calculates the fraction of energy that will actually be consumed.
      *
      * @param required
      * @param available

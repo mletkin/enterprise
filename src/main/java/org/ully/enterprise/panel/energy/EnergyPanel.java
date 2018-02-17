@@ -10,7 +10,7 @@ import javafx.scene.layout.GridPane;
 /**
  * Energy Panel for Enterprise components.
  */
-public class EnergyPanel extends GridPane {
+public class EnergyPanel extends GridPane implements Refreshable {
 
     /**
      * create the energy panel.
@@ -50,9 +50,7 @@ public class EnergyPanel extends GridPane {
         add(new LifeSupportPane(ship.life), 6, 3);
     }
 
-    /**
-     * Refresh all panels on the grid.
-     */
+    @Override
     public void refresh() {
         getChildren().stream() //
                 .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
