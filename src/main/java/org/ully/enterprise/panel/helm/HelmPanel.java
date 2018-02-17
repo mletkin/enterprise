@@ -30,9 +30,10 @@ public class HelmPanel extends GridPane implements Refreshable {
     private Gauge speedGauge;
     private Gauge accGauge;
     private Gauge distGauge;
+    private CompassPanel bearingPanel;
 
     /**
-     * Create the helm panel.
+     * Creates the helm panel.
      *
      * @param ship
      *            the instance of the ship to monitor
@@ -53,9 +54,10 @@ public class HelmPanel extends GridPane implements Refreshable {
         add(warp = mkWarpSlider(), 0, 1, 3, 1);
         add(balance = mkBalanceSlider(), 0, 2, 3, 1);
         add(mkCenterBtn(), 1, 3, 1, 1);
-        add(accGauge = mkAccGauge(ship), 0, 4, 5, 1);
-        add(speedGauge = mkSpeedGauge(ship), 0, 5, 5, 1);
-        add(distGauge = mkDistanceGauge(ship), 0, 6, 5, 1);
+        add(accGauge = mkAccGauge(ship), 0, 4);
+        add(speedGauge = mkSpeedGauge(ship), 1, 4);
+        add(distGauge = mkDistanceGauge(ship), 2, 4);
+        add(bearingPanel = new CompassPanel(ship), 0, 5);
     }
 
     private Gauge mkDistanceGauge(Starship ship) {
@@ -133,12 +135,14 @@ public class HelmPanel extends GridPane implements Refreshable {
         leftGauge.setValue(ship.warpLeft.getCurrentWarp());
         leftGauge.setThreshold(ship.warpLeft.getWantedWarp());
 
-        speedGauge.setValue(ship.speed);
+        speedGauge.setValue(ship.speed());
         accGauge.setValue(ship.acceleration);
-        distGauge.setValue(ship.dist / 1000.0);
+        distGauge.setValue(ship.position().abs() / 1000.0);
 
         rightGauge.setValue(ship.warpRight.getCurrentWarp());
         rightGauge.setThreshold(ship.warpRight.getWantedWarp());
+
+        bearingPanel.refresh();
     }
 
 }

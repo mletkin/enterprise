@@ -5,8 +5,9 @@ import java.util.stream.Stream;
 import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.energy.Emulator;
-import org.ully.enterprise.energy.MovementCycle;
 import org.ully.enterprise.energy.PowerCycle;
+import org.ully.enterprise.motion.MovementCycle2d;
+import org.ully.enterprise.units.Vector;
 
 /**
  * Configuration for a galaxy class starship.
@@ -15,7 +16,8 @@ import org.ully.enterprise.energy.PowerCycle;
  * <li>The starship contains power consuming and supplying components.
  * <li>The components are connected through (energy) circuits.
  * <li>The circuits are seperated and not connected.
- * <li>A single poewer emulator emulates he energy flow within all the circuits.
+ * <li>A single poewer emulator emulates the energy flow within all the
+ * circuits.
  * </ul>
  */
 public abstract class Starship {
@@ -25,10 +27,74 @@ public abstract class Starship {
 
     private String name;
 
-    // movement parameters (temporary)
+    // single dimensional bearing parameters (temporary)
     public double acceleration = 0;
     public double speed = 0;
     public double dist = 0;
+
+    // multi dimensional movement
+    private Vector bearing = Vector.ZERO;
+    private Vector heading = Vector.of(1, 0);
+    private Vector position = Vector.ZERO;
+
+    /**
+     * Creates a ship with the given name.
+     *
+     * @param name
+     *            name of the starship
+     */
+    public Starship(String name) {
+        this.name = name;
+    }
+
+    /**
+     * returns a vector indicating direction and speed of the ship's movement.
+     *
+     * @return
+     */
+    public Vector bearing() {
+        return bearing;
+    }
+
+    public void bearing(Vector bearing) {
+        this.bearing = bearing;
+    }
+
+    /**
+     * Retuns a vector indicating the direction in which where the ship's stern
+     * points, usually normalized.
+     *
+     * @return
+     */
+    public Vector heading() {
+        return heading;
+    }
+
+    public void heading(Vector heading) {
+        this.heading = heading;
+    }
+
+    /**
+     * Returns a vector indicatining the ship's position.
+     *
+     * @return
+     */
+    public Vector position() {
+        return position;
+    }
+
+    public void position(Vector position) {
+        this.position = position;
+    }
+
+    /**
+     * speed is the absolute value of the bearing vector.
+     *
+     * @return
+     */
+    public double speed() {
+        return bearing.abs();
+    }
 
     /**
      * Returns the complete power system.
@@ -42,20 +108,10 @@ public abstract class Starship {
      *
      * @return a Stream with all WarpEngine components
      */
-    public Stream<WarpEngine> engines() {
+    public Stream<Engine> engines() {
         return powerSystem().getAllComponents() //
-                .filter(c -> WarpEngine.class.isAssignableFrom(c.getClass())) //
-                .map(c -> (WarpEngine) c);
-    }
-
-    /**
-     * Creates a ship with the given name.
-     *
-     * @param name
-     *            name of the starship
-     */
-    public Starship(String name) {
-        this.name = name;
+                .filter(c -> Engine.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (Engine) c);
     }
 
     /**
@@ -68,9 +124,9 @@ public abstract class Starship {
     }
 
     /**
-     * The total mass of the straship
+     * Returns the total mass of the starship
      *
-     * @return the starship#s total mass
+     * @return the starship's total mass
      */
     public abstract double mass();
 
@@ -86,7 +142,7 @@ public abstract class Starship {
             powerFlowEmulator = Emulator.get().with(this).with(new PowerCycle());
         }
         if (movementEmulator == null) {
-            movementEmulator = Emulator.get().with(this).with(new MovementCycle());
+            movementEmulator = Emulator.get().with(this).with(new MovementCycle2d());
         }
 
         powerFlowEmulator.start();

@@ -2,6 +2,7 @@ package org.ully.enterprise.fleet;
 
 import java.util.stream.Stream;
 
+import org.ully.enterprise.Engine;
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
@@ -10,6 +11,7 @@ import org.ully.enterprise.Starship;
 import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.units.Power;
+import org.ully.enterprise.units.Vector;
 
 /**
  * Configuration for the USS Entrprise.
@@ -43,6 +45,7 @@ public class Enterprise extends Starship {
 
     public Enterprise() {
         super("NCC-1701 Enterprise");
+        heading(Vector.of(-1, 0));
     }
 
     @Override
@@ -51,7 +54,7 @@ public class Enterprise extends Starship {
     }
 
     @Override
-    public Stream<WarpEngine> engines() {
+    public Stream<Engine> engines() {
         return Stream.of(warpLeft, warpRight);
     }
 
