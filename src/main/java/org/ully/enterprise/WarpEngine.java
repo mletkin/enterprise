@@ -14,7 +14,7 @@ import org.ully.enterprise.util.Util;
  * <li>The actual value approaches the wanted value with asymptotic latency
  * </ul>
  */
-public class WarpEngine extends Component {
+public class WarpEngine extends Component implements Engine {
 
     private static final double WARP_FACTOR = 2; // == Power / Warp
 
@@ -41,13 +41,7 @@ public class WarpEngine extends Component {
         time = msec / 1000.0;
     }
 
-    /**
-     * Calculates the force output from the current power flow.
-     *
-     * @param mass
-     *            the mass of the starship to be accelerated.
-     * @return the calculated force
-     */
+    @Override
     public Force getForce(double mass) {
         return Util.isZero(time) ? Force.ZERO : Force.of(mass * sqrt(2 * currentPower.value() / mass / time));
     }
