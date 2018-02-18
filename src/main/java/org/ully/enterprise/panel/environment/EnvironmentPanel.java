@@ -5,12 +5,12 @@ import org.ully.enterprise.environment.Stress;
 import org.ully.enterprise.environment.StressEmulator;
 import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.panel.SliderBuilder;
 import org.ully.enterprise.units.Power;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -22,10 +22,10 @@ import javafx.scene.layout.GridPane;
  */
 public class EnvironmentPanel extends GridPane implements Refreshable {
 
-    private Slider sternPowerSlider = mkSlider();
+    private Slider sternPowerSlider = mkPowerSlider();
     private Slider sternTimeSlider = mkTimeSlider();
 
-    private Slider bowPowerSlider = mkSlider();
+    private Slider bowPowerSlider = mkPowerSlider();
     private Slider bowTimeSlider = mkTimeSlider();
 
     /**
@@ -60,29 +60,18 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
     }
 
     private Slider mkTimeSlider() {
-        Slider slider = new Slider();
-        slider.setMin(100);
-        slider.setMax(2000);
-        slider.setValue(100);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(100);
-        slider.setBlockIncrement(100);
-        slider.setOrientation(Orientation.HORIZONTAL);
-        return slider;
+        return SliderBuilder.horizontal() //
+                .range(100, 2000) //
+                .withMajorTickUnit(500) //
+                .blockIncrement(100) //
+                .get();
     }
 
-    private Slider mkSlider() {
-        Slider slider = new Slider();
-        slider.setMin(0);
-        slider.setMax(10);
-        slider.setValue(0);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(2);
-        slider.setBlockIncrement(1);
-        slider.setOrientation(Orientation.HORIZONTAL);
-        return slider;
+    private Slider mkPowerSlider() {
+        return SliderBuilder.horizontal() //
+                .range(0, 10) //
+                .withMajorTickUnit(1) //
+                .get();
     }
 
     private Button mkBtn(Component component, Slider powerSlider, Slider timeSlider) {

@@ -2,12 +2,11 @@ package org.ully.enterprise.panel.helm;
 
 import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.panel.SliderBuilder;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
-import javafx.beans.value.ChangeListener;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -30,8 +29,10 @@ public class EnginePanel extends GridPane implements Refreshable {
     /**
      * Creates the panel.
      *
-     * @param left left engine
-     * @param right right engine
+     * @param left
+     *            left engine
+     * @param right
+     *            right engine
      */
     public EnginePanel(WarpEngine left, WarpEngine right) {
         super();
@@ -60,37 +61,18 @@ public class EnginePanel extends GridPane implements Refreshable {
     }
 
     private Slider mkWarpSlider() {
-        Slider slider = new Slider();
-        slider.setMin(0);
-        slider.setMax(12);
-        slider.setValue(0);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(1);
-        slider.setBlockIncrement(0.5);
-        slider.setOrientation(Orientation.HORIZONTAL);
-        slider.valueProperty().addListener(//
-                (ChangeListener<Number>) (observable, oldValue, newValue) -> {
-                    setWarpFactor(newValue.doubleValue(), this.balance.getValue());
-                });
-        return slider;
+        return SliderBuilder.horizontal() //
+                .range(0, 12) //
+                .withMajorTickUnit(1) //
+                .onChange(value -> setWarpFactor(value, this.balance.getValue())) //
+                .get();
     }
 
     private Slider mkBalanceSlider() {
-        Slider slider = new Slider();
-        slider.setMin(-50);
-        slider.setMax(50);
-        slider.setValue(0);
-        slider.setShowTickLabels(true);
-        slider.setShowTickMarks(true);
-        slider.setMajorTickUnit(10);
-        slider.setBlockIncrement(5);
-        slider.setOrientation(Orientation.HORIZONTAL);
-        slider.valueProperty().addListener(//
-                (ChangeListener<Number>) (observable, oldValue, newValue) -> {
-                    setWarpFactor(warp.getValue(), newValue.doubleValue());
-                });
-        return slider;
+        return SliderBuilder.horizontal() //
+                .range(-50, 50) //
+                .onChange(value -> setWarpFactor(warp.getValue(), value)) //
+                .get();
     }
 
     private void setWarpFactor(double speed, double balance) {
