@@ -2,6 +2,7 @@ package org.ully.enterprise.panel.energy;
 
 import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.util.Util;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,12 +14,10 @@ import javafx.scene.layout.GridPane;
 public class EnergyPanel extends GridPane implements Refreshable {
 
     /**
-     * create the energy panel.
+     * Create the energy panel.
      *
      * @param ship
      *            the instance of the ship to monitor
-     * @param gridVisible
-     *            show grid lines for debugging
      */
     public EnergyPanel(Enterprise ship) {
         super();
@@ -51,10 +50,7 @@ public class EnergyPanel extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        getChildren().stream() //
-                .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
-                .map(c -> (Refreshable) c) //
-                .forEach(Refreshable::refresh);
+        Util.filter(getChildren().stream(), Refreshable.class).forEach(Refreshable::refresh);
     }
 
 }

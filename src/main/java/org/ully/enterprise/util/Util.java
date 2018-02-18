@@ -58,7 +58,7 @@ public final class Util {
      *            Class object specifying the desired class
      * @return The filtered, converted stream
      */
-    public static <U, T extends U> Stream<T> filter(Stream<U> stream, Class<T> clazz) {
+    public static <U, T> Stream<T> filter(Stream<U> stream, Class<T> clazz) {
         return stream.filter(c -> c == null || clazz.isAssignableFrom(c.getClass())) //
                 .map(c -> (T) c);
     }
