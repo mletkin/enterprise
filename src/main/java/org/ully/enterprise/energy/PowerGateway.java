@@ -23,6 +23,10 @@ public class PowerGateway extends Component {
 
     Power power = Power.ZERO;
 
+    {
+        type = "gate";
+    }
+
     /**
      * Creates a power exchange gateway with the given name.
      *

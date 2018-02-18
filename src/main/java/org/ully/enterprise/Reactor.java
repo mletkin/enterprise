@@ -12,6 +12,10 @@ public class Reactor extends Component {
     private Power currentFlow = Power.ZERO;
     private Power wantedFlow = Power.ZERO;
 
+    {
+        type = "reactor";
+    }
+
     /**
      * Creates a reator with given name and maximum power.
      *

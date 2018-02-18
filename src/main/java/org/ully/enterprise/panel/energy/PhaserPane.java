@@ -46,7 +46,7 @@ public class PhaserPane extends GridPane implements Refreshable {
         return GaugeBuilder.create().skinType(SkinType.GAUGE) //
                 .knobType(KnobType.PLAIN).knobColor(btnColor()).interactive(true)
                 .onButtonReleased(buttonEvent -> toggle()) //
-                .title(phaser.getName()).subTitle("phaser").unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value())
+                .title(phaser.getName()).subTitle(phaser.type()).unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value())
                 .build();
     }
 

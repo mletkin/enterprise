@@ -16,6 +16,10 @@ public class Phaser extends Component implements Loadable {
     private Energy load = Energy.ZERO;
     private Power currentFlow = Power.ZERO;
 
+    {
+        type = "phaser";
+    }
+
     /**
      * Create phaser bank with the given name.
      *

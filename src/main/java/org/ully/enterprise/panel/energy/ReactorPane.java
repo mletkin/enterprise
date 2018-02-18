@@ -37,7 +37,7 @@ public class ReactorPane extends GridPane implements Refreshable {
 
     private Gauge mkGauge() {
         return GaugeBuilder.create().skinType(SkinType.AMP)//
-                .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.getMaxPower().value())
+                .title(reactor.getName()).subTitle(reactor.type()).unit(Power.SYMBOL).maxValue(reactor.getMaxPower().value())
                 .threshold(reactor.getWantedFlow().value()).thresholdVisible(true) //
                 .lcdVisible(true).lcdDesign(LcdDesign.BLACK_YELLOW).lcdFont(LcdFont.DIGITAL).build();
     }

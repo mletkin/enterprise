@@ -18,6 +18,10 @@ public class Shield extends Component implements Loadable {
     private Energy load = Energy.ZERO;
     private Power currentFlow = Power.ZERO;
 
+    {
+        type = "shield";
+    }
+
     /**
      * Creates a shield with the given name.
      *

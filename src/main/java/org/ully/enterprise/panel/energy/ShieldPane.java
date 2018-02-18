@@ -44,7 +44,7 @@ public class ShieldPane extends GridPane implements Refreshable {
                 .knobColor(btnColor()) // Color of center knob
                 .interactive(true) // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
-                .title(shield.getName()).subTitle("shield").unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value())
+                .title(shield.getName()).subTitle(shield.type()).unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value())
                 .build();
     }
 

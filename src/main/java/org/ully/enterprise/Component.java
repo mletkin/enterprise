@@ -11,6 +11,7 @@ import org.ully.enterprise.units.Power;
 public abstract class Component implements Switchable {
 
     private String name;
+    protected String type;
     private boolean online = true;
     protected Direction flowDirection = Direction.IN;
 
@@ -41,15 +42,23 @@ public abstract class Component implements Switchable {
         return name;
     }
 
-    /* (non-Javadoc)
-     * @see org.ully.enterprise.Switchable#toggle()
+    /**
+     * Returns the compoennt type.
+     *
+     * @return
      */
+    public String type() {
+        return type;
+    }
+
     @Override
     public void toggle() {
         online = !online;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.ully.enterprise.Switchable#isOnline()
      */
     @Override

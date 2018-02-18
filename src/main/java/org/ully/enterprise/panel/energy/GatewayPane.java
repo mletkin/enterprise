@@ -62,7 +62,7 @@ public class GatewayPane extends GridPane implements Refreshable {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.INDICATOR)//
-                .title(gateway.getName()).subTitle("pwr").unit(Power.SYMBOL).minValue(-MAX).maxValue(MAX).build();
+                .title(gateway.getName()).subTitle(gateway.type()).unit(Power.SYMBOL).minValue(-MAX).maxValue(MAX).build();
         gauge.setBarColor(gauge.getBarBackgroundColor());
         return gauge;
     }

@@ -35,7 +35,7 @@ public class LifeSupportPane extends GridPane implements Refreshable {
     private Gauge mkGauge() {
         Section section = SectionBuilder.create().color(Color.CRIMSON).start(0).stop(2).build();
         gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(system.getName()).subTitle("life").unit(Power.SYMBOL).maxValue(system.getMaxPower().value()) //
+                .title(system.getName()).subTitle(system.type()).unit(Power.SYMBOL).maxValue(system.getMaxPower().value()) //
                 .needleColor(Color.DARKBLUE)//
                 .areas(section) //
                 .areasVisible(true) //

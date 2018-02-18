@@ -25,6 +25,10 @@ public class WarpEngine extends Component implements Engine {
 
     public double time = 0;
 
+    {
+        type = "warp";
+    }
+
     /**
      * Creates a warp engine with the given name.
      *

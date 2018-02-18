@@ -12,10 +12,15 @@ public class LifeSupport extends Component {
     Power neededPower = Power.of(5);
     Power current = Power.ZERO;
 
+    {
+        type = "life";
+    }
+
     /**
      * Create a life support system with the given name.
      *
-     * @param name of the component
+     * @param name
+     *            of the component
      */
     public LifeSupport(String name) {
         super(name);

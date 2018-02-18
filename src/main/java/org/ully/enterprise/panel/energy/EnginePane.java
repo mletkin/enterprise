@@ -35,7 +35,7 @@ public class EnginePane extends GridPane implements Refreshable {
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.DIGITAL) //
                 .knobType(KnobType.PLAIN).knobColor(btnColor()).interactive(true)
-                .onButtonReleased(buttonEvent -> toggle()).title(engine.getName()).subTitle("warp").unit(Power.SYMBOL)
+                .onButtonReleased(buttonEvent -> toggle()).title(engine.getName()).subTitle(engine.type()).unit(Power.SYMBOL)
                 .maxValue(engine.getMaxPower().value()).build();
         return gauge;
     }
