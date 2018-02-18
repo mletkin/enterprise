@@ -7,6 +7,7 @@ import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.energy.EnergyPanel;
 import org.ully.enterprise.panel.environment.EnvironmentPanel;
 import org.ully.enterprise.panel.helm.HelmPanel;
+import org.ully.enterprise.panel.map.MapPane;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -25,6 +26,7 @@ public class Dashboard extends Application {
     private boolean gridVisible = false;
     private List<Stage> stageList = new ArrayList<>();
     private long lastTimerCall = System.nanoTime();
+    private MapPane mapPanel;
 
     public static void main(String[] args) {
         launch(args);
@@ -43,6 +45,7 @@ public class Dashboard extends Application {
 
         mkEnvironment(stage).show();
         mkHelm(stage).show();
+        mkMap(stage).show();
     }
 
     private AnimationTimer mkTimer() {
@@ -52,6 +55,7 @@ public class Dashboard extends Application {
                 if (now > lastTimerCall + 1_000_000L) {
                     energyPanel.refresh();
                     helmPanel.refresh();
+                    mapPanel.refresh();
                     lastTimerCall = now;
                 }
             }
@@ -95,7 +99,7 @@ public class Dashboard extends Application {
      * @return the stage with the helm controller
      */
     private Stage mkHelm(Stage opener) {
-        helmPanel = new HelmPanel(ship, gridVisible);
+        helmPanel = new HelmPanel(ship);
         Scene scene = new Scene(helmPanel, 350, 400);
 
         Stage stage = new Stage();
@@ -110,4 +114,26 @@ public class Dashboard extends Application {
         return stage;
     }
 
+    /**
+     * Creates the stage for the map.
+     *
+     * @param opener
+     *            the owning stage of the window.
+     * @return the stage with map window
+     */
+    private Stage mkMap(Stage opener) {
+        mapPanel = new MapPane(ship);
+        Scene scene = new Scene(mapPanel, 350, 400);
+
+        Stage stage = new Stage();
+        stage.setTitle("star map");
+        stage.setScene(scene);
+
+        stageList.add(stage);
+
+        stage.setX(opener.getX() -350);
+        stage.setY(0);
+
+        return stage;
+    }
 }

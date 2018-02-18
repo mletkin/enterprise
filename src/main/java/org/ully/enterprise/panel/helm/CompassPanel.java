@@ -11,6 +11,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 
@@ -22,7 +23,9 @@ public class CompassPanel extends GridPane implements Refreshable {
     private Starship ship;
     private Gauge heading; // where the shp wants
     private Gauge bearing; // where the ship goes
-    private Gauge position;
+    private Gauge home;
+    private Label txtX;
+    private Label txtY;
 
     /**
      * Creates a compound panel.
@@ -34,10 +37,15 @@ public class CompassPanel extends GridPane implements Refreshable {
         super();
         this.ship = ship;
         setAlignment(Pos.CENTER);
-        add(heading = mkGauge(), 0, 0);
-        add(bearing = mkGauge(), 1, 0);
-        add(position = mkGauge(), 2, 0);
-        add(mkSlider(), 0, 1, 3, 1);
+        add(heading = mkGauge("head"),  0, 0);
+        add(bearing = mkGauge("bear"),  1, 0);
+        add(home = mkGauge("home"), 2, 0);
+        add(mkSlider(),           0, 1, 3, 1);
+
+        add(new Label("x"),       0, 2);
+        add(txtX = new Label(),   1, 2);
+        add(new Label("y"),       0, 3);
+        add(txtY = new Label(),   1, 3);
     }
 
     private Node mkSlider() {
@@ -64,8 +72,9 @@ public class CompassPanel extends GridPane implements Refreshable {
      *
      * @return the newly created gauge instance
      */
-    private Gauge mkGauge() {
+    private Gauge mkGauge(String title) {
         Gauge gauge = GaugeBuilder.create().skinType(SkinType.FLAT)//
+                .title(title)//
                 .minValue(0).maxValue(359).autoScale(false).startAngle(180).build();
         return gauge;
     }
@@ -74,7 +83,9 @@ public class CompassPanel extends GridPane implements Refreshable {
     public void refresh() {
         heading.setValue(ship.heading().deg());
         bearing.setValue(ship.bearing().deg());
-        position.setValue(ship.position().deg());
+        home.setValue(Vector.ZERO.sub(ship.position()).deg());
+        txtX.setText(String.format("%.3f", ship.position().x()));
+        txtY.setText(String.format("%.3f", ship.position().y()));
     }
 
 }
