@@ -1,12 +1,10 @@
 package org.ully.enterprise.panel.energy;
 
 import org.ully.enterprise.LifeSupport;
+import org.ully.enterprise.panel.GaugeFactory;
 import org.ully.enterprise.panel.Refreshable;
-import org.ully.enterprise.units.Power;
 
 import eu.hansolo.medusa.Gauge;
-import eu.hansolo.medusa.Gauge.SkinType;
-import eu.hansolo.medusa.GaugeBuilder;
 import eu.hansolo.medusa.Section;
 import eu.hansolo.medusa.SectionBuilder;
 import javafx.geometry.Pos;
@@ -18,8 +16,8 @@ import javafx.scene.paint.Color;
  */
 public class LifeSupportPane extends GridPane implements Refreshable {
 
-    private Gauge gauge;
     private LifeSupport system;
+    private Gauge gauge;
 
     /**
      * Creates the panel for a life support system-
@@ -29,18 +27,16 @@ public class LifeSupportPane extends GridPane implements Refreshable {
     public LifeSupportPane(LifeSupport system) {
         this.system = system;
         setAlignment(Pos.CENTER);
-        add(mkGauge(), 0, 0);
+        add(gauge = mkGauge(), 0, 0);
     }
 
     private Gauge mkGauge() {
         Section section = SectionBuilder.create().color(Color.CRIMSON).start(0).stop(2).build();
-        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
-                .title(system.getName()).subTitle(system.type()).unit(Power.SYMBOL).maxValue(system.getMaxPower().value()) //
-                .needleColor(Color.DARKBLUE)//
+        return GaugeFactory.mkPowerGauge(system) //
+                .needleColor(Color.DARKBLUE) //
                 .areas(section) //
                 .areasVisible(true) //
                 .build();
-        return gauge;
     }
 
     @Override

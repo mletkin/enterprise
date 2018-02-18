@@ -4,13 +4,11 @@ import static java.util.Optional.ofNullable;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Shield;
+import org.ully.enterprise.panel.GaugeFactory;
 import org.ully.enterprise.panel.Refreshable;
-import org.ully.enterprise.units.Energy;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
-import eu.hansolo.medusa.Gauge.SkinType;
-import eu.hansolo.medusa.GaugeBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -39,18 +37,16 @@ public class ShieldPane extends GridPane implements Refreshable {
     }
 
     private Gauge mkLoadGauge() {
-        return GaugeBuilder.create().skinType(SkinType.GAUGE)//
+        return GaugeFactory.mkLoadGauge(shield) //
                 .knobType(KnobType.PLAIN) // Type for center knob (STANDARD, PLAIN, METAL, FLAT)
                 .knobColor(btnColor()) // Color of center knob
                 .interactive(true) // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
-                .title(shield.getName()).subTitle(shield.type()).unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value())
                 .build();
     }
 
     private Gauge mkPowerGauge() {
-        return GaugeBuilder.create().skinType(SkinType.LINEAR) //
-                .maxValue(shield.getMaxPower().value()).build();
+        return GaugeFactory.mkPowerGauge(shield).build();
     }
 
     private Object toggle() {

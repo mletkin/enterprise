@@ -4,13 +4,11 @@ import static java.util.Optional.ofNullable;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Phaser;
+import org.ully.enterprise.panel.GaugeFactory;
 import org.ully.enterprise.panel.Refreshable;
-import org.ully.enterprise.units.Energy;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
-import eu.hansolo.medusa.Gauge.SkinType;
-import eu.hansolo.medusa.GaugeBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -43,16 +41,14 @@ public class PhaserPane extends GridPane implements Refreshable {
     }
 
     private Gauge mkLoadGauge() {
-        return GaugeBuilder.create().skinType(SkinType.GAUGE) //
+        return GaugeFactory.mkLoadGauge(phaser) //
                 .knobType(KnobType.PLAIN).knobColor(btnColor()).interactive(true)
                 .onButtonReleased(buttonEvent -> toggle()) //
-                .title(phaser.getName()).subTitle(phaser.type()).unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value())
                 .build();
     }
 
     private Gauge mkPowerGauge() {
-        return GaugeBuilder.create().skinType(SkinType.LINEAR) //
-                .maxValue(phaser.getMaxPower().value()).build();
+        return GaugeFactory.mkPowerGauge(phaser).build();
     }
 
     private Node mkFireBtn() {

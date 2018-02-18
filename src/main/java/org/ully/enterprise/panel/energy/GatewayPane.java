@@ -4,12 +4,11 @@ import static java.util.Optional.ofNullable;
 
 import org.ully.enterprise.Component.Direction;
 import org.ully.enterprise.energy.PowerGateway;
+import org.ully.enterprise.panel.GaugeFactory;
 import org.ully.enterprise.panel.Refreshable;
 import org.ully.enterprise.units.Power;
 
 import eu.hansolo.medusa.Gauge;
-import eu.hansolo.medusa.Gauge.SkinType;
-import eu.hansolo.medusa.GaugeBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
@@ -37,10 +36,10 @@ public class GatewayPane extends GridPane implements Refreshable {
      *            the {@code PowerGateway}-object to attach
      */
     public GatewayPane(PowerGateway gateway) {
-        super();
         this.gateway = gateway;
+
         setAlignment(Pos.CENTER);
-        add(mkGauge(), 0, 0);
+        add(gauge = mkGauge(), 0, 0);
         add(mkOnlineSwitch(), 0, 1);
     }
 
@@ -61,8 +60,8 @@ public class GatewayPane extends GridPane implements Refreshable {
     }
 
     private Gauge mkGauge() {
-        gauge = GaugeBuilder.create().skinType(SkinType.INDICATOR)//
-                .title(gateway.getName()).subTitle(gateway.type()).unit(Power.SYMBOL).minValue(-MAX).maxValue(MAX).build();
+        Gauge gauge = GaugeFactory.mkPowerGauge(gateway) //
+                .minValue(-MAX).maxValue(MAX).build();
         gauge.setBarColor(gauge.getBarBackgroundColor());
         return gauge;
     }
