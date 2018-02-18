@@ -49,4 +49,18 @@ public final class Util {
         return Math.abs(value) <= EPSILON;
     }
 
+    /**
+     * Filters all Objects of class T from the Stream.
+     *
+     * @param stream
+     *            The Stream to filter, might not be {@code null}.
+     * @param clazz
+     *            Class object specifying the desired class
+     * @return The filtered, converted stream
+     */
+    public static <U, T extends U> Stream<T> filter(Stream<U> stream, Class<T> clazz) {
+        return stream.filter(c -> c == null || clazz.isAssignableFrom(c.getClass())) //
+                .map(c -> (T) c);
+    }
+
 }
