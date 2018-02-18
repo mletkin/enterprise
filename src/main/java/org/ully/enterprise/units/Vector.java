@@ -76,6 +76,16 @@ public class Vector {
     }
 
     /**
+     * Adds the negated Vector to this object.
+     *
+     * @param b
+     * @return
+     */
+    public Vector sub(Vector b) {
+        return of(x - b.x, y - b.y);
+    }
+
+    /**
      * Calculates the scalar product.
      *
      * @param a
