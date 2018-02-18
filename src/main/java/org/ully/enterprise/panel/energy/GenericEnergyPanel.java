@@ -3,6 +3,7 @@ package org.ully.enterprise.panel.energy;
 import org.ully.enterprise.Starship;
 import org.ully.enterprise.energy.Checker;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.util.Util;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.TilePane;
@@ -22,7 +23,7 @@ public class GenericEnergyPanel extends TilePane implements Refreshable {
      * @param gridVisible
      *            show grid lines for debugging
      */
-    public GenericEnergyPanel(Starship ship, boolean gridVisible) {
+    public GenericEnergyPanel(Starship ship) {
         super();
 
         setPadding(new Insets(5, 0, 5, 0));
@@ -37,10 +38,7 @@ public class GenericEnergyPanel extends TilePane implements Refreshable {
 
     @Override
     public void refresh() {
-        getChildren().stream() //
-                .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
-                .map(c -> (Refreshable) c) //
-                .forEach(Refreshable::refresh);
+        Util.filter(getChildren().stream(), Refreshable.class).forEach(Refreshable::refresh);
     }
 
 }

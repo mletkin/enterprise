@@ -22,24 +22,24 @@ public class ReactorPane extends GridPane implements Refreshable {
     private Gauge gauge;
     private Reactor reactor;
 
+    /**
+     * Creates a reactor panel.
+     *
+     * @param reactor
+     */
     public ReactorPane(Reactor reactor) {
-        super();
         this.reactor = reactor;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(), 0, 0);
+        add(gauge = mkGauge(), 0, 0);
         add(mkSlider(), 1, 0);
     }
 
     private Gauge mkGauge() {
-        gauge = GaugeBuilder.create().skinType(SkinType.AMP)//
+        return GaugeBuilder.create().skinType(SkinType.AMP)//
                 .title(reactor.getName()).subTitle("pwr").unit(Power.SYMBOL).maxValue(reactor.getMaxPower().value())
                 .threshold(reactor.getWantedFlow().value()).thresholdVisible(true) //
-                .lcdVisible(true)
-                .lcdDesign(LcdDesign.BLACK_YELLOW)
-                .lcdFont(LcdFont.DIGITAL)
-                .build();
-        return gauge;
+                .lcdVisible(true).lcdDesign(LcdDesign.BLACK_YELLOW).lcdFont(LcdFont.DIGITAL).build();
     }
 
     private Slider mkSlider() {
@@ -47,8 +47,7 @@ public class ReactorPane extends GridPane implements Refreshable {
                 .range(0, reactor.getMaxPower().value()) //
                 .value(reactor.getCurrentPowerFlow().value()) //
                 .withMajorTickUnit(1) //
-                .onChange(value -> reactor.setWantedFlow(Power.of(value)))
-                .get();
+                .onChange(value -> reactor.setWantedFlow(Power.of(value))).get();
     }
 
     @Override

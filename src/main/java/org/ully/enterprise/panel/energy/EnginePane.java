@@ -20,8 +20,12 @@ public class EnginePane extends GridPane implements Refreshable {
     private Gauge gauge;
     private WarpEngine engine;
 
+    /**
+     * Creates an engine panel.
+     *
+     * @param engine
+     */
     public EnginePane(WarpEngine engine) {
-        super();
         this.engine = engine;
         setAlignment(Pos.CENTER);
 
@@ -30,11 +34,9 @@ public class EnginePane extends GridPane implements Refreshable {
 
     private Gauge mkGauge() {
         gauge = GaugeBuilder.create().skinType(SkinType.DIGITAL) //
-                .knobType(KnobType.PLAIN)
-                .knobColor(btnColor())
-                .interactive(true)
-                .onButtonReleased(buttonEvent -> toggle())
-                .title(engine.getName()).subTitle("warp").unit(Power.SYMBOL).maxValue(engine.getMaxPower().value()).build();
+                .knobType(KnobType.PLAIN).knobColor(btnColor()).interactive(true)
+                .onButtonReleased(buttonEvent -> toggle()).title(engine.getName()).subTitle("warp").unit(Power.SYMBOL)
+                .maxValue(engine.getMaxPower().value()).build();
         return gauge;
     }
 

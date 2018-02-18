@@ -27,35 +27,32 @@ public class PhaserPane extends GridPane implements Refreshable {
     private Gauge powerGauge;
 
     /**
-     * Creates a monitoring panel for a phaser bank.
+     * Creates the panel for a phaser bank.
      *
      * @param phaser
      *            the phaser bank to monitor
      */
     public PhaserPane(Phaser phaser) {
-        super();
         this.phaser = phaser;
         setAlignment(Pos.CENTER);
 
-        add(mkLoadGauge(), 0, 0);
-        add(mkPowerGauge(), 1, 0);
+        add(loadGauge = mkLoadGauge(), 0, 0);
+        add(powerGauge = mkPowerGauge(), 1, 0);
         add(mkLoadSwitch(), 0, 1);
         add(mkFireBtn(), 1, 1);
     }
 
     private Gauge mkLoadGauge() {
-        loadGauge = GaugeBuilder.create().skinType(SkinType.GAUGE) //
+        return GaugeBuilder.create().skinType(SkinType.GAUGE) //
                 .knobType(KnobType.PLAIN).knobColor(btnColor()).interactive(true)
                 .onButtonReleased(buttonEvent -> toggle()) //
                 .title(phaser.getName()).subTitle("phaser").unit(Energy.SYMBOL).maxValue(phaser.getMaxLoad().value())
                 .build();
-        return loadGauge;
     }
 
     private Gauge mkPowerGauge() {
-        powerGauge = GaugeBuilder.create().skinType(SkinType.LINEAR) //
+        return GaugeBuilder.create().skinType(SkinType.LINEAR) //
                 .maxValue(phaser.getMaxPower().value()).build();
-        return powerGauge;
     }
 
     private Node mkFireBtn() {

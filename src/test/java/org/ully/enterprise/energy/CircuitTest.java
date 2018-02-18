@@ -3,7 +3,7 @@ package org.ully.enterprise.energy;
 import static org.junit.Assert.assertEquals;
 import static org.ully.enterprise.energy.TestUtil.c;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.ully.enterprise.Component;
 import org.ully.enterprise.units.Power;
 

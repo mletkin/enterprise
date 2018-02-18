@@ -21,7 +21,6 @@ public class GenericDashboard extends Application {
 
     private Starship ship = new Potemkin();
     private GenericEnergyPanel energyPanel;
-    private boolean gridVisible = false;
     private long lastTimerCall = System.nanoTime();
 
     public static void main(String[] args) {
@@ -31,7 +30,7 @@ public class GenericDashboard extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Energy panel");
-        energyPanel = new GenericEnergyPanel(ship, gridVisible);
+        energyPanel = new GenericEnergyPanel(ship);
         Scene scene = new Scene(energyPanel, 900, 1000);
         stage.setOnCloseRequest(this::shutdown);
         stage.setScene(scene);

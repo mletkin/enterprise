@@ -20,40 +20,42 @@ import javafx.scene.paint.Color;
  */
 public class ShieldPane extends GridPane implements Refreshable {
 
-    private Gauge gauge;
     private Shield shield;
+    private Gauge loadGauge;
     private Gauge powerGauge;
 
+    /**
+     * Creates a shield panel.
+     *
+     * @param shield
+     */
     public ShieldPane(Shield shield) {
-        super();
         this.shield = shield;
         setAlignment(Pos.CENTER);
 
-        add(mkGauge(), 0, 0);
-        add(mkPowerGauge(), 1, 0);
+        add(loadGauge = mkLoadGauge(), 0, 0);
+        add(powerGauge = mkPowerGauge(), 1, 0);
         add(mkLoadSwitch(), 0, 1);
     }
 
-    private Gauge mkGauge() {
-        gauge = GaugeBuilder.create().skinType(SkinType.GAUGE)//
+    private Gauge mkLoadGauge() {
+        return GaugeBuilder.create().skinType(SkinType.GAUGE)//
                 .knobType(KnobType.PLAIN) // Type for center knob (STANDARD, PLAIN, METAL, FLAT)
                 .knobColor(btnColor()) // Color of center knob
                 .interactive(true) // Should center knob be act as button
                 .onButtonReleased(buttonEvent -> toggle()) // Handler (triggered when the center knob was released)
                 .title(shield.getName()).subTitle("shield").unit(Energy.SYMBOL).maxValue(shield.getMaxLoad().value())
                 .build();
-        return gauge;
     }
 
     private Gauge mkPowerGauge() {
-        powerGauge = GaugeBuilder.create().skinType(SkinType.LINEAR) //
+        return GaugeBuilder.create().skinType(SkinType.LINEAR) //
                 .maxValue(shield.getMaxPower().value()).build();
-        return powerGauge;
     }
 
     private Object toggle() {
         shield.toggle();
-        gauge.setKnobColor(btnColor());
+        loadGauge.setKnobColor(btnColor());
         return null;
     }
 
@@ -76,7 +78,7 @@ public class ShieldPane extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        gauge.setValue(shield.getLoad().value());
+        loadGauge.setValue(shield.getLoad().value());
         powerGauge.setValue(shield.getCurrentPowerFlow().value());
     }
 }
