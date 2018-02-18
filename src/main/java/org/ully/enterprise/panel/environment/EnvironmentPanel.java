@@ -1,6 +1,11 @@
 package org.ully.enterprise.panel.environment;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.ully.enterprise.Component;
+import org.ully.enterprise.Shield;
+import org.ully.enterprise.Starship;
 import org.ully.enterprise.environment.Stress;
 import org.ully.enterprise.environment.StressEmulator;
 import org.ully.enterprise.fleet.Enterprise;
@@ -22,12 +27,6 @@ import javafx.scene.layout.GridPane;
  */
 public class EnvironmentPanel extends GridPane implements Refreshable {
 
-    private Slider sternPowerSlider = mkPowerSlider();
-    private Slider sternTimeSlider = mkTimeSlider();
-
-    private Slider bowPowerSlider = mkPowerSlider();
-    private Slider bowTimeSlider = mkTimeSlider();
-
     /**
      * Create an environment emulating panel.
      *
@@ -44,18 +43,34 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
 
-        add(new Label("stern shield"), 0, 0);
-        add(new Label("pwr"), 0, 1);
-        add(sternPowerSlider, 1, 1);
-        add(new Label("msec"), 0, 2);
-        add(sternTimeSlider, 1, 2);
-        add(mkBtn(ship.shieldStern, sternPowerSlider, sternTimeSlider), 2, 2);
+        mkShieldsControls(ship);
+    }
 
-        add(new Label("bow shield"), 0, 3);
-        add(bowPowerSlider, 1, 3);
-        add(new Label("msec"), 0, 4);
-        add(bowTimeSlider, 1, 4);
-        add(mkBtn(ship.shieldBow, bowPowerSlider, bowTimeSlider), 2, 4);
+    private void mkShieldsControls(Starship ship) {
+        int row = 0;
+        for (Shield shield : getShields(ship).collect(Collectors.toList())) {
+            row = mkShieldControl(row++, shield);
+        }
+    }
+
+    private Stream<Shield> getShields(Starship ship) {
+        return ship.powerSystem().getAllComponents() //
+                .filter(c -> Shield.class.isAssignableFrom(c.getClass())) //
+                .map(c -> (Shield) c);
+    }
+
+    private int mkShieldControl(int row, Shield shield) {
+        System.out.println("row " + row);
+        Slider pwrSlider = mkPowerSlider();
+        Slider timeSlider = mkTimeSlider();
+
+        add(new Label("shield " + shield.getName()), 0, row);
+        add(new Label("pwr"), 0, row + 1);
+        add(pwrSlider, 1, row + 1);
+        add(new Label("msec"), 0, row + 2);
+        add(timeSlider, 1, row + 2);
+        add(mkBtn(shield, pwrSlider, timeSlider), 2, row + 2);
+        return row + 3;
     }
 
     private Slider mkTimeSlider() {
@@ -88,9 +103,6 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
         StressEmulator.emulate(stress);
     }
 
-    /**
-     * Refresh all panels on the grid.
-     */
     @Override
     public void refresh() {
         getChildren().stream() //
