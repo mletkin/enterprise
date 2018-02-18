@@ -23,7 +23,6 @@ public class Dashboard extends Application {
     private Enterprise ship = new Enterprise();
     private EnergyPanel energyPanel;
     private HelmPanel helmPanel;
-    private boolean gridVisible = false;
     private List<Stage> stageList = new ArrayList<>();
     private long lastTimerCall = System.nanoTime();
     private MapPane mapPanel;
@@ -35,7 +34,7 @@ public class Dashboard extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Energy panel");
-        energyPanel = new EnergyPanel(ship, gridVisible);
+        energyPanel = new EnergyPanel(ship);
         Scene scene = new Scene(energyPanel, 900, 1000);
         stage.setOnCloseRequest(this::shutdown);
         stage.setScene(scene);
@@ -76,7 +75,7 @@ public class Dashboard extends Application {
      * @return the stage with the environment controller
      */
     private Stage mkEnvironment(Stage opener) {
-        EnvironmentPanel panel = new EnvironmentPanel(ship, gridVisible);
+        EnvironmentPanel panel = new EnvironmentPanel(ship);
         Scene scene = new Scene(panel, 350, 300);
 
         Stage stage = new Stage();

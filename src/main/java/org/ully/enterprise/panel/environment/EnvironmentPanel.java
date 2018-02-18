@@ -36,25 +36,24 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
      * @param gridVisible
      *            show grid lines for debugging
      */
-    public EnvironmentPanel(Enterprise ship, boolean gridVisible) {
+    public EnvironmentPanel(Enterprise ship) {
         super();
 
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
-        setGridLinesVisible(gridVisible);
 
         add(new Label("stern shield"), 0, 0);
         add(new Label("pwr"), 0, 1);
         add(sternPowerSlider, 1, 1);
-        add(new Label("msecr"), 0, 2);
+        add(new Label("msec"), 0, 2);
         add(sternTimeSlider, 1, 2);
         add(mkBtn(ship.shieldStern, sternPowerSlider, sternTimeSlider), 2, 2);
 
         add(new Label("bow shield"), 0, 3);
         add(bowPowerSlider, 1, 3);
-        add(new Label("msecr"), 0, 4);
+        add(new Label("msec"), 0, 4);
         add(bowTimeSlider, 1, 4);
         add(mkBtn(ship.shieldBow, bowPowerSlider, bowTimeSlider), 2, 4);
     }

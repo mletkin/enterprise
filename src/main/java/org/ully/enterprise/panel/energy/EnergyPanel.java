@@ -20,14 +20,13 @@ public class EnergyPanel extends GridPane implements Refreshable {
      * @param gridVisible
      *            show grid lines for debugging
      */
-    public EnergyPanel(Enterprise ship, boolean gridVisible) {
+    public EnergyPanel(Enterprise ship) {
         super();
 
         setAlignment(Pos.CENTER);
         setHgap(10);
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
-        setGridLinesVisible(gridVisible);
 
         // main power circuit
         add(new ShieldPane(ship.shieldBow), 0, 0);
