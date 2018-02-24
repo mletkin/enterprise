@@ -6,6 +6,10 @@ import java.util.Optional;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+
 public final class Util {
 
     private static final double EPSILON = 0.00000000001;
@@ -63,4 +67,19 @@ public final class Util {
                 .map(c -> (T) c);
     }
 
+    /**
+     * Creates a JavaFX button with a label and an action.
+     *
+     * @param text
+     *            label to display on the button
+     * @param action
+     *            action to perform when clicked
+     * @return a Button object
+     */
+    public static Button mkButton(String text, EventHandler<ActionEvent> action) {
+        Button btn = new Button();
+        btn.setText(text);
+        btn.setOnAction(action);
+        return btn;
+    }
 }
