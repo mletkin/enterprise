@@ -12,6 +12,7 @@ import org.ully.enterprise.panel.map.MapPane;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -122,7 +123,7 @@ public class Dashboard extends Application {
      */
     private Stage mkMap(Stage opener) {
         mapPanel = new MapPane(ship);
-        Scene scene = new Scene(mapPanel, 350, 400);
+        Scene scene = new Scene(mapPanel, 350, 400, Color.BLACK);
 
         Stage stage = new Stage();
         stage.setTitle("star map");

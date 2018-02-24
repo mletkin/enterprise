@@ -13,14 +13,20 @@ import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.units.Power;
 
+import javafx.scene.paint.Color;
+
 /**
  * Configuration for the USS Entrprise.
  */
 public class Enterprise extends Starship {
 
-    private static double WIDTH = 20.6;
-    private static double BREADTH = 20;
-    private static double HEIGHT = 50;
+    // http://www.startrek.com/article/revealing-the-colors-of-the-enterprise
+    // LAB: L 64.45  A -3.53  B 2.40
+    public static Color HULL = Color.rgb(151, 158, 152);
+
+    private static double WIDTH = 417; // ft
+    private static double LENGTH = 947; // ft
+    private static double MASS = 190_000; // tons
 
     public final Shield shieldBow = new Shield("bow");
     public final Shield shieldStern = new Shield("stern");
