@@ -63,7 +63,7 @@ public class CompassPanel extends GridPane implements Refreshable {
     private Gauge mkGauge(String title) {
         Gauge gauge = GaugeBuilder.create().skinType(SkinType.FLAT)//
                 .title(title)//
-                .minValue(0).maxValue(359).autoScale(false).startAngle(180).build();
+                .minValue(0).maxValue(359).autoScale(false).build();
         return gauge;
     }
 

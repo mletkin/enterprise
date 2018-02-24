@@ -5,7 +5,8 @@ import org.ully.enterprise.util.Util;
 /**
  * A two dimensional vector.
  * <p>
- * Polar coordinates start north (cartesian (0, 1) with angle 0 and goes clockwise.
+ * Polar coordinates start north (cartesian (0, 1) with angle 0<br>
+ * and run clockwise.
  */
 public class Vector {
 
@@ -112,7 +113,7 @@ public class Vector {
     public double rad() {
 
         if (Util.isZero(x)) {
-            return y > 0 ? 0 : Math.PI;
+            return y >= 0 ? 0 : Math.PI;
         }
 
         if (Util.isZero(y)) {
@@ -131,4 +132,20 @@ public class Vector {
         return rad() / Math.PI * 180;
     }
 
+    /**
+     * Rotates Turns the vector by the given radian angle.
+     * <p>
+     * positive value is clockwise.
+     *
+     * @param angle
+     * @return
+     */
+    public Vector rotate(double angle) {
+        return polar(rad() + angle, abs());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("c(%.2f, %.2f) p(%.2f, %.2f)", x, y, rad(), abs());
+    }
 }

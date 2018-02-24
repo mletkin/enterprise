@@ -38,6 +38,10 @@ public class Power extends PhysicalUnit {
         return of(-value);
     }
 
+    public Power multi(double factor) {
+        return Power.of(value * factor);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Power) {

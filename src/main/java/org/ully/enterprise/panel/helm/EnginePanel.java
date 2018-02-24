@@ -1,6 +1,7 @@
 package org.ully.enterprise.panel.helm;
 
-import org.ully.enterprise.WarpEngine;
+import org.ully.enterprise.Component;
+import org.ully.enterprise.MachineAggregate;
 import org.ully.enterprise.panel.Refreshable;
 import org.ully.enterprise.panel.SliderBuilder;
 
@@ -17,8 +18,7 @@ import javafx.scene.layout.GridPane;
  */
 public class EnginePanel extends GridPane implements Refreshable {
 
-    private WarpEngine warpLeft;
-    private WarpEngine warpRight;
+    private MachineAggregate aggregate;
 
     private Gauge leftGauge;
     private Gauge rightGauge;
@@ -34,20 +34,20 @@ public class EnginePanel extends GridPane implements Refreshable {
      * @param right
      *            right engine
      */
-    public EnginePanel(WarpEngine left, WarpEngine right) {
-        super();
-        this.warpLeft = left;
-        this.warpRight = right;
+    public EnginePanel(MachineAggregate aggregate) {
+
+        this.aggregate= aggregate;
+
         setAlignment(Pos.CENTER);
 
-        add(leftGauge = mkGauge(this.warpLeft), 0, 0);
-        add(rightGauge = mkGauge(this.warpRight), 2, 0);
+        add(leftGauge = mkGauge(aggregate.left()), 0, 0);
+        add(rightGauge = mkGauge(aggregate.right()), 2, 0);
         add(warp = mkWarpSlider(), 0, 1, 3, 1);
         add(balance = mkBalanceSlider(), 0, 2, 3, 1);
         add(mkCenterBtn(), 2, 4);
     }
 
-    private Gauge mkGauge(WarpEngine engine) {
+    private Gauge mkGauge(Component engine) {
         return GaugeBuilder.create().skinType(SkinType.HORIZONTAL) //
                 .thresholdVisible(true)//
                 .title(engine.getName()).subTitle("warp").unit("W").maxValue(12).build();
@@ -70,22 +70,22 @@ public class EnginePanel extends GridPane implements Refreshable {
 
     private Slider mkBalanceSlider() {
         return SliderBuilder.horizontal() //
-                .range(-50, 50) //
+                .range(-100, 100) //
                 .onChange(value -> setWarpFactor(warp.getValue(), value)) //
                 .get();
     }
 
     private void setWarpFactor(double speed, double balance) {
-        warpLeft.setWantedWarp(speed * (1 - balance / 100));
-        warpRight.setWantedWarp(speed * (1 + balance / 100));
+        aggregate.left().setWantedWarp(speed * (1 - balance / 100));
+        aggregate.right().setWantedWarp(speed * (1 + balance / 100));
     }
 
     @Override
     public void refresh() {
-        leftGauge.setValue(warpLeft.getCurrentWarp());
-        leftGauge.setThreshold(warpLeft.getWantedWarp());
-        rightGauge.setValue(warpRight.getCurrentWarp());
-        rightGauge.setThreshold(warpRight.getWantedWarp());
+        leftGauge.setValue(aggregate.left().getCurrentWarp());
+        leftGauge.setThreshold(aggregate.left().getWantedWarp());
+        rightGauge.setValue(aggregate.right().getCurrentWarp());
+        rightGauge.setThreshold(aggregate.right().getWantedWarp());
     }
 
 }

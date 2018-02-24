@@ -47,4 +47,8 @@ public class Pegasus extends Starship {
         return 100;
     }
 
+    @Override
+    public double angularMass() {
+        return 100;
+    }
 }

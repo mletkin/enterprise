@@ -46,4 +46,9 @@ public class Potemkin extends Starship {
         return 200;
     }
 
+    @Override
+    public double angularMass() {
+        return 200;
+    }
+
 }

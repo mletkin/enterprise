@@ -9,6 +9,8 @@ import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -39,13 +41,22 @@ public class HelmPanel extends GridPane implements Refreshable {
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
 
-        add(enginePanel = new EnginePanel(ship.warpLeft, ship.warpRight), 0, 0, 3, 1);
+        add(enginePanel = new EnginePanel(ship.drive), 0, 0, 3, 1);
 
         add(accGauge = mkAccGauge(ship), 0, 1);
         add(speedGauge = mkSpeedGauge(ship), 1, 1);
         add(distGauge = mkDistanceGauge(ship), 2, 1);
 
         add(bearingPanel = new CompassPanel(ship), 0, 2, 3, 1);
+
+        add(mkStopButton(), 0, 3);
+    }
+
+    private Node mkStopButton() {
+        Button btn = new Button();
+        btn.setText("Stop");
+        btn.setOnAction(e -> ship.stop());
+        return btn;
     }
 
     private Gauge mkDistanceGauge(Starship ship) {

@@ -46,6 +46,11 @@ public class WarpEngine extends Component implements Engine {
     }
 
     @Override
+    public Power getPower() {
+        return getCurrentPowerFlow();
+    }
+
+    @Override
     public Force getForce(double mass) {
         return Util.isZero(time) ? Force.ZERO : Force.of(mass * sqrt(2 * currentPower.value() / mass / time));
     }

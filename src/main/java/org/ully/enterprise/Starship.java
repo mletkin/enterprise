@@ -34,8 +34,17 @@ public abstract class Starship {
 
     // multi dimensional movement
     private Vector bearing = Vector.ZERO;
-    private Vector heading = Vector.of(1, 0);
+    private Vector heading = Vector.of(0,1);
     private Vector position = Vector.ZERO;
+
+    public double angleAcceeration = 0;
+    public double spin = 0;
+
+    public void stop() {
+        bearing = Vector.ZERO;
+        speed = 0;
+        spin = 0;
+    }
 
     /**
      * Creates a ship with the given name.
@@ -114,6 +123,10 @@ public abstract class Starship {
                 .map(c -> (Engine) c);
     }
 
+    public Stream<MachineAggregate> drives() {
+        return Stream.empty();
+    }
+
     /**
      * Returns the name of the ship.
      *
@@ -124,11 +137,18 @@ public abstract class Starship {
     }
 
     /**
-     * Returns the total mass of the starship
+     * Returns the mass of the starship
      *
-     * @return the starship's total mass
+     * @return the starship's mass
      */
     public abstract double mass();
+
+    /**
+     * Returns the ships moment of inertia.
+     *
+     * @return the ships moment of inertia
+     */
+    public abstract double angularMass();
 
     /**
      * Starts the emulation.
