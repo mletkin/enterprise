@@ -1,41 +1,13 @@
 package org.ully.enterprise.motion;
 
-import java.util.stream.Stream;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.ully.enterprise.Engine;
-import org.ully.enterprise.Starship;
-import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.units.Force;
 
 public class MovementCycleTest {
 
+    TestShip testShip = new TestShip();
     MovementCycle cycle = new MovementCycle().withDelta(1);
-
-    static abstract class TestShip extends Starship {
-        Force force = Force.of(10);
-        public TestShip() {
-            super("");
-        }
-    }
-
-    TestShip testShip = new TestShip() {
-        @Override
-        public Stream<Engine> engines() {
-            return Stream.of(mass -> force);
-        }
-
-        @Override
-        public Circuit powerSystem() {
-            return null;
-        }
-
-        @Override
-        public double mass() {
-            return 1;
-        }
-    };
 
     /**
      * a = 10 m/s^2<br>
