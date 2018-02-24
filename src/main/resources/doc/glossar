@@ -1,0 +1,31 @@
+bearing
+The direction in which the ship is moving
+
+heading
+The diretion in which the ship's bow is pointing
+
+bow -- Bug
+stern -- Heck
+port (side) -- Backbord, links
+starboard -- Steuerbord, rechts
+helm -- (Steuer-) Ruder
+hemlsman -- Steuermann
+
+fuselage -- Rumpf
+nacelle -- Gondel, Triebwerksgehäuse
+pylon -- Strebe
+gauge -- Meß- Anzeigegerät
+saucer -- Untertasse
+hull -- Hülle, Außenhaut
+
+Physical terms
+mass -- Masse
+power -- Leistung
+energy -- Arbeit, Energie
+force -- Kraft
+torque -- Drehmoment
+spin -- Drehung
+acceleration -- Beschleunigung
+angular acceleration -- Winkelbeschleunigung
+angular velocity -- Winkelgeschwindigkeit
+angular mass, moment of inertia -- Trägheitsmoment
