@@ -5,7 +5,7 @@ package org.ully.enterprise.units;
  */
 public class Energy extends PhysicalUnit {
 
-    public static final String SYMBOL = "E";
+    public static final String SYMBOL = "Nm";
     public static final Energy ZERO = new Energy(0);
 
     public static Energy of(double value) {

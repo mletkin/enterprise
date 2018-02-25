@@ -10,7 +10,7 @@ public class Force extends PhysicalUnit {
 
     @Override
     public String symbol() {
-        return "F";
+        return "N";
     }
 
     public static Force of(double value) {

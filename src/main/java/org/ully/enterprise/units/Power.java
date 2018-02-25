@@ -7,7 +7,7 @@ package org.ully.enterprise.units;
  */
 public class Power extends PhysicalUnit {
 
-    public static final String SYMBOL = "E";
+    public static final String SYMBOL = "W";
     public static final Power ZERO = new Power(0);
 
     public Power(double value) {
