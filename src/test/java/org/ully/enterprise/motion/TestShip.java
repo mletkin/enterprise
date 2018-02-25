@@ -14,28 +14,39 @@ import org.ully.enterprise.units.Power;
  */
 public class TestShip extends Starship {
     Force force = Force.of(5);
-    Power power = Power.of(5);
+    Power power = Power.of(0.025);
+
+    boolean stop = false;
 
     public TestShip() {
         super("");
     }
 
-    @Override
-    public Stream<MachineAggregate> drives() {
-        return Stream.of(new MachineAggregate(this, mkEngine(), mkEngine()));
+    public void cutEngines() {
+        stop = true;
     }
 
-    private Engine mkEngine() {
+    @Override
+    public Stream<MachineAggregate> drives() {
+        return Stream.of(new MachineAggregate(this, mkEngine(force), mkEngine(force)));
+    }
+
+    @Override
+    public Stream<Engine> engines() {
+        return Stream.of(mkEngine(Force.of(10)));
+    }
+
+    private Engine mkEngine(Force force) {
         return new Engine() {
 
             @Override
             public Force getForce(double mass) {
-                return force;
+                return stop ? Force.ZERO : force;
             }
 
             @Override
             public Power getPower() {
-                return power;
+                return stop ? Power.ZERO : power;
             }
         };
     }

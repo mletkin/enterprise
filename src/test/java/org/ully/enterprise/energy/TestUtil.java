@@ -2,6 +2,7 @@ package org.ully.enterprise.energy;
 
 import org.ully.enterprise.Component;
 import org.ully.enterprise.Starship;
+import org.ully.enterprise.motion.TestShip;
 
 public class TestUtil {
 
@@ -9,22 +10,17 @@ public class TestUtil {
         return new Circuit("").with(cList);
     }
 
-    abstract static class TestShip extends Starship {
-        public TestShip() {
-            super("");
-        }
-
-        @Override
-        public double mass() {
-            return 0;
-        }
-    }
 
     static Starship ship(Circuit circuit) {
         return new TestShip() {
             @Override
             public Circuit powerSystem() {
                 return circuit;
+            }
+
+            @Override
+            public double mass() {
+                return 0;
             }
         };
     }

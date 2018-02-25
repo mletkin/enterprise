@@ -6,7 +6,6 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.ully.enterprise.units.Force;
 import org.ully.enterprise.units.Vector;
 
 /**
@@ -17,7 +16,6 @@ public class MovementCycle2dTest {
     MovementCycle2d cycle = new MovementCycle2d().withDelta(1);
 
     TestShip testShip = new TestShip();
-
 
     private static int STEPS = 72;
 
@@ -103,7 +101,8 @@ public class MovementCycle2dTest {
             cycle.calculateSingleCycle(testShip);
         }
 
-        testShip.force = Force.ZERO;
+        testShip.cutEngines();
+
         for (int n = 0; n < 1000; n++) {
             cycle.calculateSingleCycle(testShip);
         }

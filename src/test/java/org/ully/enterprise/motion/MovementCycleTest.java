@@ -2,7 +2,6 @@ package org.ully.enterprise.motion;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.ully.enterprise.units.Force;
 
 public class MovementCycleTest {
 
@@ -78,7 +77,8 @@ public class MovementCycleTest {
         Assert.assertEquals(10.0, testShip.speed, 0.00001);
         Assert.assertEquals(+5.0, testShip.dist, 0.01);
 
-        testShip.force = Force.ZERO;
+        testShip.cutEngines();
+
         for (int n = 0; n < 1000; n++) {
             cycle.calculateSingleCycle(testShip);
         }
