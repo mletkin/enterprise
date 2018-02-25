@@ -82,7 +82,7 @@ public class Enterprise extends Starship {
     /**
      * Angular mass of a flying brick, rotating around the main axis.
      *
-     * {@link http://www.maschinenbau-wissen.de/skript3/mechanik/kinetik/295-haupttraegheitsmoment}
+     * @see <a href="http://www.maschinenbau-wissen.de/skript3/mechanik/kinetik/295-haupttraegheitsmoment"></a>
      */
     @Override
     public double angularMass() {
