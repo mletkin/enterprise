@@ -8,6 +8,7 @@ import org.ully.enterprise.energy.Emulator;
 import org.ully.enterprise.energy.PowerCycle;
 import org.ully.enterprise.motion.MovementCycle2d;
 import org.ully.enterprise.units.Vector;
+import org.ully.enterprise.util.Util;
 
 /**
  * Configuration for a galaxy class starship.
@@ -34,7 +35,7 @@ public abstract class Starship {
 
     // multi dimensional movement
     private Vector bearing = Vector.ZERO;
-    private Vector heading = Vector.of(0,1);
+    private Vector heading = Vector.of(0, 1);
     private Vector position = Vector.ZERO;
 
     public double angleAcceeration = 0;
@@ -118,9 +119,7 @@ public abstract class Starship {
      * @return a Stream with all WarpEngine components
      */
     public Stream<Engine> engines() {
-        return powerSystem().getAllComponents() //
-                .filter(c -> Engine.class.isAssignableFrom(c.getClass())) //
-                .map(c -> (Engine) c);
+        return Util.filter(powerSystem().getAllComponents(), Engine.class);
     }
 
     public Stream<MachineAggregate> drives() {
