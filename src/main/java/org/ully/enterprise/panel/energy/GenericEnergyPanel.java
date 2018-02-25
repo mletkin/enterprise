@@ -20,8 +20,6 @@ public class GenericEnergyPanel extends TilePane implements Refreshable {
      *
      * @param ship
      *            the instance of the ship to monitor
-     * @param gridVisible
-     *            show grid lines for debugging
      */
     public GenericEnergyPanel(Starship ship) {
         super();

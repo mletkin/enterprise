@@ -33,7 +33,7 @@ public class GatewayPane extends GridPane implements Refreshable {
      * Ceates a pane for the given gateway.
      *
      * @param gateway
-     *            the {@code PowerGateway}-object to attach
+     *            the {@code PowerGateway} object to monitor
      */
     public GatewayPane(PowerGateway gateway) {
         this.gateway = gateway;

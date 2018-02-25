@@ -25,7 +25,7 @@ public class ShieldPane extends GridPane implements Refreshable {
     /**
      * Creates a shield panel.
      *
-     * @param shield
+     * @param shield the shield to monitor
      */
     public ShieldPane(Shield shield) {
         this.shield = shield;

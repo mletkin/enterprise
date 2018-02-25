@@ -3,7 +3,7 @@ package org.ully.enterprise.units;
 import org.ully.enterprise.util.Util;
 
 /**
- * A two dimensional vector.
+ * Immutable representation of a two dimensional vector.
  * <p>
  * Polar coordinates start north (cartesian (0, 1) with angle 0<br>
  * and run clockwise.
@@ -16,11 +16,13 @@ public class Vector {
     private double y;
 
     /**
-     * Creates a vector objet from cartesian coordinates.
+     * Creates a vector object from cartesian coordinates.
      *
      * @param x
+     *            value on the x axis
      * @param y
-     * @return
+     *            value on the y axis
+     * @return the vector object
      */
     public static Vector of(double x, double y) {
         return new Vector(x, y);
@@ -30,18 +32,22 @@ public class Vector {
      * Creates a vector object from polar coordinates.
      *
      * @param phi
+     *            the angle clockwise from the positive y axis
      * @param length
-     * @return
+     *            length of the vector
+     * @return the vector object
      */
     public static Vector polar(double phi, double length) {
         return new Vector(length * Math.sin(phi), length * Math.cos(phi));
     }
 
     /**
-     * Create objects only with factory methods.
+     * Object creation is restricted to the factoy methods.
      *
      * @param x
+     *            value on the x axis
      * @param y
+     *            value on the y axis
      */
     private Vector(double x, double y) {
         this.x = x;
@@ -51,7 +57,7 @@ public class Vector {
     /**
      * Returns the first coordinate component.
      *
-     * @return
+     * @return the value on the x axis
      */
     public double x() {
         return x;
@@ -60,27 +66,29 @@ public class Vector {
     /**
      * Returns the second coordinate component.
      *
-     * @return
+     * @return the value on the y axis
      */
     public double y() {
         return y;
     }
 
     /**
-     * Adds a vector to this object.
+     * Performs a vector addition.
      *
      * @param b
-     * @return
+     *            the vector to add
+     * @return a new vector object
      */
     public Vector add(Vector b) {
         return of(x + b.x, y + b.y);
     }
 
     /**
-     * Adds the negated Vector to this object.
+     * Performs a vector substraction.
      *
      * @param b
-     * @return
+     *            the vector to subtract
+     * @return a new vector object
      */
     public Vector sub(Vector b) {
         return of(x - b.x, y - b.y);
@@ -90,7 +98,8 @@ public class Vector {
      * Calculates the scalar product.
      *
      * @param a
-     * @return
+     *            the factor for the multiplication
+     * @return a new vector object
      */
     public Vector multi(double a) {
         return of(a * x, a * y);
@@ -99,7 +108,7 @@ public class Vector {
     /**
      * Returns the absolute Value (the length) of the vector.
      *
-     * @return
+     * @return the absolute value
      */
     public double abs() {
         return Math.sqrt(x * x + y * y);
@@ -108,7 +117,7 @@ public class Vector {
     /**
      * Returns the vector's angle in radian.
      *
-     * @return
+     * @return the angle in radian
      */
     public double rad() {
 
@@ -126,19 +135,20 @@ public class Vector {
     /**
      * Returns the vector's angle in degrees.
      *
-     * @return
+     * @return the angle in degrees
      */
     public double deg() {
         return rad() / Math.PI * 180;
     }
 
     /**
-     * Rotates Turns the vector by the given radian angle.
-     * <p>
-     * positive value is clockwise.
+     * Rotates the vector by the given radian angle.
+     *
+     * A positive angle value means clockwise rotation.
      *
      * @param angle
-     * @return
+     *            the angle value to rotate
+     * @return a new vector object
      */
     public Vector rotate(double angle) {
         return polar(rad() + angle, abs());

@@ -27,7 +27,7 @@ public class SliderBuilder {
     /**
      * Creates a builder for a vertical slider.
      *
-     * @return
+     * @return the builder instance
      */
     public static SliderBuilder vertical() {
         return new SliderBuilder(Orientation.VERTICAL);
@@ -36,7 +36,7 @@ public class SliderBuilder {
     /**
      * Creates a builder for a horizontal slider.
      *
-     * @return
+     * @return the builder instance
      */
     public static SliderBuilder horizontal() {
         return new SliderBuilder(Orientation.HORIZONTAL);
@@ -45,12 +45,21 @@ public class SliderBuilder {
     /**
      * Gets the built slider object.
      *
-     * @return
+     * @return the built slider object.
      */
     public Slider get() {
         return slider;
     }
 
+    /**
+     * Sets the value range of the slider
+     *
+     * @param min
+     *            minimum value
+     * @param max
+     *            maximum value
+     * @return the builder instance
+     */
     public SliderBuilder range(double min, double max) {
         slider.setMin(min);
         slider.setMax(max);
@@ -61,7 +70,8 @@ public class SliderBuilder {
      * Sets a double value consumer as change listener.
      *
      * @param listen
-     * @return
+     *            the listener lambda expression
+     * @return the builder instance
      */
     public SliderBuilder onChange(Consumer<Double> listen) {
         slider.valueProperty().addListener(//
@@ -76,11 +86,25 @@ public class SliderBuilder {
         return this;
     }
 
+    /**
+     * Sets the current value of the slider.
+     *
+     * @param value
+     *            the current value
+     * @return the builder instance
+     */
     public SliderBuilder value(double value) {
         slider.setValue(value);
         return this;
     }
 
+    /**
+     * Sets the block increment value of the slider.
+     *
+     * @param value
+     *            the block increment value
+     * @return the builder instance
+     */
     public SliderBuilder blockIncrement(double value) {
         slider.setBlockIncrement(value);
         return this;

@@ -3,10 +3,8 @@ package org.ully.enterprise.panel.map;
 import org.ully.enterprise.Starship;
 import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
-import org.ully.enterprise.util.Util;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 
@@ -25,20 +23,16 @@ public class MapPane extends Group implements Refreshable {
     private Shape sprite;
 
     /**
-     * Creates a pane for a ship.
+     * Creates a map pane for a ship.
      *
      * @param ship
+     *            the ship to track on the map
      */
     public MapPane(Starship ship) {
-        super();
         this.ship = ship;
         sprite = new ShipYard().mkShape(ship, Enterprise.HULL);
         getChildren().add(sprite);
         getChildren().add(new StackPane());
-    }
-
-    Node mkCenterBtn() {
-        return Util.mkButton("center", e -> centerShip());
     }
 
     @Override

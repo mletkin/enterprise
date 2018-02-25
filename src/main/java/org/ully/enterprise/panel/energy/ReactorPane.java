@@ -25,6 +25,7 @@ public class ReactorPane extends GridPane implements Refreshable {
      * Creates a reactor panel.
      *
      * @param reactor
+     *            the reactor to monitor
      */
     public ReactorPane(Reactor reactor) {
         this.reactor = reactor;

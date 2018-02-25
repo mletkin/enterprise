@@ -20,9 +20,10 @@ public class LifeSupportPane extends GridPane implements Refreshable {
     private Gauge gauge;
 
     /**
-     * Creates the panel for a life support system-
+     * Creates the panel for a life support system.
      *
      * @param system
+     *            the system to monitor
      */
     public LifeSupportPane(LifeSupport system) {
         this.system = system;

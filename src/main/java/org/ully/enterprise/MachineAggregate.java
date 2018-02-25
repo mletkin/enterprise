@@ -58,10 +58,12 @@ public class MachineAggregate {
     }
 
     /**
-     * Returns the combined force thrusting the ship forward.
+     * Returns the combined force thrusting the ship forward over a given time
+     * interval.
      *
      * @param time
-     * @return
+     *            time interval for the calculation in seconds
+     * @return the combines force
      */
     public Force getForwardForce(double time) {
         Power power = Power.min(left.getPower(), right.getPower()).multi(2);

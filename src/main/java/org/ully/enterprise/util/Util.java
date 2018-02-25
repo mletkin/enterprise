@@ -19,10 +19,10 @@ public final class Util {
     }
 
     /**
-     * create a {@code null} tolerant stream.
+     * Creates a {@code null} tolerant stream.
      *
      * @param <T>
-     *            Typ eof the stream elements
+     *            Type of the stream elements
      * @param list
      *            a list to stream, might be {@code null}
      * @return a stream from the list
@@ -32,18 +32,18 @@ public final class Util {
     }
 
     /**
-     * Get the maximum from the list.
+     * Gets the maximum from the list.
      *
      * @param value
      *            list of long values
-     * @return the maximum
+     * @return the maximum of the list
      */
     public static long max(long... value) {
         return LongStream.of(value).max().orElse(0);
     }
 
     /**
-     * Check double value to be about zero.
+     * Checks a double value to be "about" zero.
      *
      * @param value
      *            floating point value to check
@@ -54,12 +54,14 @@ public final class Util {
     }
 
     /**
-     * Filters all Objects of class T from the Stream.
+     * Returns all objects of a class in a stream as stream.
      *
+     * @param <U> type of the objects in the input stream
+     * @param <T> typ of the objects on the output stream
      * @param stream
-     *            The Stream to filter, might not be {@code null}.
+     *            The stream to filter, may not be {@code null}.
      * @param clazz
-     *            Class object specifying the desired class
+     *            The class object specifying the desired class
      * @return The filtered, converted stream
      */
     public static <U, T> Stream<T> filter(Stream<U> stream, Class<T> clazz) {

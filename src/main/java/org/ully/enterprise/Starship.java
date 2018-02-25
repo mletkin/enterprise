@@ -17,8 +17,7 @@ import org.ully.enterprise.util.Util;
  * <li>The starship contains power consuming and supplying components.
  * <li>The components are connected through (energy) circuits.
  * <li>The circuits are seperated and not connected.
- * <li>A single poewer emulator emulates the energy flow within all the
- * circuits.
+ * <li>A single power emulator emulates the energy flow within all the circuits.
  * </ul>
  */
 public abstract class Starship {
@@ -41,6 +40,9 @@ public abstract class Starship {
     public double angleAcceeration = 0;
     public double spin = 0;
 
+    /**
+     * Stops the ship immediately.
+     */
     public void stop() {
         bearing = Vector.ZERO;
         speed = 0;
@@ -58,49 +60,68 @@ public abstract class Starship {
     }
 
     /**
-     * returns a vector indicating direction and speed of the ship's movement.
+     * Returns direction and speed of the ship's movement.
      *
-     * @return
+     * @return a vector indicating the direction with the length representing the
+     *         speed
      */
     public Vector bearing() {
         return bearing;
     }
 
+    /**
+     * Sets direction and speed of the ship's movement.
+     *
+     * @param bearing
+     *            a vector indicating the direction with the length representing the
+     *            speed
+     */
     public void bearing(Vector bearing) {
         this.bearing = bearing;
     }
 
     /**
-     * Retuns a vector indicating the direction in which where the ship's stern
-     * points, usually normalized.
+     * Retunrs the direction in which where the ship's stern points.
      *
-     * @return
+     * @return a normalized vector pointing in direction of the ship's stern
      */
     public Vector heading() {
         return heading;
     }
 
+    /**
+     * Sets the direction in which where the ship's stern points.
+     *
+     * @param heading
+     *            a normalized vector pointing in direction of the ship's stern
+     */
     public void heading(Vector heading) {
         this.heading = heading;
     }
 
     /**
-     * Returns a vector indicatining the ship's position.
+     * Returns the current position of the ship.
      *
-     * @return
+     * @return a vector pointing from the origin to the ship's position
      */
     public Vector position() {
         return position;
     }
 
+    /**
+     * Sets the position of the ship.
+     *
+     * @param position
+     *            a vector pointing from the origin to the ship's position
+     */
     public void position(Vector position) {
         this.position = position;
     }
 
     /**
-     * speed is the absolute value of the bearing vector.
+     * Returns the ship's spped in m/s.
      *
-     * @return
+     * @return the speed is the absolute value of the bearing vector.
      */
     public double speed() {
         return bearing.abs();
@@ -122,6 +143,11 @@ public abstract class Starship {
         return Util.filter(powerSystem().getAllComponents(), Engine.class);
     }
 
+    /**
+     * Returns all the machine aggregates of the ship.
+     *
+     * @return a stream of {@code MachineAggregate} objects
+     */
     public Stream<MachineAggregate> drives() {
         return Stream.empty();
     }
@@ -129,14 +155,14 @@ public abstract class Starship {
     /**
      * Returns the name of the ship.
      *
-     * @return
+     * @return a String containing the nme of the ship
      */
     String getName() {
         return name;
     }
 
     /**
-     * Returns the mass of the starship
+     * Returns the mass of the starship.
      *
      * @return the starship's mass
      */
@@ -151,8 +177,8 @@ public abstract class Starship {
 
     /**
      * Starts the emulation.
-     * <p>
-     * No emulation with a corrupted power system-
+     *
+     * No emulation with a corrupted power system.
      */
     public void powerUp() {
         new Checker().check(powerSystem());

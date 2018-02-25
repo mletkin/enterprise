@@ -43,9 +43,9 @@ public abstract class Component implements Switchable {
     }
 
     /**
-     * Returns the compoennt type.
+     * Returns the component type.
      *
-     * @return
+     * @return the type of the component
      */
     public String type() {
         return type;

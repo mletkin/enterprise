@@ -27,16 +27,14 @@ public class EnginePanel extends GridPane implements Refreshable {
     private Slider warp;
 
     /**
-     * Creates the panel.
+     * Creates a panel for an engine group.
      *
-     * @param left
-     *            left engine
-     * @param right
-     *            right engine
+     * @param aggregate
+     *            the engine group to control
      */
     public EnginePanel(MachineAggregate aggregate) {
 
-        this.aggregate= aggregate;
+        this.aggregate = aggregate;
 
         setAlignment(Pos.CENTER);
 

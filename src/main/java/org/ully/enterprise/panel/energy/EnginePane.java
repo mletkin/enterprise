@@ -22,6 +22,7 @@ public class EnginePane extends GridPane implements Refreshable {
      * Creates an engine panel.
      *
      * @param engine
+     *            the engine to monitor
      */
     public EnginePane(WarpEngine engine) {
         this.engine = engine;
