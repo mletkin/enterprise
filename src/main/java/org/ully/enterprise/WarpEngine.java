@@ -14,7 +14,7 @@ import org.ully.enterprise.util.Util;
  * <li>The actual value approaches the wanted value with asymptotic latency
  * </ul>
  */
-public class WarpEngine extends Component implements Engine {
+public abstract class WarpEngine extends Component implements Engine {
 
     private static final double WARP_FACTOR = 2; // == Power / Warp
 

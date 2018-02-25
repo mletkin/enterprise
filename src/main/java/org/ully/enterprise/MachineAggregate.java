@@ -14,24 +14,44 @@ import org.ully.enterprise.util.Util;
  * the same power.<br>
  * A clockwise torque yields a positive angular acceleration.
  */
-public class MachineAggregate {
+public class MachineAggregate<T extends Component & Engine> {
 
     private Starship ship;
-    private Engine left;
-    private Engine right;
+    private T left;
+    private T right;
 
-    public MachineAggregate(Starship ship, Engine left, Engine right) {
+    /**
+     * Creates an aggregate for two engines of a star ship.
+     *
+     * @param ship
+     *            the ship carrying the engines
+     * @param left
+     *            the port engine
+     * @param right
+     *            the starboard engine
+     */
+    public MachineAggregate(Starship ship, T left, T right) {
         this.ship = ship;
         this.left = left;
         this.right = right;
     }
 
-    public WarpEngine left() {
-        return (WarpEngine) left;
+    /**
+     * Returns the port engine of the aggregate.
+     *
+     * @return the port engine
+     */
+    public T left() {
+        return left;
     }
 
-    public WarpEngine right() {
-        return (WarpEngine) right;
+    /**
+     * Returns the starboard engine of the aggregate.
+     *
+     * @return the starboard engine
+     */
+    public T right() {
+        return right;
     }
 
     /**

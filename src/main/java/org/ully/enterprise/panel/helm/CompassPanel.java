@@ -32,7 +32,6 @@ public class CompassPanel extends GridPane implements Refreshable {
      *            the ship to monitor
      */
     public CompassPanel(Starship ship) {
-        super();
         this.ship = ship;
         setAlignment(Pos.CENTER);
         add(heading = mkGauge("head"), 0, 0);

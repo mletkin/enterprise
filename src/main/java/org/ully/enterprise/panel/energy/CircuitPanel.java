@@ -3,6 +3,7 @@ package org.ully.enterprise.panel.energy;
 import java.util.Objects;
 
 import org.ully.enterprise.Component;
+import org.ully.enterprise.ImpulseEngine;
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
@@ -55,7 +56,9 @@ public class CircuitPanel extends TilePane implements Refreshable {
         case "Phaser":
             return new PhaserPane((Phaser) component);
         case "WarpEngine":
-            return new EnginePane((WarpEngine) component);
+            return new EnginePane<WarpEngine>((WarpEngine) component);
+        case "ImpulseEngine":
+            return new EnginePane<ImpulseEngine>((ImpulseEngine) component);
         case "LifeSupport":
             return new LifeSupportPane((LifeSupport) component);
         case "Reactor":

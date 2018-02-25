@@ -1,6 +1,7 @@
 package org.ully.enterprise.panel.energy;
 
-import org.ully.enterprise.WarpEngine;
+import org.ully.enterprise.Component;
+import org.ully.enterprise.Engine;
 import org.ully.enterprise.panel.GaugeFactory;
 import org.ully.enterprise.panel.Refreshable;
 
@@ -13,10 +14,10 @@ import javafx.scene.paint.Color;
 /**
  * Panel for the energy flow control of a warp or impulse engine.
  */
-public class EnginePane extends GridPane implements Refreshable {
+public class EnginePane<T extends Component & Engine> extends GridPane implements Refreshable {
 
     private Gauge gauge;
-    private WarpEngine engine;
+    private T engine;
 
     /**
      * Creates an engine panel.
@@ -24,7 +25,7 @@ public class EnginePane extends GridPane implements Refreshable {
      * @param engine
      *            the engine to monitor
      */
-    public EnginePane(WarpEngine engine) {
+    public EnginePane(T engine) {
         this.engine = engine;
         setAlignment(Pos.CENTER);
 

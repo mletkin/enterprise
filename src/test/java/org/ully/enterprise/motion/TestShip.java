@@ -3,6 +3,7 @@ package org.ully.enterprise.motion;
 import java.util.stream.Stream;
 
 import org.ully.enterprise.Engine;
+import org.ully.enterprise.ImpulseEngine;
 import org.ully.enterprise.MachineAggregate;
 import org.ully.enterprise.Starship;
 import org.ully.enterprise.energy.Circuit;
@@ -36,8 +37,8 @@ public class TestShip extends Starship {
         return Stream.of(mkEngine(Force.of(10)));
     }
 
-    private Engine mkEngine(Force force) {
-        return new Engine() {
+    private ImpulseEngine mkEngine(Force force) {
+        return new ImpulseEngine("") {
 
             @Override
             public Force getForce(double mass) {

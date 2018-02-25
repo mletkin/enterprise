@@ -1,5 +1,6 @@
 package org.ully.enterprise.panel.energy;
 
+import org.ully.enterprise.ImpulseEngine;
 import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
 import org.ully.enterprise.util.Util;
@@ -20,7 +21,6 @@ public class EnergyPanel extends GridPane implements Refreshable {
      *            the instance of the ship to monitor
      */
     public EnergyPanel(Enterprise ship) {
-        super();
 
         setAlignment(Pos.CENTER);
         setHgap(10);
@@ -37,8 +37,8 @@ public class EnergyPanel extends GridPane implements Refreshable {
         add(new GatewayPane(ship.mainPowerCircuit.getPowerGateway()), 5, 1);
         add(new GatewayPane(ship.lifePowerCircuit.getPowerGateway()), 6, 1);
 
-        add(new EnginePane(ship.warpLeft), 0, 3);
-        add(new EnginePane(ship.warpRight), 1, 3);
+        add(new EnginePane<ImpulseEngine>(ship.impulseLeft), 0, 3);
+        add(new EnginePane<ImpulseEngine>(ship.impulseRight), 1, 3);
 
         add(new ReactorPane(ship.pwrMain), 5, 0);
         add(new ReactorPane(ship.pwrAux), 6, 0);

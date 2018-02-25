@@ -1,28 +1,30 @@
 package org.ully.enterprise.panel.helm;
 
 import org.ully.enterprise.Starship;
-import org.ully.enterprise.fleet.Enterprise;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.util.Util;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.SkinType;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 /**
- * Panel for Enterprise helm.
+ * Panel for helm of a ship with a single machine aggregate.
  */
 public class HelmPanel extends GridPane implements Refreshable {
 
+    private static final String UNIT_DISTANCE = "km";
+    private static final String UNIT_SPEED = "m/s";
     private static final String UNIT_ACCELERATION = "m/s\u00B2";
-    private Enterprise ship;
+
+    private Starship ship;
     private Gauge speedGauge;
     private Gauge accGauge;
     private Gauge distGauge;
+
     private CompassPanel bearingPanel;
     private EnginePanel enginePanel;
 
@@ -32,8 +34,7 @@ public class HelmPanel extends GridPane implements Refreshable {
      * @param ship
      *            the instance of the ship to monitor
      */
-    public HelmPanel(Enterprise ship) {
-        super();
+    public HelmPanel(Starship ship) {
         this.ship = ship;
 
         setAlignment(Pos.CENTER);
@@ -41,7 +42,7 @@ public class HelmPanel extends GridPane implements Refreshable {
         setVgap(10);
         setPadding(new Insets(25, 25, 25, 25));
 
-        add(enginePanel = new EnginePanel(ship.drive), 0, 0, 3, 1);
+        add(enginePanel = new EnginePanel(ship.drives().findFirst().orElse(null)), 0, 0, 3, 1);
 
         add(accGauge = mkAccGauge(ship), 0, 1);
         add(speedGauge = mkSpeedGauge(ship), 1, 1);
@@ -49,24 +50,17 @@ public class HelmPanel extends GridPane implements Refreshable {
 
         add(bearingPanel = new CompassPanel(ship), 0, 2, 3, 1);
 
-        add(mkStopButton(), 0, 3);
-    }
-
-    private Node mkStopButton() {
-        Button btn = new Button();
-        btn.setText("Stop");
-        btn.setOnAction(e -> ship.stop());
-        return btn;
+        add(Util.mkButton("stop", e -> ship.stop()), 0, 3);
     }
 
     private Gauge mkDistanceGauge(Starship ship) {
         return GaugeBuilder.create().skinType(SkinType.LCD) //
-                .title("distance").unit("km").build();
+                .title("distance").unit(UNIT_DISTANCE).build();
     }
 
     private Gauge mkSpeedGauge(Starship ship) {
         return GaugeBuilder.create().skinType(SkinType.LCD) //
-                .title("speed").unit("m/s").build();
+                .title("speed").unit(UNIT_SPEED).build();
     }
 
     private Gauge mkAccGauge(Starship ship) {

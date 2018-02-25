@@ -4,7 +4,7 @@ import org.ully.enterprise.units.Force;
 import org.ully.enterprise.units.Power;
 
 /**
- * Interface for all kinds of thrust supplying engines.
+ * Interface for thrust supplying engines.
  */
 public interface Engine {
 
@@ -18,10 +18,25 @@ public interface Engine {
     Force getForce(double mass);
 
     /**
-     * The power the engine emits currently.
+     * The current output power of the engine.
      *
-     * @return the calculated power
+     * @return the output power
      */
     Power getPower();
+
+    /**
+     * Sets the required output power of the engine.
+     *
+     * @param wanted
+     *            the required power output
+     */
+    void setWantedPower(Power wanted);
+
+    /**
+     * Returns the currently required output power of the engine.
+     *
+     * @return the required output power
+     */
+    Power getWantedPower();
 
 }

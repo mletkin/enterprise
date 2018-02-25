@@ -3,20 +3,20 @@ package org.ully.enterprise.fleet;
 import java.util.stream.Stream;
 
 import org.ully.enterprise.Engine;
+import org.ully.enterprise.ImpulseEngine;
 import org.ully.enterprise.LifeSupport;
 import org.ully.enterprise.MachineAggregate;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.Reactor;
 import org.ully.enterprise.Shield;
 import org.ully.enterprise.Starship;
-import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.units.Power;
 
 import javafx.scene.paint.Color;
 
 /**
- * Configuration for the USS Entrprise.
+ * Configuration for the NCC-1701 USS Enterprise.
  */
 public class Enterprise extends Starship {
 
@@ -34,8 +34,8 @@ public class Enterprise extends Starship {
     public final Phaser phaserPrime = new Phaser("1st");
     public final Phaser phaserSec = new Phaser("2nd");
 
-    public final WarpEngine warpLeft = new WarpEngine("left");
-    public final WarpEngine warpRight = new WarpEngine("right");
+    public final ImpulseEngine impulseLeft = new ImpulseEngine("left");
+    public final ImpulseEngine impulseRight = new ImpulseEngine("right");
 
     public final LifeSupport life = new LifeSupport("main");
 
@@ -47,13 +47,13 @@ public class Enterprise extends Starship {
             pwrAux, pwrMain, //
             shieldBow, shieldStern, //
             phaserPrime, phaserSec, //
-            warpLeft, warpRight);
+            impulseLeft, impulseRight);
 
     public final Circuit lifePowerCircuit = new Circuit("life").with(pwrLife, life);
 
     private final Circuit bus = new Circuit("power bus").with(mainPowerCircuit, lifePowerCircuit);
 
-    public final MachineAggregate drive = new MachineAggregate(this, warpLeft, warpRight);
+    public final MachineAggregate<ImpulseEngine> drive = new MachineAggregate<ImpulseEngine>(this, impulseLeft, impulseRight);
 
     public Enterprise() {
         super("NCC-1701 Enterprise");
@@ -66,7 +66,7 @@ public class Enterprise extends Starship {
 
     @Override
     public Stream<Engine> engines() {
-        return Stream.of(warpLeft, warpRight);
+        return Stream.of(impulseLeft, impulseRight);
     }
 
     @Override
