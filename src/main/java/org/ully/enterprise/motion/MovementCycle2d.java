@@ -22,7 +22,7 @@ public class MovementCycle2d implements Cycle {
     @Override
     public void calculateSingleCycle(Starship ship) {
         ship.acceleration = 0;
-        ship.drives().forEach(engine -> move(ship, engine));
+        ship.drives().forEach(drive -> move(ship, drive));
     }
 
     /**
