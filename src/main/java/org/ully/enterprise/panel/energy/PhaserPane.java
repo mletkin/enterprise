@@ -6,12 +6,11 @@ import org.ully.enterprise.Component;
 import org.ully.enterprise.Phaser;
 import org.ully.enterprise.panel.GaugeFactory;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.util.Util;
 
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.Gauge.KnobType;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -37,7 +36,7 @@ public class PhaserPane extends GridPane implements Refreshable {
         add(loadGauge = mkLoadGauge(), 0, 0);
         add(powerGauge = mkPowerGauge(), 1, 0);
         add(mkLoadSwitch(), 0, 1);
-        add(mkFireBtn(), 1, 1);
+        add(Util.mkButton("fire", event -> phaser.fire()), 1, 1);
     }
 
     private Gauge mkLoadGauge() {
@@ -49,13 +48,6 @@ public class PhaserPane extends GridPane implements Refreshable {
 
     private Gauge mkPowerGauge() {
         return GaugeFactory.mkPowerGauge(phaser).build();
-    }
-
-    private Node mkFireBtn() {
-        Button btn = new Button();
-        btn.setText("fire");
-        btn.setOnAction(event -> phaser.fire());
-        return btn;
     }
 
     private Object toggle() {

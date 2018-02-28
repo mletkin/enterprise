@@ -98,10 +98,7 @@ public class EnvironmentPanel extends GridPane implements Refreshable {
 
     @Override
     public void refresh() {
-        getChildren().stream() //
-                .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
-                .map(c -> (Refreshable) c) //
-                .forEach(Refreshable::refresh);
+        Util.filter(getChildren().stream(), Refreshable.class).forEach(Refreshable::refresh);
     }
 
 }

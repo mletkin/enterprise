@@ -12,6 +12,7 @@ import org.ully.enterprise.WarpEngine;
 import org.ully.enterprise.energy.Circuit;
 import org.ully.enterprise.energy.PowerGateway;
 import org.ully.enterprise.panel.Refreshable;
+import org.ully.enterprise.util.Util;
 
 import javafx.scene.Node;
 import javafx.scene.layout.TilePane;
@@ -21,14 +22,17 @@ import javafx.scene.layout.TilePane;
  */
 public class CircuitPanel extends TilePane implements Refreshable {
 
+    /**
+     * Create a panel for the given circuit.
+     *
+     * @param circuit
+     *            the circuit to monitor
+     */
     public CircuitPanel(Circuit circuit) {
-        super();
-
         setHgap(10);
         setVgap(10);
         setPrefTileHeight(200);
         setPrefTileWidth(200);
-        // getChildren().add(new Label(circuit.getName()));
         populate(circuit);
     }
 
@@ -39,7 +43,10 @@ public class CircuitPanel extends TilePane implements Refreshable {
      *            circuit containing the components
      */
     private void populate(Circuit circuit) {
-        circuit.getComponents().map(this::mkPanel).filter(Objects::nonNull).forEach(getChildren()::add);
+        circuit.getComponents() //
+                .map(this::mkPanel) //
+                .filter(Objects::nonNull) //
+                .forEach(getChildren()::add);
     }
 
     /**
@@ -50,20 +57,20 @@ public class CircuitPanel extends TilePane implements Refreshable {
      * @return panel for the component
      */
     private Node mkPanel(Component component) {
-        switch (component.getClass().getSimpleName()) {
-        case "Shield":
+        switch (component.type()) {
+        case "shield":
             return new ShieldPane((Shield) component);
-        case "Phaser":
+        case "phaser":
             return new PhaserPane((Phaser) component);
-        case "WarpEngine":
+        case "warp":
             return new EnginePane<WarpEngine>((WarpEngine) component);
-        case "ImpulseEngine":
+        case "imp":
             return new EnginePane<ImpulseEngine>((ImpulseEngine) component);
-        case "LifeSupport":
+        case "life":
             return new LifeSupportPane((LifeSupport) component);
-        case "Reactor":
+        case "reactor":
             return new ReactorPane((Reactor) component);
-        case "PowerGateway":
+        case "gate":
             return new GatewayPane((PowerGateway) component);
         }
         return null;
@@ -71,10 +78,6 @@ public class CircuitPanel extends TilePane implements Refreshable {
 
     @Override
     public void refresh() {
-        getChildren().stream() //
-                .filter(Objects::nonNull) //
-                .filter(c -> Refreshable.class.isAssignableFrom(c.getClass())) //
-                .map(c -> (Refreshable) c) //
-                .forEach(Refreshable::refresh);
+        Util.filter(getChildren().stream(), Refreshable.class).forEach(Refreshable::refresh);
     }
 }

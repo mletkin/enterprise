@@ -22,8 +22,6 @@ public class GenericEnergyPanel extends TilePane implements Refreshable {
      *            the instance of the ship to monitor
      */
     public GenericEnergyPanel(Starship ship) {
-        super();
-
         setPadding(new Insets(5, 0, 5, 0));
         setVgap(4);
         setHgap(4);

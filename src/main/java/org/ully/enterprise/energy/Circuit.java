@@ -29,6 +29,10 @@ public class Circuit extends Component {
     private List<Component> components = new ArrayList<>();
     private PowerGateway gateway;
 
+    {
+        type = "circuit";
+    }
+
     /**
      * Creates a power circuit with a power exchange gateway.
      *
@@ -40,7 +44,6 @@ public class Circuit extends Component {
         gateway = new PowerGateway(getName());
         components.add(gateway);
     }
-
 
     /**
      * Adds a list of components to the circuit.

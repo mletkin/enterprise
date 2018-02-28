@@ -5,7 +5,7 @@ import org.ully.enterprise.Starship;
 import org.ully.enterprise.energy.Cycle;
 
 /**
- * Calculates the ships movement for a single cycle in a 2D pane.
+ * Calculates the ship's movement for a single cycle in a 2D pane.
  * <p>
  * Engines supply only thrust, no torque.
  */
@@ -28,9 +28,12 @@ public class MovementCycle2d implements Cycle {
     /**
      * Add the output of a single engine to the ship's movement.
      *
-     * @param engine
+     * @param ship
+     *            the star ship to move
+     * @param drive
+     *            the aggrefate that delivers the thrust
      */
-    private void move(Starship ship, MachineAggregate drive) {
+    private void move(Starship ship, MachineAggregate<?> drive) {
 
         ship.angleAcceeration = drive.getAngularAcceleration(time);
         ship.spin += ship.angleAcceeration * time;
