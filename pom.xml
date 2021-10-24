@@ -19,10 +19,12 @@
 		<version.compiler.plugin>3.7.0</version.compiler.plugin>
 		<version.jacoco.plugin>0.8.7</version.jacoco.plugin>
 		<version.pmd.plugin>3.13.0</version.pmd.plugin>
-		<version.javadoc.plugin>3.0.0-M1</version.javadoc.plugin>
 
+		<version.javadoc.plugin>3.0.0-M1</version.javadoc.plugin>
 		<version.site.plugin>3.7.1</version.site.plugin>
 		<version.info.reports.plugin>3.0.0</version.info.reports.plugin>
+
+        <ruleset>${PMD_RULES}</ruleset>
 	</properties>
 	<build>
 		<plugins>
@@ -70,7 +72,7 @@
 					<failOnViolation>false</failOnViolation>
 					<printFailingErrors>false</printFailingErrors>
 					<rulesets>
-						<ruleset>http://brix.eule/pmdrules.xml</ruleset>
+						<ruleset>${ruleset}</ruleset>
 					</rulesets>
 				</configuration>
 				<executions>
