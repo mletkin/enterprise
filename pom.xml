@@ -66,7 +66,7 @@
 				<version>${version.pmd.plugin}</version>
 				<configuration>
 					<failOnViolation>false</failOnViolation>
-					<printFailingErrors>true</printFailingErrors>
+					<printFailingErrors>false</printFailingErrors>
 					<rulesets>
 						<ruleset>http://brix.eule/pmdrules.xml</ruleset>
 					</rulesets>
