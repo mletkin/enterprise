@@ -9,26 +9,29 @@
 	<description>Starship emulator</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<version.java>1.8</version.java>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 
+		<version.junit-platform>1.8.1</version.junit-platform>
+		<version.junit-jupiter>5.8.1</version.junit-jupiter>
+
+		<version.compiler.plugin>3.7.0</version.compiler.plugin>
 		<version.jacoco.plugin>0.8.7</version.jacoco.plugin>
 		<version.pmd.plugin>3.13.0</version.pmd.plugin>
-
+		<version.javadoc.plugin>3.0.0-M1</version.javadoc.plugin>
 	</properties>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>${version.compiler.plugin}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.0.0-M1</version>
+				<version>${version.javadoc.plugin}</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -60,6 +63,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${version.pmd.plugin}</version>
 				<configuration>
 					<failOnViolation>false</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
@@ -75,13 +79,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
 	</build>
 	<reporting>
 		<plugins>
@@ -111,47 +109,37 @@
 			<artifactId>Medusa</artifactId>
 			<version>7.8</version>
 		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.junit/junit5-engine -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
-			<version>5.0.3</version>
+			<version>${version.junit-jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.0.3</version>
+			<version>${version.junit-jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
-			<version>5.0.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>4.12.1</version>
+			<version>${version.junit-jupiter}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-launcher</artifactId>
-			<version>1.0.1</version>
+			<version>${version.junit-platform}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
-			<version>1.0.1</version>
+			<version>${version.junit-platform}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit</groupId>
-			<artifactId>junit5-engine</artifactId>
-			<version>5.0.0-ALPHA</version>
 		</dependency>
 	</dependencies>
 </project>
