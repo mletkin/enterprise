@@ -141,5 +141,11 @@
 			<version>${version.junit-platform}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.doxia</groupId>
+			<artifactId>doxia-site-renderer</artifactId>
+			<version>1.10</version>
+		</dependency>
+
 	</dependencies>
 </project>
