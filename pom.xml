@@ -20,6 +20,9 @@
 		<version.jacoco.plugin>0.8.7</version.jacoco.plugin>
 		<version.pmd.plugin>3.13.0</version.pmd.plugin>
 		<version.javadoc.plugin>3.0.0-M1</version.javadoc.plugin>
+
+		<version.site.plugin>3.7.1</version.site.plugin>
+		<version.info.reports.plugin>3.0.0</version.info.reports.plugin>
 	</properties>
 	<build>
 		<plugins>
@@ -51,7 +54,6 @@
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
-					<!-- attached to Maven test phase -->
 					<execution>
 						<id>report</id>
 						<goals>
@@ -79,17 +81,17 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- For JavaDoc generation -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>3.7.1</version>
+				<version>${version.site.plugin}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${version.info.reports.plugin}</version>
 			</plugin>
-
 		</plugins>
 	</build>
 	<reporting>
@@ -108,20 +110,20 @@
 			<version>11</version>
 			<type>pom</type>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
 			<version>11</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/eu.hansolo/Medusa -->
+
+		<!-- visual gauge components -->
 		<dependency>
 			<groupId>eu.hansolo</groupId>
 			<artifactId>Medusa</artifactId>
 			<version>7.8</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.junit/junit5-engine -->
+		<!-- JUnit dependencies -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
