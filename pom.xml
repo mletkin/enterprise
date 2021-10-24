@@ -15,6 +15,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 
 		<version.jacoco.plugin>0.8.7</version.jacoco.plugin>
+		<version.pmd.plugin>3.13.0</version.pmd.plugin>
 
 	</properties>
 	<build>
@@ -56,6 +57,25 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<failOnViolation>false</failOnViolation>
+					<printFailingErrors>true</printFailingErrors>
+					<rulesets>
+						<ruleset>http://brix.eule/pmdrules.xml</ruleset>
+					</rulesets>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 		<resources>
 			<resource>
@@ -63,6 +83,15 @@
 			</resource>
 		</resources>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${version.pmd.plugin}</version>
+			</plugin>
+		</plugins>
+	</reporting>
 	<dependencies>
 		<dependency>
 			<groupId>org.openjfx</groupId>
