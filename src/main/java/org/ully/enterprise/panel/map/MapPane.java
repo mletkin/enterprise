@@ -26,7 +26,7 @@ public class MapPane extends Group implements Refreshable {
      * Creates a map pane for a ship.
      *
      * @param ship
-     *            the ship to track on the map
+     *                 the ship to track on the map
      */
     public MapPane(Starship ship) {
         this.ship = ship;
@@ -48,15 +48,15 @@ public class MapPane extends Group implements Refreshable {
      * Position the ship in the center of the map.
      */
     void centerShip() {
-        xOffset = (getScene().getWidth() / zoomFactor / 2 - ship.position().x());
-        yOffset = (getScene().getHeight() / zoomFactor / 2 + ship.position().y());
+        xOffset = getScene().getWidth() / zoomFactor / 2 - ship.position().x();
+        yOffset = getScene().getHeight() / zoomFactor / 2 + ship.position().y();
     }
 
     /**
      * Zoom in or out and center the ship.
      *
      * @param n
-     *            zoom by the nth power of two.
+     *              zoom by the nth power of two.
      */
     public void zoom(long n) {
         zoom += n;

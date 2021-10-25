@@ -41,7 +41,7 @@ public class PowerCycle implements Cycle {
      * Recursively calculates and performs the energy transfer.
      *
      * @param circuit
-     *            the circuit to be calculated
+     *                    the circuit to be calculated
      */
     private void calculate(Circuit circuit) {
         double available = energySupplied(circuit);
@@ -85,7 +85,7 @@ public class PowerCycle implements Cycle {
         if (isZero(available) || isZero(required)) {
             return 0.0;
         }
-        return (available >= required) ? 1.0 : available / required;
+        return available >= required ? 1.0 : available / required;
     }
 
     /**
@@ -99,7 +99,7 @@ public class PowerCycle implements Cycle {
         if (isZero(available) || isZero(required)) {
             return 0;
         }
-        return (available >= required) ? required / available : 1.0;
+        return available >= required ? required / available : 1.0;
     }
 
 }

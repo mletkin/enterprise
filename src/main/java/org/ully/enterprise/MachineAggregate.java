@@ -1,5 +1,6 @@
 package org.ully.enterprise;
 
+import static java.lang.Math.signum;
 import static java.lang.Math.sqrt;
 
 import org.ully.enterprise.units.Force;
@@ -24,11 +25,11 @@ public class MachineAggregate<T extends Component & Engine> {
      * Creates an aggregate for two engines of a star ship.
      *
      * @param ship
-     *            the ship carrying the engines
+     *                  the ship carrying the engines
      * @param left
-     *            the port engine
+     *                  the port engine
      * @param right
-     *            the starboard engine
+     *                  the starboard engine
      */
     public MachineAggregate(Starship ship, T left, T right) {
         this.ship = ship;
@@ -58,7 +59,7 @@ public class MachineAggregate<T extends Component & Engine> {
      * Returns the accceleration in direction of the ship's heading.
      *
      * @param delta
-     *            time interval
+     *                  time interval
      * @return the acceleration in m/s^2
      */
     public double getAcceleration(double delta) {
@@ -69,12 +70,12 @@ public class MachineAggregate<T extends Component & Engine> {
      * Returns the angular accceleration on the ship's main axis.
      *
      * @param delta
-     *            time interval
+     *                  time interval
      * @return the acceleration in rad / s^2
      */
     public double getAngularAcceleration(double delta) {
         double power = left.getPower().value() - right.getPower().value();
-        return Math.signum(power) * Math.sqrt(Math.abs(power) * delta / ship.angularMass());
+        return signum(power) * sqrt(Math.abs(power) * delta / ship.angularMass());
     }
 
     /**
@@ -82,7 +83,7 @@ public class MachineAggregate<T extends Component & Engine> {
      * interval.
      *
      * @param time
-     *            time interval for the calculation in seconds
+     *                 time interval for the calculation in seconds
      * @return the combines force
      */
     public Force getForwardForce(double time) {

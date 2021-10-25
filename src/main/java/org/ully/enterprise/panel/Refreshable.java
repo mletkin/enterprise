@@ -8,6 +8,6 @@ public interface Refreshable {
     /**
      * Refresh the display data.
      */
-    public void refresh();
+    void refresh();
 
 }

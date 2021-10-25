@@ -32,7 +32,7 @@ public abstract class PhysicalUnit {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof PhysicalUnit) {
-            return (Math.abs(((PhysicalUnit) obj).value - value) < EPSILON);
+            return Math.abs(((PhysicalUnit) obj).value - value) < EPSILON;
         }
         return false;
     }
@@ -41,29 +41,29 @@ public abstract class PhysicalUnit {
      * Calculate the minimum of two unit ojects.
      *
      * @param <T>
-     *            return type, subtype of PhysicalUnit
+     *                return type, subtype of PhysicalUnit
      * @param a
-     *            first unit
+     *                first unit
      * @param b
-     *            second unit
+     *                second unit
      * @return unit with minimum value
      */
     public static <T extends PhysicalUnit> T min(T a, T b) {
-        return (a.value < b.value) ? a : b;
+        return a.value < b.value ? a : b;
     }
 
     /**
      * Calculate the maximum of two unit ojects.
      *
      * @param <T>
-     *            return type, subtype of PhysicalUnit
+     *                return type, subtype of PhysicalUnit
      * @param a
-     *            first unit
+     *                first unit
      * @param b
-     *            second unit
+     *                second unit
      * @return unit with maximum value
      */
     public static <T extends PhysicalUnit> T max(T a, T b) {
-        return (a.value > b.value) ? a : b;
+        return a.value > b.value ? a : b;
     }
 }
