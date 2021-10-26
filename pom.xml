@@ -19,12 +19,13 @@
 		<version.compiler.plugin>3.7.0</version.compiler.plugin>
 		<version.jacoco.plugin>0.8.7</version.jacoco.plugin>
 		<version.pmd.plugin>3.13.0</version.pmd.plugin>
+		<version.findbugs.plugin>3.0.4</version.findbugs.plugin>
 
 		<version.javadoc.plugin>3.0.0-M1</version.javadoc.plugin>
 		<version.site.plugin>3.7.1</version.site.plugin>
 		<version.info.reports.plugin>3.0.0</version.info.reports.plugin>
 
-        <ruleset>${PMD_RULES}</ruleset>
+		<ruleset>${PMD_RULES}</ruleset>
 	</properties>
 	<build>
 		<plugins>
@@ -94,6 +95,26 @@
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>${version.info.reports.plugin}</version>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${version.findbugs.plugin}</version>
+				<configuration>
+					<effort>Max</effort>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<failOnError>false</failOnError>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 	<reporting>
@@ -102,6 +123,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${version.pmd.plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>${version.findbugs.plugin}</version>
 			</plugin>
 		</plugins>
 	</reporting>
