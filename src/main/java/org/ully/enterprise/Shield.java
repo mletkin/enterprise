@@ -11,12 +11,13 @@ import org.ully.enterprise.units.Power;
 public class Shield extends Component implements Loadable {
 
     private static final Power ENTROPY = Power.of(1);
-    private static final Energy MAX_LOAD = Energy.of(100);
+    public static final Energy MAX_LOAD = Energy.of(100);
     private static final Power LOADING_POWER = Power.of(10);
     private static final Power UNLOADING_POWER = Power.of(5);
 
     private Energy load = Energy.ZERO;
     private Power currentFlow = Power.ZERO;
+    private Energy maxLoad = MAX_LOAD;
 
     {
         type = "shield";
@@ -26,7 +27,7 @@ public class Shield extends Component implements Loadable {
      * Creates a shield with the given name.
      *
      * @param name
-     *            name of the shield
+     *                 name of the shield
      */
     public Shield(String name) {
         super(name);
@@ -34,7 +35,12 @@ public class Shield extends Component implements Loadable {
 
     @Override
     public Energy getMaxLoad() {
-        return MAX_LOAD;
+        return maxLoad;
+    }
+
+    @Override
+    public void setMaxLoad(Energy maxLoad) {
+        this.maxLoad = Energy.min(MAX_LOAD, maxLoad);
     }
 
     @Override
@@ -73,7 +79,7 @@ public class Shield extends Component implements Loadable {
         }
 
         if (flowDirection == Direction.IN) {
-            return MAX_LOAD.ge(load) ? LOADING_POWER : getEntropy();
+            return maxLoad.ge(load) ? LOADING_POWER : getEntropy();
         }
         return load.le(Energy.ZERO) ? Power.ZERO : UNLOADING_POWER;
     }

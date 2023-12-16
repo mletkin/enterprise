@@ -21,4 +21,12 @@ public interface Loadable {
      */
     Energy getMaxLoad();
 
+    /**
+     * Sets the maximum energy load of the component.
+     *
+     * @param the
+     *                maximum capacity.
+     */
+    void setMaxLoad(Energy maxLoad);
+
 }
